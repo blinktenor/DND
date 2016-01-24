@@ -23,6 +23,4 @@ TODO: Write history
 ## Credits
 Coding and design: Blinktenor
 
-Images: Internet clip art
-
-Character Sheet image: hopefully simpleDnD
+Character Sheet image: https://simplednd.wordpress.com/
