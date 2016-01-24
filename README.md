@@ -1,6 +1,5 @@
-<snippet>
-  <content><![CDATA[
-# ${1:Project Name}
+
+# DND CharacterSheet
 This project is mostly a never ending work in progress. The idea is to have a usable digital character sheet for keeping track of your chacters as time goes on without having to make all of the changes on one sheet.
 
 ## Installation
@@ -25,7 +24,3 @@ TODO: Write history
 Coding and design: Blinktenor
 Images: Internet clip art
 Character Sheet image: hopefully simpleDnD
-
-]]></content>
-  <tabTrigger>readme</tabTrigger>
-</snippet>
