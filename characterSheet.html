@@ -1,0 +1,52 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<title>Character Sheet</title>
+
+	<link rel="stylesheet" href="css/characterSheet.css?v=1.0">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+
+<body>
+  <script src="source/scripts.js"></script>
+  <form id="character">
+	<input class="class nameBox" id="class" />
+	<input class="race nameBox" id="race" />
+	<input class="name nameBox" id="name" />
+	<input class="armor statBox" id="armor" />
+	<input class="hp hpBox" id="hp" />
+	<button type="button" onclick="changeHp(1)" class="hpButton upArrow"></button>
+	<button type="button" onclick="changeHp(-1)" class="hpButton downArrow"></button>
+	<button type="button" onclick="changeHp(document.getElementById('hp').value)" class="restoreButton"></button>
+	<input class="currentHp" id="currentHp" />
+	<input class="level statBox" id="level" />
+	<label class="expLabel" for="exp">Exp</label>
+	<input class="exp" id="exp" />
+	<input class="strength statBox" id="strength" />
+	<input class="intelligence statBox" id="intelligence" />
+	<input class="wisdom statBox" id="wisdom" />
+	<input class="dexterity statBox" id="dexterity" />
+	<input class="constitution statBox" id="constitution" />
+	<input class="charisma statBox" id="charisma" />
+	<input class="primaryWeapon weaponBox" id="primaryWeapon" />
+	<input class="primaryHitBonus hitBonusBox" id="primaryHitBonus" />
+	<input class="primaryDamage damageBox" id="primaryDamage" />
+	<input class="secondaryWeapon weaponBox" id="secondaryWeapon" />
+	<input class="secondaryHitBonus hitBonusBox" id="secondaryHitBonus" />
+	<input class="secondaryDamage damageBox" id="secondaryDamage" />
+	<input class="money platinum" id="platinum" />
+	<input class="money gold" id="gold" />
+	<input class="money silver" id="silver" />
+	<input class="money copper" id="copper" />
+	<textarea class="treasure" id="treasure" rows="10" cols="10"></textarea>
+	<textarea class="pack" id="pack" rows="3" cols="80"></textarea>
+	<textarea class="notes" id="notes" rows="10" cols="80"></textarea>
+	<input class="saveButton" type="button" value="Save" onclick="save();"/>
+	<input class="loadButton" type="button" value="Load" onclick="load();"/>
+  </form>
+</body>
+</html>

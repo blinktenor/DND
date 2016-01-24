@@ -1,0 +1,262 @@
+body {
+    background-image: url("../simplednd2up.jpg");
+	background-repeat: no-repeat;
+}
+
+.class {
+	position:absolute;
+	top: 35px;
+	left: 120px;
+}
+
+.race {
+	position:absolute;
+	top: 91px;
+	left: 120px;
+}
+
+.name {
+	position:absolute;
+	top: 144px;
+	left: 120px;
+}
+
+.armor {
+	position:absolute;
+	top: 70px;
+	left: 530px;
+}
+
+.hp {
+	position:absolute;
+	top: 26px;
+	left: 732px;
+}
+
+.hpButton {
+	height: 25px;
+	width: 25px;
+}
+
+.currentHp {
+	left: 732px;
+    position: absolute;
+    height: 47px;
+    top: 93px;
+    width: 50px;
+}
+
+.hpBox {
+	width: 50px;
+    height: 50px;
+}
+
+.upArrow {
+	position: absolute;
+    top: 93px;
+    left: 702px;
+	background: url("/DND/images/up.png");
+	background-size: cover;
+}
+
+.downArrow {
+	position: absolute;
+    top: 120px;
+    left: 702px;
+	background: url("/DND/images/down.gif");
+	background-size: cover;
+}
+
+.restoreButton {
+	position: absolute;
+    top: 95px;
+    left: 788px;
+	width: 30px;
+	height: 25px;
+	background: url("/DND/images/heart.jpg");
+	background-size: cover;
+}
+
+.level {
+	position:absolute;
+	top: 46px;
+	left: 895px;
+}
+
+.expLabel {
+	position: absolute;
+    top: 122px;
+    left: 883px;
+}
+
+.exp {
+	position: absolute;
+    top: 143px;
+    width: 100px;
+    left: 883px;
+}
+
+.strength {
+	position:absolute;
+	top: 257px;
+	left: 56px;
+}
+
+.intelligence {
+	position:absolute;
+	top: 257px;
+	left: 222px;
+}
+
+.wisdom {
+	position:absolute;
+	top: 257px;
+	left: 380px;
+}
+
+.dexterity {
+	position:absolute;
+	top: 257px;
+	left: 550px;
+}
+
+.constitution {
+	position:absolute;
+	top: 257px;
+	left: 720px;
+}
+
+.charisma {
+	position:absolute;
+	top: 257px;
+	left: 890px;
+}
+
+.primaryWeapon {
+	position:absolute;
+	top: 420px;
+	left: 220px;
+}
+
+.primaryHitBonus {
+	position:absolute;
+	top: 420px;
+	left: 550px;
+}
+
+.primaryDamage {
+	position:absolute;
+	top: 420px;
+	left: 655px;
+}
+
+.secondaryWeapon {
+	position:absolute;
+	top: 555px;
+	left: 220px;
+}
+
+.secondaryHitBonus {
+	position:absolute;
+	top: 555px;
+	left: 550px;
+}
+
+.secondaryDamage {
+	position:absolute;
+	top: 555px;
+	left: 655px;
+}
+
+.platinum {
+	position:absolute;
+	top: 450px;
+	left: 900px;
+}
+
+.gold {
+	position:absolute;
+	top: 490px;
+	left: 900px;
+}
+
+.silver {
+	position:absolute;
+	top: 530px;
+	left: 900px;
+}
+
+.copper {
+	position:absolute;
+	top: 572px;
+	left: 900px;
+}
+
+.money {
+	height: 15px;
+    width: 80px;
+}
+
+.statBox {
+	height: 60px;
+    width: 80px;
+}
+
+.nameBox {
+	height: 25px;
+	width: 325px;
+}
+
+.weaponBox {
+	height: 30px;
+	width: 100px;
+}
+
+.hitBonusBox {
+	height: 45px;
+	width: 70px;
+}
+
+.damageBox {
+	height: 15px;
+    width: 80px;
+}
+
+.treasure {
+	position:absolute;
+	top: 615px;
+	left: 840px;
+	height: 130px;
+	width: 150px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.pack {
+	position:absolute;
+	top: 810px;
+	left: 50px;
+	height: 90px;
+	width: 900px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.notes {
+	position:absolute;
+	top: 910px;
+	left: 50px;
+	height: 695px;
+	width: 900px;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.saveButton {
+	position:absolute;
+	top: 1000px;
+	left: 1085px;
+}
+
+.loadButton {
+	position:absolute;
+	top: 950px;
+	left: 1085px;
+}

@@ -1,0 +1,32 @@
+name:Shmok~class:Cleric~race:Faun~armor:13 + 1~hp:6~level:1~strength:1~intelligence:-1~wisdom:4~dexterity:1~constitution:3~charisma:-3~primaryWeapon:Mace~primaryHitBonus:~primaryDamage:1d6~secondaryWeapon:Sling (Range 20ft)~secondaryHitBonus:~secondaryDamage:1d4~platinum:~gold:457~silver:8~copper:10~notes:Team members - Fayde (Bob), Brumrick (Shoog), xerxes_the_dork (xerxes)
+
+Starting weight restriction - 125 lbs
+
+10 Starting Rations (10lbs) - 0 (0lbs)
+
+a backpack (2lbs), a bedroll (5lbs), a belt pouch (0.5lbs), candles (10), a cheap holy text, a flint and steel, an iron pot (0.5lbs), a mess kit (1lbs), rope 50 ft (10l bi  bs), soap, a spell component pouch (0.5lbs), torches (10) (10lbs) - 1 (1lbs), trail rations (5 days) (5lbs), a waterskin (4lbs), and a wooden holy symbol (hamsa).
+
+(Xerxes gave me 98 Gold Pieces + 30 Starting)
+1 portion of weed
+1 portion of magic wet weed (now dry)
+
+Bought Sling (0.5lbs) -5 GP
+Bought leather armour (15lbs) -40 GP
+Bought Shield (5 lbs) -20 GP
+
+= 69 lbs
+
+Gave 10 rations to Fayde (-10lbs)
+Gave 9 torches to Fayde (-9lbs)
+Bought a mace (4lbs) -5 GP
+
+= 54 lbs
+
+- Gave one silver piece to bar patron
+_ lost 2 health to darts
+- Gained 1 health from rest
+- 2 damage from goblin
+- 1 damage from xerxes
+- heal 4 from rest
+- 1 damage from pink creature
++905 experience
