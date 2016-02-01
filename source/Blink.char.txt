@@ -1,1 +1,0 @@
-name:Blink~class:Cleric~race:Human~armor:~hp:5~level:1~strength:3~intelligence:0~wisdom:3~dexterity:1~constitution:3~charisma:-3~primaryWeapon:~primaryHitBonus:~primaryDamage:~secondaryWeapon:~secondaryHitBonus:~secondaryDamage:~platinum:~gold:~silver:~copper:~
