@@ -1,5 +1,5 @@
 body {
-    background-image: url("../simplednd2up.jpg");
+    background-image: url("../simplednd2up.png");
 	background-repeat: no-repeat;
 }
 
@@ -29,8 +29,8 @@ body {
 
 .hp {
 	position:absolute;
-	top: 26px;
-	left: 732px;
+	top: 59px;
+	left: 715px;
 }
 
 .hpButton {
@@ -38,12 +38,15 @@ body {
 	width: 25px;
 }
 
+.points {
+	width: 50px;
+	height: 47px;
+}
+
 .currentHp {
-	left: 732px;
-    position: absolute;
-    height: 47px;
-    top: 93px;
-    width: 50px;
+	position: absolute;
+	left: 865px;
+    top: 35px;
 }
 
 .hpBox {
@@ -52,48 +55,61 @@ body {
 }
 
 .upArrow {
-	position: absolute;
-    top: 93px;
-    left: 702px;
+	height: 25px;
+    width: 25px;
 	background: url("/DND/images/up.png");
 	background-size: cover;
 }
 
 .downArrow {
-	position: absolute;
-    top: 120px;
-    left: 702px;
+	height: 25px;
+    width: 25px;
 	background: url("/DND/images/down.gif");
 	background-size: cover;
 }
 
+.hpButtonUp {
+	position: absolute;
+    top: 93px;
+    left: 865px;
+}
+
+.hpButtonDown {
+	position: absolute;
+    top: 93px;
+    left: 893px;
+}
+
 .restoreButton {
 	position: absolute;
-    top: 95px;
-    left: 788px;
+    top: 125px;
+    left: 876px;
 	width: 30px;
 	height: 25px;
+}
+
+.hpRestore {
 	background: url("/DND/images/heart.jpg");
-	background-size: cover;
+	background-size: cover;	
 }
 
 .level {
 	position:absolute;
 	top: 46px;
-	left: 895px;
+	left: 988px;
 }
 
 .expLabel {
 	position: absolute;
     top: 122px;
-    left: 883px;
+    left: 976px;
 }
 
 .exp {
 	position: absolute;
     top: 143px;
     width: 100px;
-    left: 883px;
+    left: 976px;
 }
 
 .strength {
@@ -108,28 +124,80 @@ body {
 	left: 222px;
 }
 
+.currentIMp {
+	position: absolute;
+	top: 229px;
+    left: 365px;
+}
+
+.iMpButtonUp {
+	position: absolute;
+    top: 287px;
+    left: 365px;
+}
+
+.iMpButtonDown {
+	position: absolute;
+    top: 287px;
+    left: 392px;
+}
+
+.iMpRestore {
+	position: absolute;
+	top: 319px;
+    left: 376px;
+	background: url("/DND/images/mana.png");
+	background-size: cover;	
+}
+
 .wisdom {
 	position:absolute;
 	top: 257px;
-	left: 380px;
+	left: 479px;
+}
+
+.currentWMp {
+	position: absolute;
+	top: 229px;
+    left: 622px;
+}
+
+.wMpButtonUp {
+	position: absolute;
+    top: 287px;
+    left: 622px;
+}
+
+.wMpButtonDown {
+	position: absolute;
+    top: 287px;
+    left: 650px;
+}
+
+.wMpRestore {
+	position: absolute;
+	top: 319px;
+    left: 633px;
+	background: url("/DND/images/ankh.png");
+	background-size: cover;
 }
 
 .dexterity {
 	position:absolute;
 	top: 257px;
-	left: 550px;
+	left: 742px;
 }
 
 .constitution {
 	position:absolute;
 	top: 257px;
-	left: 720px;
+	left: 907px;
 }
 
 .charisma {
 	position:absolute;
 	top: 257px;
-	left: 890px;
+	left: 1074px;
 }
 
 .primaryWeapon {

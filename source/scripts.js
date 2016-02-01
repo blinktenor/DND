@@ -1,10 +1,12 @@
-function changeHp(change) {
+function change(change, field) {
+
+	var updateElement = document.getElementById(field);
 
 	if (change > 1) {
-		change = Number(change) - Number(document.forms[0].currentHp.value);
+		change = Number(change) - Number(updateElement.value);
 	}
 	
-	document.forms[0].currentHp.value = Number(document.forms[0].currentHp.value) + Number(change);
+	updateElement.value = Number(updateElement.value) + Number(change);
 }
 
 function save() {
@@ -22,7 +24,9 @@ function save() {
 			"exp" : document.forms[0].exp.value,
 			"strength" : document.forms[0].strength.value,
 			"intelligence" : document.forms[0].intelligence.value,
+			"iMp" : document.forms[0].iMp.value,
 			"wisdom" : document.forms[0].wisdom.value,
+			"wMp" : document.forms[0].wMp.value,
 			"dexterity" : document.forms[0].dexterity.value,
 			"constitution" : document.forms[0].constitution.value,
 			"charisma" : document.forms[0].charisma.value,
@@ -101,8 +105,12 @@ function setValue(element, index, array) {
 		document.forms[0].strength.value = data[1];
 	} else if (data[0] == "intelligence") {
 		document.forms[0].intelligence.value = data[1];
+	} else if (data[0] == "iMp") {
+		document.forms[0].iMp.value = data[1];
 	} else if (data[0] == "wisdom") {
 		document.forms[0].wisdom.value = data[1];
+	} else if (data[0] == "wMp") {
+		document.forms[0].wMp.value = data[1];
 	} else if (data[0] == "dexterity") {
 		document.forms[0].dexterity.value = data[1];
 	} else if (data[0] == "constitution") {
