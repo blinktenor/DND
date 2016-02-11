@@ -43,21 +43,14 @@ function loadChar(){
 		data : {"name" : characterName},
 		type : 'POST',
 		success : function (data) {
+			//Need to see if they are already in the table
 			var stats = data.split("~");
-			var characterDiv = document.getElementById("characterDiv");
-			var character = document.createElement("div");
-			character.id = characterName;
-			character.innerHTML = characterName + 
-				"\tAC <input class='dmStatBox' id='" + characterName + "-ac' value='" + stats[3].substring(6) + "'/>" + 
-				"\tHP <input class='dmStatBox' id='" + characterName + "-hp' value='" + stats[5].substring(10) + "'/>" + 
-				"\tSTR <input class='dmStatBox' id='" + characterName + "-str' value='" + stats[8].substring(9) + "'/>" + 
-				"\tINT <input class='dmStatBox' id='" + characterName + "-int' value='" + stats[9].substring(13) + "'/>" + 
-				"\tWIS <input class='dmStatBox' id='" + characterName + "-wis' value='" + stats[11].substring(7) + "'/>" + 
-				"\tDEX <input class='dmStatBox' id='" + characterName + "-dex' value='" + stats[13].substring(10) + "'/>" + 
-				"\tCON <input class='dmStatBox' id='" + characterName + "-con' value='" + stats[14].substring(13) + "'/>" + 
-				"\tCHR <input class='dmStatBox' id='" + characterName + "-chr' value='" + stats[15].substring(9) + "'/>" + 
-				"";
-			characterDiv.appendChild(character);
+			var characterTable = document.getElementById("characterTable");
+			var row = characterTable.insertRow(1);
+			var values = [":" + characterName, stats[3], stats[5], stats[8], stats[9], stats[11], stats[13], stats[14], stats[15]];
+			for (var a = 0; a < values.length; a++) {
+				row.insertCell(a).innerHTML = values[a].substring(values[a].indexOf(":") + 1);
+			}
 		},
 		error : function (error) {
 			alert("error! " + error.toString());
