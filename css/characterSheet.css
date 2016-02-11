@@ -1,4 +1,8 @@
-body {
+.dmStatBox {
+	width: 25px;
+}
+
+.characterSheet {
     background-image: url("../simplednd2up.png");
 	background-repeat: no-repeat;
 }

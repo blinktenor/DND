@@ -1,0 +1,48 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<title>Master Page</title>
+
+	<link rel="stylesheet" href="css/characterSheet.css?v=1.0">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+
+<body>
+  <script src="source/scripts.js"></script>
+  <form id="character">
+		<select class="dropdown" id="characterNames" />
+		<input type="button" value="Load" onclick="loadChar()"/>
+  </form>
+  <br>
+  <div id="characterDiv"> </div>
+  <br>
+  <form id="diceRoller">
+		Sides  
+		<select id="diceSides">
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="6">6</option>
+			<option value="8">8</option>
+			<option value="10">10</option>
+			<option value="12">12</option>
+			<option value="20">20</option>
+		</select>
+		Number of Rolls
+		<input id="numRolls"/>
+		<input type="button" value="Roll" onclick="rollDice()" />
+		Results
+		<input id="result" />
+  </form>
+  <br>
+  <textarea class="dmNotes" id="dmNotes" rows="10" cols="80"></textarea>
+  <script>
+	$( document ).ready(function() {
+		gatherNames();
+	});
+  </script>
+</body>
+</html>

@@ -1,3 +1,70 @@
+var characterNames;
+
+function rollDice() {
+	var sides = document.getElementById("diceSides").value;
+	var rolls = document.getElementById("numRolls").value;
+	var result = document.getElementById("result");
+
+	result.value = "";
+	
+	for (var a = 0; a < rolls; a++) {
+		if (a != 0) {
+			result.value = result.value + " - ";
+		}
+		result.value = result.value + Math.floor((Math.random() * sides) + 1);
+	}
+}
+
+function gatherNames()
+{
+	$.ajax({
+		url : 'source/characterNames.php',
+		data : "",
+		type : 'POST',
+		success : function (output) {
+			var characterNames = output.split("~");
+			var dropDown = document.getElementById("characterNames");
+			dropDown.options[0] = new Option ("", "", true, true);
+			for (var index = 0; index < characterNames.length - 1; index++) {
+				var item = characterNames[index].replace(".char.txt", "");
+				dropDown.options[index] = new Option (item, item, false, false);
+			}
+		},
+		error : function (error) {
+			alert("error! " + error.toString());
+		}
+	});
+}
+
+function loadChar(){
+	var characterName = document.getElementById("characterNames").value;
+	$.ajax({
+		url : 'source/load.php',
+		data : {"name" : characterName},
+		type : 'POST',
+		success : function (data) {
+			var stats = data.split("~");
+			var characterDiv = document.getElementById("characterDiv");
+			var character = document.createElement("div");
+			character.id = characterName;
+			character.innerHTML = characterName + 
+				"\tAC <input class='dmStatBox' id='" + characterName + "-ac' value='" + stats[3].substring(6) + "'/>" + 
+				"\tHP <input class='dmStatBox' id='" + characterName + "-hp' value='" + stats[5].substring(10) + "'/>" + 
+				"\tSTR <input class='dmStatBox' id='" + characterName + "-str' value='" + stats[8].substring(9) + "'/>" + 
+				"\tINT <input class='dmStatBox' id='" + characterName + "-int' value='" + stats[9].substring(13) + "'/>" + 
+				"\tWIS <input class='dmStatBox' id='" + characterName + "-wis' value='" + stats[11].substring(7) + "'/>" + 
+				"\tDEX <input class='dmStatBox' id='" + characterName + "-dex' value='" + stats[13].substring(10) + "'/>" + 
+				"\tCON <input class='dmStatBox' id='" + characterName + "-con' value='" + stats[14].substring(13) + "'/>" + 
+				"\tCHR <input class='dmStatBox' id='" + characterName + "-chr' value='" + stats[15].substring(9) + "'/>" + 
+				"";
+			characterDiv.appendChild(character);
+		},
+		error : function (error) {
+			alert("error! " + error.toString());
+		}
+	});
+}
+
 function change(change, field) {
 
 	var updateElement = document.getElementById(field);
