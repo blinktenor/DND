@@ -15,7 +15,11 @@
   <script src="source/scripts.js"></script>
   <form id="character">
 		<select class="dropdown" id="characterNames" />
-		<input type="button" value="Load" onclick="loadChar()"/>
+		&nbsp;
+		&nbsp;
+		<input type="button" value="Load" onclick="loadChar(document.getElementById('characterNames').value)"/>
+		&nbsp;
+		<input type="button" value="Reload All" onclick="reloadTable()" />
   </form>
   <br>
   <div id="characterDiv"> 

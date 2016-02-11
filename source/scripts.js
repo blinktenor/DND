@@ -36,8 +36,16 @@ function gatherNames()
 	});
 }
 
-function loadChar(){
-	var characterName = document.getElementById("characterNames").value;
+function getCharacterRow(table, name) {
+	for (var a = 0; a < table.rows.length; a++) {
+		if (table.rows[a].cells[0].innerHTML == name) {
+			return table.rows[a];
+		}
+	}
+	return null;
+}
+
+function loadChar(characterName){
 	$.ajax({
 		url : 'source/load.php',
 		data : {"name" : characterName},
@@ -46,7 +54,14 @@ function loadChar(){
 			//Need to see if they are already in the table
 			var stats = data.split("~");
 			var characterTable = document.getElementById("characterTable");
-			var row = characterTable.insertRow(1);
+			var row = getCharacterRow(characterTable, characterName);
+			if (row == null) {
+				row = characterTable.insertRow(1);
+			} else {
+				while (row.cells.length > 0) {
+					row.deleteCell(0);
+				}
+			}
 			var values = [":" + characterName, stats[3], stats[5], stats[8], stats[9], stats[11], stats[13], stats[14], stats[15]];
 			for (var a = 0; a < values.length; a++) {
 				row.insertCell(a).innerHTML = values[a].substring(values[a].indexOf(":") + 1);
@@ -56,6 +71,13 @@ function loadChar(){
 			alert("error! " + error.toString());
 		}
 	});
+}
+
+function reloadTable() {
+	var table = document.getElementById("characterTable");
+	for (var a = 1; a < table.rows.length; a++) {
+		loadChar(table.rows[a].cells[0].innerHTML);
+	}
 }
 
 function change(change, field) {
