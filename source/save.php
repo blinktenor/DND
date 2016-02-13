@@ -1,7 +1,7 @@
 <?php
 
 $name = $_POST['name'];
-$myfile = fopen($name . '.char.txt', "w") or die("Unable to open file!");
+$myfile = fopen('characters/' . $name . date('dmYi') . '.char.txt', "w") or die("Unable to open file!");
 fwrite($myfile, 'name:' . $name . '~');
 fwrite($myfile, 'class:' . $_POST['class'] . '~');
 fwrite($myfile, 'race:' . $_POST['race'] . '~');

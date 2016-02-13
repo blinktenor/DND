@@ -47,5 +47,6 @@ Temporary Items
 .apdisk
 
 *.char.txt
+*.adventure.txt
 /source/charBackups/*
 
