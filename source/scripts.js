@@ -102,38 +102,14 @@ function change(change, field) {
 function save() {
 
 	if (document.forms[0].name.value != "") {
-
-		var userData = {
-			"name" : document.forms[0].name.value,
-			"class" : document.forms[0].class.value,
-			"race" : document.forms[0].race.value,
-			"armor" : document.forms[0].armor.value,
-			"hp" : document.forms[0].hp.value,
-			"currentHp" : document.forms[0].currentHp.value,
-			"level" : document.forms[0].level.value,
-			"exp" : document.forms[0].exp.value,
-			"strength" : document.forms[0].strength.value,
-			"intelligence" : document.forms[0].intelligence.value,
-			"iMp" : document.forms[0].iMp.value,
-			"wisdom" : document.forms[0].wisdom.value,
-			"wMp" : document.forms[0].wMp.value,
-			"dexterity" : document.forms[0].dexterity.value,
-			"constitution" : document.forms[0].constitution.value,
-			"charisma" : document.forms[0].charisma.value,
-			"primaryWeapon" : document.forms[0].primaryWeapon.value,
-			"primaryHitBonus" : document.forms[0].primaryHitBonus.value,
-			"primaryDamage" : document.forms[0].primaryDamage.value,
-			"secondaryWeapon" : document.forms[0].secondaryWeapon.value,
-			"secondaryHitBonus" : document.forms[0].secondaryHitBonus.value,
-			"secondaryDamage" : document.forms[0].secondaryDamage.value,
-			"platinum" : document.forms[0].platinum.value,
-			"gold" : document.forms[0].gold.value,
-			"silver" : document.forms[0].silver.value,
-			"copper" : document.forms[0].copper.value,
-			"treasure" : document.forms[0].treasure.value,
-			"pack" : document.forms[0].pack.value,
-			"notes" : document.forms[0].notes.value
-		};
+	
+	    var userData = {};
+	    var characterForm = document.getElementById("character");
+        for (var a=0; a<characterForm.elements.length; a++) {
+		    if (characterForm.elements[a].type != "button") {
+		        userData[characterForm.elements[a].id] = characterForm.elements[a].value;
+			}
+		}
 		
 		$.ajax({
 			url : 'source/save.php',
