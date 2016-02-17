@@ -4,6 +4,13 @@ var DICE_DROPDOWN 			= "diceSides";
 var DICE_NUM_OF_ROLLS 		= "numRolls";
 var DICE_RESULT_OF_ROLLS	= "result";
 
+var tableLoaded = false;
+
+var DEFAULT_COLUMNS_OFF = ["Class", "Race", "Level", "Exp", "Pack", "Notes"];
+
+var COLUMNS_TO_DISABLE = [];
+
+var CHECK_BOX_COLUMNS = 10;
 
 /**
  * Function to roll a number of dice of and display the results
@@ -31,10 +38,11 @@ function gatherNames()
 		type : 'POST',
 		success : function (output) {
 			var characterNames = output.split("~");
+			characterNames = cleanNames(characterNames);
 			var dropDown = document.getElementById("characterNames");
 			dropDown.options[0] = new Option ("", "", true, true);
 			for (var index = 0; index < characterNames.length - 1; index++) {
-				var item = characterNames[index].replace(".char.txt", "");
+				var item = characterNames[index];
 				dropDown.options[index] = new Option (item, item, false, false);
 			}
 		},
@@ -44,16 +52,45 @@ function gatherNames()
 	});
 }
 
+function cleanNames(characterNames) {
+	var cleanedNames = [];
+	for (var characterPosition = 0; characterPosition < characterNames.length; characterPosition++) {
+		var currentName = characterNames[characterPosition];
+		//Strip off the /
+		currentName = currentName.substr(currentName.indexOf('/') + 1);
+		currentName = currentName.replace(".char.txt", "");
+		//Are the last 10 digits numbers? remove them
+		if (currentName.length > 10) {
+			var removeNumbers = true;
+			for (var check = 1; check < 11; check++) {
+				if (isNaN(currentName.substr(currentName.length - check, currentName.length - check + 1))) {
+					removeNumbers = false;
+				}
+			}
+			if (removeNumbers) {
+				currentName = currentName.substr(0,currentName.length -10);
+			}
+		}
+		if(cleanedNames.indexOf(currentName) < 0) {
+			cleanedNames.push(currentName);	
+		}
+	}
+	return cleanedNames;
+}
+
 function getCharacterRow(table, name) {
-	for (var a = 0; a < table.rows.length; a++) {
-		if (table.rows[a].cells[0].innerHTML == name) {
-			return table.rows[a];
+	if (table.rows.length > 1) {
+		for (var a = 1; a < table.rows.length; a++) {
+			if (table.rows[a].cells[0].innerHTML == name) {
+				return table.rows[a];
+			}
 		}
 	}
 	return null;
 }
 
 function loadChar(characterName){
+	
 	$.ajax({
 		url : 'source/load.php',
 		data : {"name" : characterName},
@@ -61,19 +98,17 @@ function loadChar(characterName){
 		success : function (data) {
 			//Need to see if they are already in the table
 			var stats = data.split("~");
-			var characterTable = document.getElementById("characterTable");
-			var row = getCharacterRow(characterTable, characterName);
-			if (row == null) {
-				row = characterTable.insertRow(1);
-			} else {
-				while (row.cells.length > 0) {
-					row.deleteCell(0);
-				}
+			if (!tableLoaded) {
+				loadTable(stats);
+				tableLoaded = true;
 			}
-			var values = [":" + characterName, stats[3], stats[5], stats[8], stats[9], stats[11], stats[13], stats[14], stats[15]];
-			for (var a = 0; a < values.length; a++) {
-				row.insertCell(a).innerHTML = values[a].substring(values[a].indexOf(":") + 1);
+			var characterTable = document.getElementById("characterTableBody");
+			var row = getRowFromTable(characterTable, characterName);
+			for (var a = 0; a < stats.length; a++) {
+				row.insertCell(a).innerHTML = stats[a].substring(stats[a].indexOf(":") + 1);
 			}
+			showAllHidden();
+			turnOffColumns();
 		},
 		error : function (error) {
 			alert("error! " + error.toString());
@@ -81,21 +116,82 @@ function loadChar(characterName){
 	});
 }
 
+function getRowFromTable(characterTable, characterName) {
+	var row = getCharacterRow(characterTable, characterName);
+	if (row == null) {
+		row = characterTable.insertRow(1);
+	} else {
+		while (row.cells.length > 0) {
+			row.deleteCell(0);
+		}
+	}
+	return row;
+}
+
+function showAllHidden() {
+	$(':hidden').show();
+}
+
+function turnOffColumns() {
+	for (var disable = 0; disable < COLUMNS_TO_DISABLE.length; disable++) {
+		$('#characterTable td:nth-child('+COLUMNS_TO_DISABLE[disable]+'), #characterTable th:nth-child('+COLUMNS_TO_DISABLE[disable]+')').hide();
+	}
+}
+
+function loadTable(stats) {
+	var table = document.getElementById('characterTable');
+	var tHead = table.createTHead();
+	var row = tHead.insertRow(0);
+	var checkBoxTable = document.getElementById('checkboxTable');
+	var checkboxRow = checkBoxTable.insertRow(0);
+	for (var headerCount = 0; headerCount < stats.length; headerCount++) {
+		var cell = row.insertCell(headerCount);
+		var name = stats[headerCount].substr(0, stats[headerCount].indexOf(":"));
+		name = capitalizeFirstLetter(name);
+		cell.innerHTML = name;
+		var checkBoxCell = checkboxRow.insertCell(headerCount % CHECK_BOX_COLUMNS);
+		var checked = "checked";
+		if (DEFAULT_COLUMNS_OFF.indexOf(name) > -1) {
+			checked = "";
+			COLUMNS_TO_DISABLE.push(headerCount+1);
+		}
+		checkBoxCell.innerHTML = "<input type='checkbox' name='checkbox' value='" + (headerCount+1) + "' " + 
+								 checked + "/>" + name;
+		if ((headerCount + 1) % CHECK_BOX_COLUMNS == 0) {
+			checkboxRow = checkBoxTable.insertRow(-1);
+		}
+	}
+	$('#checkBoxForm :checkbox').click(function() {
+		var columnIndex = parseInt(this.value);
+		if (this.checked) {
+			COLUMNS_TO_DISABLE.splice(COLUMNS_TO_DISABLE.indexOf(columnIndex), 1);
+			$('#characterTable td:nth-child('+columnIndex+'), #characterTable th:nth-child('+columnIndex+')').show();
+		} else {
+			if (COLUMNS_TO_DISABLE.indexOf(columnIndex) < 0)
+			{
+				COLUMNS_TO_DISABLE.push(columnIndex);	
+			}
+			$('#characterTable td:nth-child('+columnIndex+'), #characterTable th:nth-child('+columnIndex+')').hide();
+		}
+	});
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function reloadTable() {
-	var table = document.getElementById("characterTable");
+	var table = document.getElementById("characterTableBody");
 	for (var a = 1; a < table.rows.length; a++) {
 		loadChar(table.rows[a].cells[0].innerHTML);
 	}
 }
 
 function change(change, field) {
-
 	var updateElement = document.getElementById(field);
-
 	if (change > 1) {
 		change = Number(change) - Number(updateElement.value);
 	}
-	
 	updateElement.value = Number(updateElement.value) + Number(change);
 }
 

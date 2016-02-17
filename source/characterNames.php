@@ -1,6 +1,6 @@
 <?php
 
-foreach (glob("*.char.txt") as $filename) {
+foreach (glob("characters/*.char.txt") as $filename) {
     echo "$filename~";
 }
 
