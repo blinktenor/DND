@@ -1,0 +1,63 @@
+Leather Armor;20
+Chain Mail Armor;40
+Plate Mail Armor;80
+Shield;10###Dagger;5
+Short Sword;10
+Long Sword;15
+Two-handed Sword;25
+Mace / Warhammer;5
+Battle Axe;25
+Great Axe;40
+Sling;5
+Staff;10
+Spear;10
+Short Bow;30
+Long Bow;75###Backpack (empty);2
+Bedroll;0.1
+Bell;1
+Blanket, winter;0.5
+Bottle, wine, glass;2
+Caltrops;2
+Candle;0.01
+Chalk, 1 piece;0.01
+Crowbar;2
+Flint and steel;1
+Grappling hook;1
+Hammer (12 nails);0.5
+Lamp, common;0.1
+Mirror, small steel;10
+Oil (1-pint flask);0.1
+Pole, 10-foot;0.2
+Pouch, belt (empty);1
+Rations, trail (per day);0.5
+Rope, hempen (50 ft.);1
+Sack (empty);0.1
+Signal whistle;0.8
+Torch;0.01
+Waterskin;1###Amulet of Health;3;4000,16000,36000
+Amulet of Mighty Fists;5;4000,16000,36000,64000,100000
+Bag of Holding;1;2500
+Belt of Dwarfkind;1;14900
+Belt of Giant Strength;1;36000
+Boots of Elvenkind;1;2500
+Boots of Levitation;1;7500
+Boots of Speed;1;12000
+Bracers of Archery;1;25000
+Bracers of Armor;8;1000,4000,9000,16000,25000,36000,49000,64000
+Chime of Opening;1;3000
+Cloak of Elvenkind;1;2500
+Crystal Ball;1;42000
+Drums of Panic;1;30000
+Gauntlet of Rust;1;11500
+Gloves of Dexterity;4;2000,4000,8000,16000
+Hat of Disguise;1;1800
+Horn of Blasting;1;20000
+Horn of Fog;1;2000
+Instant Fortress;1;55000
+Robe of the Archmagi;1;75000
+Rope of Entanglement;1;21000
+Slippers of Spider Climbing;1;4800
+Wings of Flying;1;54000
+Healing Potion;1;100
+Growth Potion;1;2000
+Ring of Protection;5;2000,8000,18000,32000,50000

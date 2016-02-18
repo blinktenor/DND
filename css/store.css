@@ -1,0 +1,16 @@
+#storeTable1 {
+    position: absolute;
+    left: 400px;
+	top: 7px;
+}
+
+#storeTable2 {
+    position: absolute;
+    left: 800px;
+	top: 7px;
+}
+
+caption {
+    display: table-caption;
+	text-align: center;
+}

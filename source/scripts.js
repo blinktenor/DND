@@ -12,6 +12,113 @@ var COLUMNS_TO_DISABLE = [];
 
 var CHECK_BOX_COLUMNS = 10;
 
+var ITEM_CHANCE_COUNT = [85, 3, 85, 3, 95, 20];
+
+var MAGIC_ITEMS_COUNT_CHANCE = [5,25];
+
+var MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
+
+/**
+ *
+ */
+function loadStore() {
+	$.ajax({
+		url : 'source/loadGear.php',
+		data : "",
+		type : 'POST',
+		success : function (output) {
+		    var magicItemList = [];
+			var storeContents = output.split("###");
+			var rowCount = 0;
+			var storeCount;
+			//Minus 1 for the magic items at the end
+			for (storeCount = 0; storeCount < storeContents.length - 1; storeCount++) {
+			    var storeTable = buildNewStoreTable(storeCount);
+				rowCount = 0;
+				var set = storeContents[storeCount].split("\r\n");
+				if (storeCount < 2) magicItemList = magicItemList.concat(set);
+				for (var itemCount = 0; itemCount < set.length - 1; itemCount++) {
+					if (Math.floor((Math.random() * 100) + 1) <= ITEM_CHANCE_COUNT[storeCount*2]) {
+						var row = storeTable.insertRow(rowCount+1);
+						rowCount++;
+						var item = set[itemCount].split(";");
+						row.insertCell(0).innerHTML = item[0];
+						row.insertCell(1).innerHTML = item[1];
+						row.insertCell(2).innerHTML = Math.floor((Math.random() * ITEM_CHANCE_COUNT[storeCount*2+1]) + 1);
+					}
+				}
+			}
+			
+			//Magic Items
+			magicItemList = magicItemList.concat(storeContents[storeContents.length-1].split("\r\n"));
+			var storeTable = buildNewStoreTable(storeCount);
+			rowCount = 0;
+			//get from the array, then look how long the split is >2 then cost is third
+			for (var numOfMagicItems = 0; numOfMagicItems < MAGIC_ITEMS_COUNT_CHANCE[0]; numOfMagicItems++) {
+			    if (Math.floor((Math.random() * 100) + 1) <= MAGIC_ITEMS_COUNT_CHANCE[1]) {
+				    var row = storeTable.insertRow(rowCount+1);
+					rowCount++;
+					var itemNumber = Math.floor((Math.random() * magicItemList.length) + 1);
+					var item = magicItemList[itemNumber].split(";");
+					var itemBoost;
+					var itemCost;
+					var itemName;
+					if (item.length > 2) {
+					    itemName = item[0];
+					    itemBoost = Math.floor((Math.random() * item[1]) + 1);
+						if (item[1] > 1) {
+						    itemName = itemName + " +" + itemBoost;
+						}
+						var itemCostArray = item[2].split(",");
+						var itemCost = itemCostArray[itemBoost-1];
+					} else {
+					    itemBoost = Math.floor((Math.random() * 5) + 1);
+						itemName = item[0] + " +" + itemBoost;
+						itemCost = parseInt(item[1]) * MAGIC_ITEM_COST_MODIFIER[itemBoost - 1];
+					}
+					row.insertCell(0).innerHTML = itemName;
+					row.insertCell(1).innerHTML = itemCost;
+					row.insertCell(2).innerHTML = Math.floor((Math.random() * 2) + 1);
+				}
+			}
+		},
+		error : function (error) {
+			alert("error!");
+		}
+	});
+}
+
+function buildNewStoreTable(storeCount) {
+    var storeDiv = document.getElementById("storeDiv");
+    var storeTable = document.createElement("table");
+	storeTable.id = "storeTable" + storeCount;
+	storeTable.border = 1;
+	var tHead = storeTable.createTHead();
+	var row = tHead.insertRow(0);
+	row.insertCell(0).innerHTML = "Item";
+	row.insertCell(1).innerHTML = "Cost (gp)";
+	row.insertCell(2).innerHTML = "Store Quantity";
+	var caption = storeTable.createCaption();
+	switch(storeCount) {
+	    case 0:
+		    caption.innerHTML = "<b>Weapons</b>";
+		    break;
+		case 1:
+		    caption.innerHTML = "<b>Armor</b>";
+		    break;
+		case 2:
+		    caption.innerHTML = "<b>Gear</b>";
+		    break;
+		case 3:
+		    caption.innerHTML = "<b>Magic Items</b>";
+		    break;
+	}
+	storeDiv.appendChild(storeTable);
+	storeDiv.appendChild(document.createElement('br'));
+	return storeTable;
+}
+
+ 
 /**
  * Function to roll a number of dice of and display the results
  */
