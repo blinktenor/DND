@@ -100,10 +100,10 @@ function buildNewStoreTable(storeCount) {
 	row.insertCell(2).innerHTML = "Store Quantity";
 	var caption = storeTable.createCaption();
 	switch(storeCount) {
-	    case 0:
+	    case 1:
 		    caption.innerHTML = "<b>Weapons</b>";
 		    break;
-		case 1:
+		case 0:
 		    caption.innerHTML = "<b>Armor</b>";
 		    break;
 		case 2:
