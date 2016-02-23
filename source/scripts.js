@@ -12,16 +12,25 @@ var COLUMNS_TO_DISABLE = [];
 
 var CHECK_BOX_COLUMNS = 10;
 
-var ITEM_CHANCE_COUNT = [85, 3, 85, 3, 95, 20];
+var ITEM_CHANCE_COUNT = [100, 100, 100, 3, 95, 20, 5, 25];
 
 var MAGIC_ITEMS_COUNT_CHANCE = [5,25];
 
 var MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
 
+function loadModifiers() {
+	for (var a = 0; a < 8; a++) {
+		if (document.getElementById("mod" + a).value != "") {
+			ITEM_CHANCE_COUNT[a] = document.getElementById("mod" + a).value;
+		}
+	}
+}
+
 /**
  *
  */
 function loadStore() {
+	loadModifiers();
 	$.ajax({
 		url : 'source/loadGear.php',
 		data : "",
@@ -37,7 +46,7 @@ function loadStore() {
 				rowCount = 0;
 				var set = storeContents[storeCount].split("\r\n");
 				if (storeCount < 2) magicItemList = magicItemList.concat(set);
-				for (var itemCount = 0; itemCount < set.length - 1; itemCount++) {
+				for (var itemCount = 0; itemCount < set.length; itemCount++) {
 					if (Math.floor((Math.random() * 100) + 1) <= ITEM_CHANCE_COUNT[storeCount*2]) {
 						var row = storeTable.insertRow(rowCount+1);
 						rowCount++;
@@ -54,11 +63,11 @@ function loadStore() {
 			var storeTable = buildNewStoreTable(storeCount);
 			rowCount = 0;
 			//get from the array, then look how long the split is >2 then cost is third
-			for (var numOfMagicItems = 0; numOfMagicItems < MAGIC_ITEMS_COUNT_CHANCE[0]; numOfMagicItems++) {
-			    if (Math.floor((Math.random() * 100) + 1) <= MAGIC_ITEMS_COUNT_CHANCE[1]) {
+			for (var numOfMagicItems = 0; numOfMagicItems < ITEM_CHANCE_COUNT[6]; numOfMagicItems++) {
+			    if (Math.floor((Math.random() * 100) + 1) <= ITEM_CHANCE_COUNT[7]) {
 				    var row = storeTable.insertRow(rowCount+1);
 					rowCount++;
-					var itemNumber = Math.floor((Math.random() * magicItemList.length) + 1);
+					var itemNumber = Math.floor((Math.random() * (magicItemList.length-1)) + 1);
 					var item = magicItemList[itemNumber].split(";");
 					var itemBoost;
 					var itemCost;

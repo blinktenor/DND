@@ -1,13 +1,21 @@
 #storeTable1 {
-    position: absolute;
+    /*
+	position: absolute;
     left: 400px;
-	top: 7px;
+	top: 20px;
+	*/
 }
 
 #storeTable2 {
+	/*
     position: absolute;
     left: 800px;
-	top: 7px;
+	top: 20px;
+	*/
+}
+
+.mod {
+	width: 20px;
 }
 
 caption {
