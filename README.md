@@ -3,7 +3,7 @@
 This project is mostly a never ending work in progress. The idea is to have a usable digital character sheet for keeping track of your chacters as time goes on without having to make all of the changes on one sheet.
 
 ## Installation
-Put the project into a tomcat webapps folder. Enable php within tomcat which can be found here http://php-java-bridge.sourceforge.net/doc/tomcat6.php
+RECENTLY (2/23/2016) CHANGED TO NODE.JS README WILL BE UPDATED SHORTLY
 
 ## Usage
 Navigate to the tomcat hosting ip, and go to ip/DND/characterSheet.html.
