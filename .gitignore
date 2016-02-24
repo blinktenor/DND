@@ -49,4 +49,8 @@ Temporary Items
 *.char.txt
 *.adventure.txt
 /source/charBackups/*
+/madelinebrodtdotcom/*
+/node_modules/*
 
+public/*
+!public/DND/
