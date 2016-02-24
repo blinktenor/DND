@@ -32,9 +32,9 @@ function loadModifiers() {
 function loadStore() {
 	loadModifiers();
 	$.ajax({
-		url : 'source/loadGear.php',
+		url : 'source/loadGear',
 		data : "",
-		type : 'POST',
+		type : 'GET',
 		success : function (output) {
 		    var magicItemList = [];
 			var storeContents = output.split("###");
@@ -149,7 +149,7 @@ function rollDice() {
 function gatherNames()
 {
 	$.ajax({
-		url : 'source/characterNames.php',
+		url : 'source/characterNames',
 		data : "",
 		type : 'POST',
 		success : function (output) {
@@ -172,21 +172,11 @@ function cleanNames(characterNames) {
 	var cleanedNames = [];
 	for (var characterPosition = 0; characterPosition < characterNames.length; characterPosition++) {
 		var currentName = characterNames[characterPosition];
-		//Strip off the /
+		//Strip off the / the file type and the 10 or 12 digit date string
 		currentName = currentName.substr(currentName.indexOf('/') + 1);
 		currentName = currentName.replace(".char.txt", "");
-		//Are the last 10 digits numbers? remove them
-		if (currentName.length > 10) {
-			var removeNumbers = true;
-			for (var check = 1; check < 11; check++) {
-				if (isNaN(currentName.substr(currentName.length - check, currentName.length - check + 1))) {
-					removeNumbers = false;
-				}
-			}
-			if (removeNumbers) {
-				currentName = currentName.substr(0,currentName.length -10);
-			}
-		}
+		currentName = currentName.replace(/\d{12}$/, "");
+		currentName = currentName.replace(/\d{10}$/, "");
 		if(cleanedNames.indexOf(currentName) < 0) {
 			cleanedNames.push(currentName);	
 		}
@@ -208,7 +198,7 @@ function getCharacterRow(table, name) {
 function loadChar(characterName){
 	
 	$.ajax({
-		url : 'source/load.php',
+		url : 'source/load',
 		data : {"name" : characterName},
 		type : 'POST',
 		success : function (data) {
@@ -324,7 +314,7 @@ function save() {
 		}
 		
 		$.ajax({
-			url : 'source/save.php',
+			url : 'source/save',
 			data : userData,
 			type : 'POST',
 			success : function (output) {
@@ -344,11 +334,10 @@ function load()
 	if (document.forms[0].name.value != "") {
 	
 	$.ajax({
-			url : 'source/load.php',
+			url : 'source/load',
 			data : {"name" : document.forms[0].name.value},
 			type : 'POST',
 			success : function (output) {
-				alert(output);
 				var valueKey = output.split("~");
 				valueKey.forEach(setValue); 
 				alert("Character loaded!");
@@ -379,7 +368,7 @@ function saveNotes() {
 		};
 		
 		$.ajax({
-			url : 'source/saveDm.php',
+			url : 'source/saveDm',
 			data : userData,
 			type : 'POST',
 			success : function (output) {
@@ -399,7 +388,7 @@ function loadNotes()
 	if (document.getElementById("adventureName").value != "") {
 	
 	$.ajax({
-			url : 'source/loadDm.php',
+			url : 'source/loadDm',
 			data : {"name" : document.getElementById("adventureName").value},
 			type : 'POST',
 			success : function (output) {

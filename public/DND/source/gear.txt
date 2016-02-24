@@ -34,8 +34,7 @@ Rope, hempen (50 ft.);1
 Sack (empty);0.1
 Signal whistle;0.8
 Torch;0.01
-Waterskin;1
-Arrow;0.1###Amulet of Health;3;4000,16000,36000
+Waterskin;1###Amulet of Health;3;4000,16000,36000
 Amulet of Mighty Fists;5;4000,16000,36000,64000,100000
 Bag of Holding;1;2500
 Belt of Dwarfkind;1;14900
