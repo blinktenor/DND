@@ -54,3 +54,6 @@ Temporary Items
 
 public/*
 !public/DND/
+
+views/*
+!views/DND/
