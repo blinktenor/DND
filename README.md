@@ -3,7 +3,13 @@
 This project is mostly a never ending work in progress. The idea is to have a usable digital character sheet for keeping track of your chacters as time goes on without having to make all of the changes on one sheet.
 
 ## Installation
-RECENTLY (2/23/2016) CHANGED TO NODE.JS README WILL BE UPDATED SHORTLY
+Install node.js - 4.3.1
+Open a command prompt and type "npm i -g nodemon"
+    -This is for node server monitor package. This will host the server and allow for changes to be made on the fly.
+Download the codebase
+Navigate in the command prompt to your directory and type "npm install"
+    -This will install all necessary dependancies to run the server
+Type "nodemon /bin/www" and your server will be up and running!
 
 ## Usage
 Navigate to the tomcat hosting ip, and go to ip/DND/characterSheet.html.
