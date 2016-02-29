@@ -12,11 +12,19 @@ router.get('/DND/:param', function(req, res, next) {
 		res.render('DND/dm.html');
 	} else if (req.params['param'] == "test.html") {
 		res.render('DND/test.html');
+	} else if (req.params['param'] == "chat") {
+		res.render('DND/chat.html');
 	} else {
 		res.send(req.params['param']);
-		console.log("something");
+		console.log(req.params['param']);
 	}
 });
+
+/*
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+*/
 
 router.get('/DND/source/loadGear', function(req, res, next) {
 	fs = require('fs')
