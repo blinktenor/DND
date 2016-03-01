@@ -323,12 +323,12 @@
 
 .saveButton {
 	position:absolute;
-	top: 1000px;
-	left: 1085px;
+	top: 193px;
+	left: 25px;
 }
 
 .loadButton {
 	position:absolute;
-	top: 950px;
-	left: 1085px;
+	top: 193px;
+	left: 100px;
 }

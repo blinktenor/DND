@@ -15,6 +15,8 @@ router.get('/DND/:param', function(req, res, next) {
 		res.render('DND/test.html');
 	} else if (req.params['param'] == "chat") {
 		res.render('DND/chat.html');
+	} else if (req.params['param'] == "popup.html") {
+		res.render('DND/popup.html');
 	} else {
 		res.send(req.params['param']);
 		console.log(req.params['param']);
@@ -39,7 +41,7 @@ router.get('/DND/source/loadGear', function(req, res, next) {
 });
 
 router.post('/DND/source/load', function(req, res, next) {
-	var name = req.param("name");
+	var name = req.params["name"];
 	if (name == "" || name == undefined) {
 		res.sendStatus(500);
 	}

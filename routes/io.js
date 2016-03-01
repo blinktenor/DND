@@ -13,7 +13,7 @@ module.exports.listen = function (server) {
 		});
 	
 		socket.on('login', function(name){
-			console.log("Player " + name + " logged in!");
+			io.emit('dm-login', name);
 		});
 	});
 	

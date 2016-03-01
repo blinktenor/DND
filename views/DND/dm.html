@@ -7,8 +7,10 @@
 	<title>Master Page</title>
 
 	<link rel="stylesheet" href="css/characterSheet.css?v=1.0">
+	<link rel="stylesheet" href="css/popup.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
@@ -54,6 +56,9 @@
 		Results
 		<input id="result" />
 	</form>
+	<div class="box">
+		<a class="button" href="#popup1">Store Generator</a>
+	</div>
 	<br>
 	Adventure
 	<br>
@@ -62,10 +67,42 @@
 	<input type="button" value="Load Notes" onclick="loadNotes()" />
 	<br>
 	<textarea class="dmNotes" id="dmNotes" rows="75" cols="200"></textarea>
+	<div id="popup1" class="overlay">
+		<div class="popup">
+			<h2>Store Generator</h2>
+			<a class="close" href="#">&times;</a>
+			<div class="content">
+				<div id="controlDiv">
+					<input type="button" value="Load Store" onclick="loadStore()" />
+					<label for="mod0">Armor Irem Chance</label>
+					<input type="text" class="mod" id="mod0" />
+					<label for="mod1">Number of Armors</label>
+					<input type="text" class="mod" id="mod1" />
+					<label for="mod2">Weapon Irem Chance</label>
+					<input type="text" class="mod" id="mod2" />
+					<label for="mod3">Number of Weapons</label>
+					<input type="text" class="mod" id="mod3" />	
+					<label for="mod4">Gear Chance</label>		
+					<input type="text" class="mod" id="mod4" />	
+					<label for="mod5">Number of Gear Appearing</label>
+					<input type="text" class="mod" id="mod5" />
+					<label for="mod6">Number of Magic Items to Spawn</label>		
+					<input type="text" class="mod" id="mod6" />	
+					<label for="mod7">Chance to Spawn Magic Item</label>
+					<input type="text" class="mod" id="mod7" />
+				</div>
+				<div id="storeDiv">
+				</div>
+			</div>
+		</div>
+	</div>
 	<script>
 	$( document ).ready(function() {
 		gatherNames();
 	});
+	socket.on('dm-login', function(name){
+        loadChar(name);
+    });
 	</script>
 </body>
 </html>
