@@ -18,6 +18,8 @@ var MAGIC_ITEMS_COUNT_CHANCE = [5,25];
 
 var MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
 
+var socket = io();
+
 function loadModifiers() {
 	for (var a = 0; a < 8; a++) {
 		if (document.getElementById("mod" + a).value != "") {
@@ -341,6 +343,7 @@ function load()
 				var valueKey = output.split("~");
 				valueKey.forEach(setValue); 
 				alert("Character loaded!");
+				socket.emit('login', document.forms[0].name.value);
 			},
 			error : function (error) {
 				alert("error! " + error.toString());
