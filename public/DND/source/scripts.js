@@ -33,6 +33,7 @@ function loadModifiers() {
  */
 function loadStore() {
 	loadModifiers();
+	clearStore();
 	$.ajax({
 		url : 'source/loadGear',
 		data : "",
@@ -47,7 +48,7 @@ function loadStore() {
 			    var storeTable = buildNewStoreTable(storeCount);
 				rowCount = 0;
 				var set = storeContents[storeCount].split("\r\n");
-				if (storeCount < 2) magicItemList = magicItemList.concat(set);
+				if (storeCount > 0) magicItemList = magicItemList.concat(set);
 				for (var itemCount = 0; itemCount < set.length; itemCount++) {
 					if (Math.floor((Math.random() * 100) + 1) <= ITEM_CHANCE_COUNT[storeCount*2]) {
 						var row = storeTable.insertRow(rowCount+1);
@@ -65,8 +66,8 @@ function loadStore() {
 			var storeTable = buildNewStoreTable(storeCount);
 			rowCount = 0;
 			//get from the array, then look how long the split is >2 then cost is third
-			for (var numOfMagicItems = 0; numOfMagicItems < ITEM_CHANCE_COUNT[6]; numOfMagicItems++) {
-			    if (Math.floor((Math.random() * 100) + 1) <= ITEM_CHANCE_COUNT[7]) {
+			for (var numOfMagicItems = 0; numOfMagicItems < ITEM_CHANCE_COUNT[7]; numOfMagicItems++) {
+			    if (Math.floor((Math.random() * 100) + 1) <= ITEM_CHANCE_COUNT[6]) {
 				    var row = storeTable.insertRow(rowCount+1);
 					rowCount++;
 					var itemNumber = Math.floor((Math.random() * (magicItemList.length-1)) + 1);
@@ -99,6 +100,13 @@ function loadStore() {
 	});
 }
 
+function clearStore() {
+	var myNode = document.getElementById("storeDiv");
+	while (myNode.firstChild) {
+		myNode.removeChild(myNode.firstChild);
+	}
+}
+
 function buildNewStoreTable(storeCount) {
     var storeDiv = document.getElementById("storeDiv");
     var storeTable = document.createElement("table");
@@ -111,14 +119,14 @@ function buildNewStoreTable(storeCount) {
 	row.insertCell(2).innerHTML = "Store Quantity";
 	var caption = storeTable.createCaption();
 	switch(storeCount) {
-	    case 1:
-		    caption.innerHTML = "<b>Weapons</b>";
+	    case 0:
+		    caption.innerHTML = "<b>Gear</b>";
 		    break;
-		case 0:
+		case 1:
 		    caption.innerHTML = "<b>Armor</b>";
 		    break;
 		case 2:
-		    caption.innerHTML = "<b>Gear</b>";
+		    caption.innerHTML = "<b>Weapons</b>";
 		    break;
 		case 3:
 		    caption.innerHTML = "<b>Magic Items</b>";
@@ -407,3 +415,25 @@ function loadNotes()
 		alert("Enter Adventure name");
 	}
 }
+
+function pushStore() {
+	var tableNum = 0;
+	var storeContents = [];
+	var table = document.getElementById("storeTable" + tableNum);
+	while(table != null) {
+		var itemType = table.caption.innerHTML.replace("<b>","").replace("</b>","");
+		for (var a = 1; a < table.rows.length; a++) {
+			var cells = table.rows[a].cells;
+			var rowData = [itemType, cells[0].innerHTML, cells[1].innerHTML, cells[2].innerHTML];
+			storeContents.push(rowData);
+		}
+		tableNum++;
+		var table = document.getElementById("storeTable" + tableNum);
+	}
+	socket.emit('dm-storeOpen', storeContents);
+}
+
+function closeStore() {
+	socket.emit('dm-storeClose', '');
+}
+

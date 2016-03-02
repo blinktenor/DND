@@ -8,6 +8,7 @@
 
 	<link rel="stylesheet" href="css/characterSheet.css?v=1.0">
 	<link rel="stylesheet" href="css/popup.css">
+	<link rel="stylesheet" href="css/store.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
@@ -16,12 +17,12 @@
 <body>
   <script src="source/scripts.js"></script>
   <form id="character">
-		<select class="dropdown" id="characterNames" />
+		<select class="dropdown" id="characterNames"> </select>
 		&nbsp;
 		&nbsp;
-		<input type="button" value="Load" onclick="loadChar(document.getElementById('characterNames').value)"/>
+		<a class="button" onclick="loadChar(document.getElementById('characterNames').value)">Load</a>
 		&nbsp;
-		<input type="button" value="Reload All" onclick="reloadTable()" />
+		<a class="button" onclick="reloadTable()" >Reload All</a>
   </form>
   <br>
   
@@ -52,7 +53,7 @@
 		</select>
 		Number of Rolls
 		<input id="numRolls"/>
-		<input type="button" value="Roll" onclick="rollDice()" />
+		<a class="button" onclick="rollDice()" >Roll </a>
 		Results
 		<input id="result" />
 	</form>
@@ -63,8 +64,8 @@
 	Adventure
 	<br>
 	<input id="adventureName" />
-	<input type="button" value="Save Notes" onclick="saveNotes()" />
-	<input type="button" value="Load Notes" onclick="loadNotes()" />
+	<a class="button" onclick="saveNotes()">Save Notes </a>
+	<a class="button" onclick="loadNotes()">Load Notes </a>
 	<br>
 	<textarea class="dmNotes" id="dmNotes" rows="75" cols="200"></textarea>
 	<div id="popup1" class="overlay">
@@ -73,26 +74,40 @@
 			<a class="close" href="#">&times;</a>
 			<div class="content">
 				<div id="controlDiv">
-					<input type="button" value="Load Store" onclick="loadStore()" />
-					<label for="mod0">Armor Irem Chance</label>
-					<input type="text" class="mod" id="mod0" />
-					<label for="mod1">Number of Armors</label>
-					<input type="text" class="mod" id="mod1" />
-					<label for="mod2">Weapon Irem Chance</label>
-					<input type="text" class="mod" id="mod2" />
-					<label for="mod3">Number of Weapons</label>
-					<input type="text" class="mod" id="mod3" />	
-					<label for="mod4">Gear Chance</label>		
-					<input type="text" class="mod" id="mod4" />	
-					<label for="mod5">Number of Gear Appearing</label>
-					<input type="text" class="mod" id="mod5" />
-					<label for="mod6">Number of Magic Items to Spawn</label>		
-					<input type="text" class="mod" id="mod6" />	
-					<label for="mod7">Chance to Spawn Magic Item</label>
-					<input type="text" class="mod" id="mod7" />
+					<a class="button" onclick="loadStore()" />Load Store</a>
+					<br>
+					<table class="controlTable">
+						<tr class="controlTable">
+							<th></th>
+							<th>%Chance</th>
+							<th>#Appearing</th>
+						</tr>
+						<tr class="controlTable">
+							<td>Gear</td>
+							<td><input type="number" class="mod" id="mod0" value="85" /></td>
+							<td><input type="number" class="mod" id="mod1" value="20" /></td>
+						</tr>
+						<tr class="controlTable">
+							<td>Armor</td>
+							<td><input type="number" class="mod" id="mod2" value="85"/></td>
+							<td><input type="number" class="mod" id="mod3" value="5"/></td>
+						</tr>
+						<tr class="controlTable">
+							<td>Weapons</td>
+							<td><input type="number" class="mod" id="mod4" value="85"/></td>
+							<td><input type="number" class="mod" id="mod5" value="5"/></td>
+						</tr>
+						<tr class="controlTable">
+							<td>Magic</td>
+							<td><input type="number" class="mod" id="mod6" value="25"/></td>
+							<td><input type="number" class="mod" id="mod7" value="5"/></td>
+						</tr>
+					</table>
 				</div>
 				<div id="storeDiv">
 				</div>
+				<a class="button" onclick="pushStore()" />Push Store</a>
+				<a class="button" onclick="closeStore()" />Close Store</a>
 			</div>
 		</div>
 	</div>

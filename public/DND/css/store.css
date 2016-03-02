@@ -1,21 +1,39 @@
+#storeDiv {
+padding-bottom: 15px;
+border: 1px;
+overflow: hidden;
+}
+
+#storeTable0 {
+    float: right;
+	clear: right;
+	width: 45%;
+}
+
 #storeTable1 {
-    /*
-	position: absolute;
-    left: 400px;
-	top: 20px;
-	*/
+    float: left;
+	clear: left;
+	width: 45%;
 }
 
 #storeTable2 {
-	/*
-    position: absolute;
-    left: 800px;
-	top: 20px;
-	*/
+	float: left;
+	clear: left;
+	width: 45%;
+}
+
+#storeTable3 {
+	float: left;
+	clear: left;
+	width: 45%;
+}
+
+.controlTable {
+	border: 1px solid black;
 }
 
 .mod {
-	width: 20px;
+	width: 45px;
 }
 
 caption {

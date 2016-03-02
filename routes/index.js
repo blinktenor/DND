@@ -41,7 +41,7 @@ router.get('/DND/source/loadGear', function(req, res, next) {
 });
 
 router.post('/DND/source/load', function(req, res, next) {
-	var name = req.params["name"];
+	var name = req.body.name;
 	if (name == "" || name == undefined) {
 		res.sendStatus(500);
 	}
@@ -68,7 +68,7 @@ router.post('/DND/source/load', function(req, res, next) {
 });
 
 router.post('/DND/source/loadDm', function(req, res, next) {
-	var name = req.param("name");
+	var name = req.body.name;
 	if (name == "" || name == undefined) {
 		res.sendStatus(500);
 	}

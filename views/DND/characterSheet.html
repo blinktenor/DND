@@ -7,6 +7,7 @@
 	<title>Character Sheet</title>
 
 	<link rel="stylesheet" href="css/characterSheet.css?v=1.0">
+	<link rel="stylesheet" href="css/popup.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
@@ -54,8 +55,8 @@
 	<textarea class="treasure" id="treasure" rows="10" cols="10"></textarea>
 	<textarea class="pack" id="pack" rows="3" cols="80"></textarea>
 	<textarea class="notes" id="notes" rows="10" cols="80"></textarea>
-	<input class="saveButton" type="button" value="Save" onclick="save();"/>
-	<input class="loadButton" type="button" value="Load" onclick="load();"/>
+	<a class="saveButton button" onclick="save();">Save</a>
+	<a class="loadButton button" onclick="load();">Load</a>
   </form>
 </body>
 </html>
