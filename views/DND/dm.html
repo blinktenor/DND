@@ -1,123 +1,123 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-	<meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
 
-	<title>Master Page</title>
+        <title>Master Page</title>
 
-	<link rel="stylesheet" href="css/characterSheet.css?v=1.0">
-	<link rel="stylesheet" href="css/popup.css">
-	<link rel="stylesheet" href="css/store.css">
+        <link rel="stylesheet" href="css/characterSheet.css?v=1.0">
+        <link rel="stylesheet" href="css/popup.css">
+        <link rel="stylesheet" href="css/store.css">
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
-</head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
 
-<body>
-  <script src="source/scripts.js"></script>
-  <form id="character">
-		<select class="dropdown" id="characterNames"> </select>
-		&nbsp;
-		&nbsp;
-		<a class="button" onclick="loadChar(document.getElementById('characterNames').value)">Load</a>
-		&nbsp;
-		<a class="button" onclick="reloadTable()" >Reload All</a>
-  </form>
-  <br>
-  
-  <div id="characterDiv"> 
-		<table border="1" id="characterTable">
-		<tbody id="characterTableBody">
-			<tr></tr>
-		<tbody>
-		</table>
-	</div>
-	<form id="checkBoxForm">
-	<div id="checkboxes">
-		<table border="0" id="checkboxTable">
-		</table>
-	</div>
-	</form>
-	<br>
-	<form id="diceRoller">
-		Sides  
-		<select id="diceSides">
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="6">6</option>
-			<option value="8">8</option>
-			<option value="10">10</option>
-			<option value="12">12</option>
-			<option value="20">20</option>
-		</select>
-		Number of Rolls
-		<input id="numRolls"/>
-		<a class="button" onclick="rollDice()" >Roll </a>
-		Results
-		<input id="result" />
-	</form>
-	<div class="box">
-		<a class="button" href="#popup1">Store Generator</a>
-	</div>
-	<br>
-	Adventure
-	<br>
-	<input id="adventureName" />
-	<a class="button" onclick="saveNotes()">Save Notes </a>
-	<a class="button" onclick="loadNotes()">Load Notes </a>
-	<br>
-	<textarea class="dmNotes" id="dmNotes" rows="75" cols="200"></textarea>
-	<div id="popup1" class="overlay">
-		<div class="popup">
-			<h2>Store Generator</h2>
-			<a class="close" href="#">&times;</a>
-			<div class="content">
-				<div id="controlDiv">
-					<a class="button" onclick="loadStore()" />Load Store</a>
-					<br>
-					<table class="controlTable">
-						<tr class="controlTable">
-							<th></th>
-							<th>%Chance</th>
-							<th>#Appearing</th>
-						</tr>
-						<tr class="controlTable">
-							<td>Gear</td>
-							<td><input type="number" class="mod" id="mod0" value="85" /></td>
-							<td><input type="number" class="mod" id="mod1" value="20" /></td>
-						</tr>
-						<tr class="controlTable">
-							<td>Armor</td>
-							<td><input type="number" class="mod" id="mod2" value="85"/></td>
-							<td><input type="number" class="mod" id="mod3" value="5"/></td>
-						</tr>
-						<tr class="controlTable">
-							<td>Weapons</td>
-							<td><input type="number" class="mod" id="mod4" value="85"/></td>
-							<td><input type="number" class="mod" id="mod5" value="5"/></td>
-						</tr>
-						<tr class="controlTable">
-							<td>Magic</td>
-							<td><input type="number" class="mod" id="mod6" value="25"/></td>
-							<td><input type="number" class="mod" id="mod7" value="5"/></td>
-						</tr>
-					</table>
-				</div>
-				<div id="storeDiv">
-				</div>
-				<a class="button" onclick="pushStore()" />Push Store</a>
-				<a class="button" onclick="closeStore()" />Close Store</a>
-			</div>
-		</div>
-	</div>
-	<script>
-	$( document ).ready(function() {
-		gatherNames();
-	});
-	socket.on('dm-login', function(name){
-        loadChar(name);
-    });
-	</script>
-</body>
+    <body>
+        <script src="source/scripts.js"></script>
+        <form>
+            <select class="dropdown" id="characterNames"> </select>
+            &nbsp;
+            &nbsp;
+            <a class="button" onclick="loadChar(document.getElementById('characterNames').value)">Load</a>
+            &nbsp;
+            <a class="button" onclick="reloadTable()" >Reload All</a>
+        </form>
+        <br>
+
+        <div id="characterDiv"> 
+            <table border="1" id="characterTable">
+                <tbody id="characterTableBody">
+                    <tr></tr>
+                <tbody>
+            </table>
+        </div>
+        <form id="checkBoxForm">
+            <div id="checkboxes">
+                <table border="0" id="checkboxTable">
+                </table>
+            </div>
+        </form>
+        <br>
+        <form id="diceRoller">
+            Sides  
+            <select id="diceSides">
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+                <option value="10">10</option>
+                <option value="12">12</option>
+                <option value="20">20</option>
+            </select>
+            Number of Rolls
+            <input id="numRolls"/>
+            <a class="button" onclick="rollDice()" >Roll </a>
+            Results
+            <input id="result" />
+        </form>
+        <div class="box">
+            <a class="button" href="#popup1">Store Generator</a>
+        </div>
+        <br>
+        Adventure
+        <br>
+        <input id="adventureName" />
+        <a class="button" onclick="saveNotes()">Save Notes </a>
+        <a class="button" onclick="loadNotes()">Load Notes </a>
+        <br>
+        <textarea class="dmNotes" id="dmNotes" rows="75" cols="200"></textarea>
+        <div id="popup1" class="overlay">
+            <div class="popup">
+                <h2>Store Generator</h2>
+                <a class="close" href="#">&times;</a>
+                <div class="content">
+                    <div id="controlDiv">
+                        <a class="button" onclick="loadStore()" />Load Store</a>
+                        <br>
+                        <table class="controlTable">
+                            <tr class="controlTable">
+                                <th></th>
+                                <th>%Chance</th>
+                                <th>#Appearing</th>
+                            </tr>
+                            <tr class="controlTable">
+                                <td>Gear</td>
+                                <td><input type="number" class="mod" id="mod0" value="85" /></td>
+                                <td><input type="number" class="mod" id="mod1" value="20" /></td>
+                            </tr>
+                            <tr class="controlTable">
+                                <td>Armor</td>
+                                <td><input type="number" class="mod" id="mod2" value="85"/></td>
+                                <td><input type="number" class="mod" id="mod3" value="5"/></td>
+                            </tr>
+                            <tr class="controlTable">
+                                <td>Weapons</td>
+                                <td><input type="number" class="mod" id="mod4" value="85"/></td>
+                                <td><input type="number" class="mod" id="mod5" value="5"/></td>
+                            </tr>
+                            <tr class="controlTable">
+                                <td>Magic</td>
+                                <td><input type="number" class="mod" id="mod6" value="25"/></td>
+                                <td><input type="number" class="mod" id="mod7" value="5"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="storeDiv">
+                    </div>
+                    <a class="button" onclick="pushStore()" />Push Store</a>
+                    <a class="button" onclick="closeStore()" />Close Store</a>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                gatherNames();
+            });
+            socket.on('dm-login', function (name) {
+                loadChar(name);
+            });
+        </script>
+    </body>
 </html>

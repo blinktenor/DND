@@ -23,12 +23,6 @@ router.get('/DND/:param', function(req, res, next) {
 	}
 });
 
-/*
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
-*/
-
 router.get('/DND/source/loadGear', function(req, res, next) {
 	fs = require('fs')
 	fs.readFile(process.cwd() + '/public/DND/source/gear.txt', 'utf8', function (err,data) {

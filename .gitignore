@@ -57,3 +57,7 @@ public/*
 
 views/*
 !views/DND/
+
+# netbeans files
+/nbproject/private/
+project.*
