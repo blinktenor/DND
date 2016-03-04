@@ -8,6 +8,7 @@
 
 	<link rel="stylesheet" href="css/characterSheet.css?v=1.0">
 	<link rel="stylesheet" href="css/popup.css">
+	<link rel="stylesheet" href="css/store.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
@@ -58,5 +59,28 @@
 	<a class="saveButton button" onclick="save();">Save</a>
 	<a class="loadButton button" onclick="load();">Load</a>
   </form>
+  	<div id="popup1" class="overlay">
+		<div class="popup">
+			<h2>Store</h2>
+			<a class="close" href="#">&times;</a>
+			<div class="content">
+				<div id="storeDiv">
+				</div>
+			</div>
+		</div>
+	</div>
+  <script>
+        var socket = io();
+
+      socket.on('dm-storeOpen', function(storeContents){
+		window.location.hash = "#popup1";
+		loadStoreContents(storeContents);
+      });
+	  
+	  socket.on('dm-storeClose', function(empty){
+		window.location.hash = '';
+		clearStore();
+      });
+	</script>
 </body>
 </html>

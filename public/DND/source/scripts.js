@@ -437,3 +437,23 @@ function closeStore() {
 	socket.emit('dm-storeClose', '');
 }
 
+function loadStoreContents(storeContents) {
+	var storeCount = 0;
+	var tableName = storeContents[0][0];
+	var storeTable = buildNewStoreTable(storeCount);
+	var rowCount = 0;
+	for (var index = 0; index < storeContents.length; index++) {
+		if (tableName != storeContents[index][0]) {
+			tableName = storeContents[index][0];
+			storeCount++;
+			storeTable = buildNewStoreTable(storeCount);
+			rowCount = 0;
+		}
+		var row = storeTable.insertRow(rowCount+1);
+		rowCount++;
+		row.insertCell(0).innerHTML = storeContents[index][1];
+		row.insertCell(1).innerHTML = storeContents[index][2];
+		row.insertCell(2).innerHTML = storeContents[index][3];
+	}
+}
+
