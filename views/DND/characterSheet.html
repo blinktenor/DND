@@ -82,8 +82,12 @@
                 clearStore();
             });
 
-            $('#character').change(function () {
-                alert("bump");
+            $('#character').change(function (e) {
+                if (loadedChar !== null) {
+                    if ("name" !== e.target.id) {
+                        socket.emit('player-update', [loadedChar, e.target.id, e.target.value]);
+                    }
+                }
             });
         </script>
     </body>

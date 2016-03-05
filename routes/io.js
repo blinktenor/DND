@@ -41,6 +41,11 @@ module.exports.listen = function (server) {
                 io.emit('players', playerNames);
             }
         });
+        
+        socket.on('player-update', function(updateData){
+            console.log(updateData);
+            io.emit('dm-player-update', updateData);
+        });
     });
 
     return io;

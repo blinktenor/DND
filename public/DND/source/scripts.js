@@ -1,5 +1,7 @@
 var characterNames;
 
+var loadedChar;
+
 var DICE_DROPDOWN = "diceSides";
 var DICE_NUM_OF_ROLLS = "numRolls";
 var DICE_RESULT_OF_ROLLS = "result";
@@ -19,6 +21,8 @@ var MAGIC_ITEMS_COUNT_CHANCE = [5, 25];
 var MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
 
 var socket = io();
+
+var CHARACTER_COLUMNS = [];
 
 function loadModifiers() {
     for (var a = 0; a < 8; a++) {
@@ -214,7 +218,7 @@ function cleanNames(characterNames) {
 function getCharacterRow(table, name) {
     if (table.rows.length > 1) {
         for (var a = 1; a < table.rows.length; a++) {
-            if (table.rows[a].cells[0].innerHTML === name) {
+            if (table.rows[a].cells[0] !== undefined && table.rows[a].cells[0].innerHTML === name) {
                 return table.rows[a];
             }
         }
@@ -279,6 +283,7 @@ function loadTable(stats) {
     for (var headerCount = 0; headerCount < stats.length; headerCount++) {
         var cell = row.insertCell(headerCount);
         var name = stats[headerCount].substr(0, stats[headerCount].indexOf(":"));
+        CHARACTER_COLUMNS.push(name);
         name = capitalizeFirstLetter(name);
         cell.innerHTML = name;
         var checkBoxCell = checkboxRow.insertCell(headerCount % CHECK_BOX_COLUMNS);
@@ -325,6 +330,7 @@ function change(change, field) {
         change = Number(change) - Number(updateElement.value);
     }
     updateElement.value = Number(updateElement.value) + Number(change);
+    $("#" + field).change();
 }
 
 function save() {
@@ -357,17 +363,20 @@ function save() {
 
 function load()
 {
-    if (document.forms[0].name.value !== "") {
+    var name = document.forms[0].name.value;
+    
+    if (name !== "") {
 
         $.ajax({
             url: 'source/load',
-            data: {"name": document.forms[0].name.value},
+            data: {"name": name},
             type: 'POST',
             success: function (output) {
                 var valueKey = output.split("~");
                 valueKey.forEach(setValue);
                 alert("Character loaded!");
-                socket.emit('login', document.forms[0].name.value);
+                socket.emit('login', name);
+                loadedChar = name;
             },
             error: function (error) {
                 alert("error! " + error.toString());
@@ -473,3 +482,9 @@ function loadStoreContents(storeContents) {
     }
 }
 
+function updateCharacterData(updateData) {
+    var row = getCharacterRow(document.getElementById("characterTable"), updateData[0]);
+    if (row !== null) {
+        row.cells[CHARACTER_COLUMNS.indexOf(updateData[1])].innerHTML = updateData[2];
+    }
+}
