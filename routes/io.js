@@ -49,4 +49,4 @@ module.exports.listen = function (server) {
     });
 
     return io;
-}
+};
