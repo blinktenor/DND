@@ -21,6 +21,7 @@ module.exports.listen = function (server) {
         });
 
         socket.on('disconnect', function () {
+            io.emit('dm-disconnect', players.get(socket));
             players.delete(socket);
         });
 

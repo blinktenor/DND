@@ -20,11 +20,9 @@ var MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
 
 var socket = io();
 
-var ajaxCall = false;
-
 function loadModifiers() {
     for (var a = 0; a < 8; a++) {
-        if (document.getElementById("mod" + a).value != "") {
+        if (document.getElementById("mod" + a).value !== "") {
             ITEM_CHANCE_COUNT[a] = document.getElementById("mod" + a).value;
         }
     }
@@ -110,6 +108,22 @@ function clearStore() {
     }
 }
 
+function removeCharacterRow(name) {
+    var table = document.getElementById("characterTable");
+    if (table.rows.length > 1) {
+        for (var a = 2; a < table.rows.length; a++) {
+            if (table.rows[a].cells[0] !== undefined) {
+                if (table.rows[a].cells[0].innerHTML === name) {
+                    var row = table.rows[a];
+                    while (row.cells.length > 0) {
+                        row.deleteCell(0);
+                    }
+                }
+            }
+        }
+    }
+}
+
 function buildNewStoreTable(storeCount) {
     var storeDiv = document.getElementById("storeDiv");
     var storeTable = document.createElement("table");
@@ -152,7 +166,7 @@ function rollDice() {
     result.value = "";
 
     for (var a = 0; a < rolls; a++) {
-        if (a != 0) {
+        if (a !== 0) {
             result.value = result.value + " - ";
         }
         result.value = result.value + Math.floor((Math.random() * sides) + 1);
@@ -200,7 +214,7 @@ function cleanNames(characterNames) {
 function getCharacterRow(table, name) {
     if (table.rows.length > 1) {
         for (var a = 1; a < table.rows.length; a++) {
-            if (table.rows[a].cells[0].innerHTML == name) {
+            if (table.rows[a].cells[0].innerHTML === name) {
                 return table.rows[a];
             }
         }
@@ -209,10 +223,6 @@ function getCharacterRow(table, name) {
 }
 
 function loadChar(characterName) {
-
-    //Spin if we are already loading another char
-    ajaxCall = true;
-
     $.ajax({
         url: 'source/load',
         data: {"name": characterName},
@@ -231,18 +241,16 @@ function loadChar(characterName) {
             }
             showAllHidden();
             turnOffColumns();
-            ajaxCall = false;
         },
         error: function (error) {
             alert("error! " + error.toString());
-            ajaxCall = false;
         }
     });
 }
 
 function getRowFromTable(characterTable, characterName) {
     var row = getCharacterRow(characterTable, characterName);
-    if (row == null) {
+    if (row === null) {
         row = characterTable.insertRow(1);
     } else {
         while (row.cells.length > 0) {
@@ -281,7 +289,7 @@ function loadTable(stats) {
         }
         checkBoxCell.innerHTML = "<input type='checkbox' name='checkbox' value='" + (headerCount + 1) + "' " +
                 checked + "/>" + name;
-        if ((headerCount + 1) % CHECK_BOX_COLUMNS == 0) {
+        if ((headerCount + 1) % CHECK_BOX_COLUMNS === 0) {
             checkboxRow = checkBoxTable.insertRow(-1);
         }
     }
@@ -321,12 +329,12 @@ function change(change, field) {
 
 function save() {
 
-    if (document.forms[0].name.value != "") {
+    if (document.forms[0].name.value !== "") {
 
         var userData = {};
         var characterForm = document.getElementById("character");
         for (var a = 0; a < characterForm.elements.length; a++) {
-            if (characterForm.elements[a].type != "button") {
+            if (characterForm.elements[a].type !== "button") {
                 userData[characterForm.elements[a].id] = characterForm.elements[a].value;
             }
         }
@@ -349,7 +357,7 @@ function save() {
 
 function load()
 {
-    if (document.forms[0].name.value != "") {
+    if (document.forms[0].name.value !== "") {
 
         $.ajax({
             url: 'source/load',
@@ -373,13 +381,13 @@ function load()
 function setValue(element, index, array) {
     var data = element.split(":");
     var update = document.getElementById(data[0]);
-    if (update != null) {
+    if (update !== null) {
         update.value = element.substring(element.indexOf(":") + 1);
     }
 }
 
 function saveNotes() {
-    if (document.getElementById("adventureName").value != "") {
+    if (document.getElementById("adventureName").value !== "") {
 
         var userData = {
             "dmNotes": document.getElementById("dmNotes").value,
@@ -404,7 +412,7 @@ function saveNotes() {
 
 function loadNotes()
 {
-    if (document.getElementById("adventureName").value != "") {
+    if (document.getElementById("adventureName").value !== "") {
 
         $.ajax({
             url: 'source/loadDm',
@@ -428,7 +436,7 @@ function pushStore() {
     var tableNum = 0;
     var storeContents = [];
     var table = document.getElementById("storeTable" + tableNum);
-    while (table != null) {
+    while (table !== null) {
         var itemType = table.caption.innerHTML.replace("<b>", "").replace("</b>", "");
         for (var a = 1; a < table.rows.length; a++) {
             var cells = table.rows[a].cells;
@@ -451,7 +459,7 @@ function loadStoreContents(storeContents) {
     var storeTable = buildNewStoreTable(storeCount);
     var rowCount = 0;
     for (var index = 0; index < storeContents.length; index++) {
-        if (tableName != storeContents[index][0]) {
+        if (tableName !== storeContents[index][0]) {
             tableName = storeContents[index][0];
             storeCount++;
             storeTable = buildNewStoreTable(storeCount);
