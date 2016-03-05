@@ -20,6 +20,8 @@ var MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
 
 var socket = io();
 
+var ajaxCall = false;
+
 function loadModifiers() {
     for (var a = 0; a < 8; a++) {
         if (document.getElementById("mod" + a).value != "") {
@@ -208,6 +210,9 @@ function getCharacterRow(table, name) {
 
 function loadChar(characterName) {
 
+    //Spin if we are already loading another char
+    ajaxCall = true;
+
     $.ajax({
         url: 'source/load',
         data: {"name": characterName},
@@ -226,9 +231,11 @@ function loadChar(characterName) {
             }
             showAllHidden();
             turnOffColumns();
+            ajaxCall = false;
         },
         error: function (error) {
             alert("error! " + error.toString());
+            ajaxCall = false;
         }
     });
 }

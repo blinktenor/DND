@@ -114,9 +114,16 @@
         <script>
             $(document).ready(function () {
                 gatherNames();
+                socket.emit('player-check');
             });
             socket.on('dm-login', function (name) {
                 loadChar(name);
+            });
+            socket.on('players', function (names) {
+                console.log(names);
+                for (var a = 0; a < names.length; a++) {
+                    loadChar(names[a]);
+                }
             });
         </script>
     </body>
