@@ -8,11 +8,11 @@ var DICE_RESULT_OF_ROLLS = "result";
 
 var tableLoaded = false;
 
-var DEFAULT_COLUMNS_OFF = ["Class", "Race", "Level", "Exp", "Pack", "Notes"];
+var DEFAULT_COLUMNS_OFF = ["Class", "Race", "Level", "Exp", "Pack", "Notes","Spells"];
 
 var COLUMNS_TO_DISABLE = [];
 
-var CHECK_BOX_COLUMNS = 10;
+var CHECK_BOX_COLUMNS = 6;
 
 var ITEM_CHANCE_COUNT = [100, 100, 100, 3, 95, 20, 5, 25];
 
@@ -361,10 +361,35 @@ function save() {
     }
 }
 
+function saveCharacterSheet() {
+    if (document.forms[0].name.value !== "") {
+        
+        var userData = {};
+        $("form#character :input").each(function () {
+            var input = $(this); 
+            userData[input[0].id] = input[0].value;
+        });
+        
+        $.ajax({
+            url: 'source/save',
+            data: userData,
+            type: 'POST',
+            success: function (output) {
+                alert(output);
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    } else {
+        alert("Enter character name");
+    }
+}
+
 function load()
 {
     var name = document.forms[0].name.value;
-    
+
     if (name !== "") {
 
         $.ajax({

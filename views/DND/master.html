@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <title>Master Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/character.css?v=1.0">
+        <link rel="stylesheet" href="css/popup.css">
+        <link rel="stylesheet" href="css/store.css">
+        <link rel="stylesheet" href="css/foundation.css" />
+        <link rel="stylesheet" href="css/app.css" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="source/scripts.js"></script>
+    </head>
+
+    <body>
+        <form id="character">
+            <div class="row">
+                <div class="large-12 columns">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="large-4 medium-4 columns">
+                    <label> Adventure Name </label>
+                    <input id="adventureName" />
+                </div>        
+                <div class="large-4 medium-4 columns">
+                    <a class="medium button" onclick="saveNotes();">Save</a>
+                </div>
+                <div class="large-4 medium-4 columns">
+                    <a class="medium button" onclick="loadNotes();">Load</a>
+                </div>
+            </div>
+            <div class="row collapse">
+                <div class="medium-2 columns">
+                    <ul class="tabs vertical" id="example-vert-tabs" data-tabs>
+                        <li class="tabs-title is-active"><a href="#characterTab" aria-selected="true">Characters</a></li>
+                        <li class="tabs-title"><a href="#noteTab">Notes</a></li>
+                        <li class="tabs-title"><a href="#enemyTab">Enemies</a></li>
+                        <li class="tabs-title"><a href="#mapTab">Map</a></li>
+                        <li class="tabs-title"><a href="#storeTab">Store</a></li>
+                    </ul>
+                </div>
+                <div class="medium-10 columns">
+                    <div class="tabs-content vertical" data-tabs-content="example-vert-tabs">
+                        <div class="tabs-panel is-active" id="characterTab">
+                            <div class="medium-12 columns">
+                                <div id="characterDiv"> 
+                                    <table border="1" id="characterTable">
+                                        <tbody id="characterTableBody">
+                                            <tr></tr>
+                                        <tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="checkboxes">
+                                <table border="0" id="checkboxTable">
+                                </table>
+                            </div>
+                            &nbsp;
+                        </div>
+                        <div class="tabs-panel" id="noteTab">
+                            <div class="medium-12 columns">
+                                <textarea class="dmNotes" id="dmNotes" rows="30"></textarea>
+                            </div>
+                            &nbsp;
+                        </div>
+                        <div class="tabs-panel" id="enemyTab">
+                            <div class="medium-3 columns">
+                                Coming Soon!
+                            </div>
+                            &nbsp;
+                        </div>
+                        <div class="tabs-panel" id="mapTab">
+                            <div class="row">
+                            <div class="medium-3 columns">
+                                Coming Soon!
+                            </div>
+                            </div>
+                            &nbsp;
+                        </div>
+                        <div class="tabs-panel" id="storeTab">
+                            <div id="controlDiv">
+                                <a class="button" onclick="loadStore()" />Load Store</a>
+                                <br>
+                                <table class="controlTable">
+                                    <tr class="controlTable">
+                                        <th></th>
+                                        <th>%Chance</th>
+                                        <th>#Appearing</th>
+                                    </tr>
+                                    <tr class="controlTable">
+                                        <td>Gear</td>
+                                        <td><input type="number" class="mod" id="mod0" value="85" /></td>
+                                        <td><input type="number" class="mod" id="mod1" value="20" /></td>
+                                    </tr>
+                                    <tr class="controlTable">
+                                        <td>Armor</td>
+                                        <td><input type="number" class="mod" id="mod2" value="85"/></td>
+                                        <td><input type="number" class="mod" id="mod3" value="5"/></td>
+                                    </tr>
+                                    <tr class="controlTable">
+                                        <td>Weapons</td>
+                                        <td><input type="number" class="mod" id="mod4" value="85"/></td>
+                                        <td><input type="number" class="mod" id="mod5" value="5"/></td>
+                                    </tr>
+                                    <tr class="controlTable">
+                                        <td>Magic</td>
+                                        <td><input type="number" class="mod" id="mod6" value="25"/></td>
+                                        <td><input type="number" class="mod" id="mod7" value="5"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div id="storeDiv">
+                            </div>
+                            <a class="button" onclick="pushStore()" />Push Store</a>
+                            <a class="button" onclick="closeStore()" />Close Store</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script src="js/vendor/jquery.min.js"></script>
+        <script src="js/vendor/what-input.min.js"></script>
+        <script src="js/foundation.min.js"></script>
+        <script src="js/app.js"></script>
+        <script>
+                                $(document).ready(function () {
+                                    //gatherNames();
+                                    socket.emit('player-check');
+                                });
+                                socket.on('dm-login', function (name) {
+                                    loadChar(name);
+                                });
+                                socket.on('players', function (names) {
+                                    console.log(names);
+                                    for (var a = 0; a < names.length; a++) {
+                                        loadChar(names[a]);
+                                    }
+                                });
+                                socket.on('dm-disconnect', function (name) {
+                                    removeCharacterRow(name);
+                                });
+                                socket.on('dm-player-update', function (updateData) {
+                                    updateCharacterData(updateData);
+                                });
+        </script>
+    </body>
+</html>

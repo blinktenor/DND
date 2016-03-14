@@ -3,23 +3,13 @@ var express = require('express');
 var router = express.Router();
 var http = require('http');
 
+
 /* GET DND page. */
 router.get('/DND/:param', function (req, res, next) {
-    if (req.params['param'] == "characterSheet.html") {
-        res.render('DND/characterSheet.html');
-    } else if (req.params['param'] == "store.html") {
-        res.render('DND/store.html');
-    } else if (req.params['param'] == "dm.html") {
-        res.render('DND/dm.html');
-    } else if (req.params['param'] == "test.html") {
-        res.render('DND/test.html');
-    } else if (req.params['param'] == "chat") {
-        res.render('DND/chat.html');
-    } else if (req.params['param'] == "popup.html") {
-        res.render('DND/popup.html');
+    if (req.params['param'].indexOf('.html') > -1) {
+        res.render('DND/' + req.params['param']);
     } else {
         res.send(req.params['param']);
-        console.log(req.params['param']);
     }
 });
 
@@ -66,7 +56,7 @@ router.post('/DND/source/load', function (req, res, next) {
 
 router.post('/DND/source/loadDm', function (req, res, next) {
     var name = req.body.name;
-    if (name == "" || name == undefined) {
+    if (name === "" || name === undefined) {
         res.sendStatus(500);
     }
     fs = require('fs');
