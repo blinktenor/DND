@@ -9,7 +9,7 @@ router.get('/DND/:param', function (req, res, next) {
     if (req.params['param'].indexOf('.html') > -1) {
         res.render('DND/' + req.params['param']);
     } else {
-        res.send(req.params['param']);
+        res.render('DND/character.html', {character:req.params['param']});
     }
 });
 

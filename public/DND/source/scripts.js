@@ -100,7 +100,7 @@ function loadStore() {
             }
         },
         error: function (error) {
-            alert("error!");
+            updateAlert("error!", 0);
         }
     });
 }
@@ -194,7 +194,7 @@ function gatherNames()
             }
         },
         error: function (error) {
-            alert("error! " + error.toString());
+            updateAlert("error! " + error.toString(), 0);
         }
     });
 }
@@ -247,7 +247,7 @@ function loadChar(characterName) {
             turnOffColumns();
         },
         error: function (error) {
-            alert("error! " + error.toString());
+            updateAlert("error! " + error.toString(),0);
         }
     });
 }
@@ -350,14 +350,14 @@ function save() {
             data: userData,
             type: 'POST',
             success: function (output) {
-                alert(output);
+                updateAlert(output, 1);
             },
             error: function (error) {
-                alert(error);
+                updateAlert(error, 0);
             }
         });
     } else {
-        alert("Enter character name");
+        updateAlert("Enter character name", 0);
     }
 }
 
@@ -375,20 +375,20 @@ function saveCharacterSheet() {
             data: userData,
             type: 'POST',
             success: function (output) {
-                alert(output);
+                updateAlert(output, 1);
             },
             error: function (error) {
-                alert(error);
+                updateAlert(error, 0);
             }
         });
     } else {
-        alert("Enter character name");
+        updateAlert("Enter character name", 0);
     }
 }
 
-function load()
+function load(name)
 {
-    var name = document.forms[0].name.value;
+    name = name || document.forms[0].name.value;
 
     if (name !== "") {
 
@@ -399,16 +399,16 @@ function load()
             success: function (output) {
                 var valueKey = output.split("~");
                 valueKey.forEach(setValue);
-                alert("Character loaded!");
+                updateAlert("Character loaded!", 1);
                 socket.emit('login', name);
                 loadedChar = name;
             },
             error: function (error) {
-                alert("error! " + error.toString());
+                updateAlert("error! " + error.toString(), 0);
             }
         });
     } else {
-        alert("Enter character name");
+        updateAlert("Enter character name", 0);
     }
 }
 
@@ -433,14 +433,14 @@ function saveNotes() {
             data: userData,
             type: 'POST',
             success: function (output) {
-                alert(output);
+                updateAlert(output, 1);
             },
             error: function (error) {
-                alert(error);
+                updateAlert(error, 0);
             }
         });
     } else {
-        alert("Enter adventure name");
+        updateAlert("Enter adventure name", 0);
     }
 }
 
@@ -455,14 +455,14 @@ function loadNotes()
             success: function (output) {
                 var valueKey = output.split("~");
                 valueKey.forEach(setValue);
-                alert("Adventure loaded!");
+                updateAlert("Adventure loaded!", 1);
             },
             error: function (error) {
-                alert("error! " + error.toString());
+                updateAlert("error! " + error.toString(), 0);
             }
         });
     } else {
-        alert("Enter Adventure name");
+        updateAlert("Enter Adventure name", 0);
     }
 }
 
@@ -512,4 +512,20 @@ function updateCharacterData(updateData) {
     if (row !== null) {
         row.cells[CHARACTER_COLUMNS.indexOf(updateData[1])].innerHTML = updateData[2];
     }
+}
+
+function updateAlert(message, type) {
+    
+	document.getElementById("calloutContent").innerHTML = "<p>" + message + "</p>";
+	var callout = document.getElementById("callout");
+	callout.style.display = "";
+	switch (type) {
+        case 0:
+		    callout.className = "alert callout";
+		    break;
+		case 1:
+		    callout.className = "success callout";
+		    break;
+		}
+		
 }

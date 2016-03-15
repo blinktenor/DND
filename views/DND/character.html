@@ -16,6 +16,15 @@
     </head>
     <body>
         <form id="character">
+			<div class="large-12 columns">
+	    <div id="callout" class="callout" display="none" data-closable>
+		    <div id="calloutContent">
+			</div>
+			<button class="close-button" aria-label="Dismiss Notification" type="button" data-close>
+			    <span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		</div>
             <div class="row">
                 <div class="large-12 columns">&nbsp;</div>
             </div>
@@ -224,6 +233,12 @@
                                             if ("name" !== e.target.id) {
                                                 socket.emit('player-update', [loadedChar, e.target.id, e.target.value]);
                                             }
+                                        }
+                                    });
+                                    $(document).ready(function () {
+                                        var path = document.location.pathname;
+                                        if (path.indexOf('character.html') < 0) {
+                                            load(path.substr(5));
                                         }
                                     });
         </script>
