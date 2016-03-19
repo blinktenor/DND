@@ -8,7 +8,7 @@ var DICE_RESULT_OF_ROLLS = "result";
 
 var tableLoaded = false;
 
-var DEFAULT_COLUMNS_OFF = ["Class", "Race", "Level", "Exp", "Pack", "Notes","Spells"];
+var DEFAULT_COLUMNS_OFF = ["Class", "Race", "Level", "Exp", "Hp", "PrimaryWeapon", "PrimaryHitBonus", "PrimaryDamage", "SecondaryWeapon", "SecondaryHitBonus", "SecondaryDamage", "Platinum", "Gold", "Silver", "Copper", "Treasure", "Pack", "Notes", "Spells"];
 
 var COLUMNS_TO_DISABLE = [];
 
@@ -29,86 +29,6 @@ function loadModifiers() {
         if (document.getElementById("mod" + a).value !== "") {
             ITEM_CHANCE_COUNT[a] = document.getElementById("mod" + a).value;
         }
-    }
-}
-
-/**
- *
- */
-function loadStore() {
-    loadModifiers();
-    clearStore();
-    $.ajax({
-        url: 'source/loadGear',
-        data: "",
-        type: 'GET',
-        success: function (output) {
-            var magicItemList = [];
-            var storeContents = output.split("###");
-            var rowCount = 0;
-            var storeCount;
-            //Minus 1 for the magic items at the end
-            for (storeCount = 0; storeCount < storeContents.length - 1; storeCount++) {
-                var storeTable = buildNewStoreTable(storeCount);
-                rowCount = 0;
-                var set = storeContents[storeCount].split("\r\n");
-                if (storeCount > 0)
-                    magicItemList = magicItemList.concat(set);
-                for (var itemCount = 0; itemCount < set.length; itemCount++) {
-                    if (Math.floor((Math.random() * 100) + 1) <= ITEM_CHANCE_COUNT[storeCount * 2]) {
-                        var row = storeTable.insertRow(rowCount + 1);
-                        rowCount++;
-                        var item = set[itemCount].split(";");
-                        row.insertCell(0).innerHTML = item[0];
-                        row.insertCell(1).innerHTML = item[1];
-                        row.insertCell(2).innerHTML = Math.floor((Math.random() * ITEM_CHANCE_COUNT[storeCount * 2 + 1]) + 1);
-                    }
-                }
-            }
-
-            //Magic Items
-            magicItemList = magicItemList.concat(storeContents[storeContents.length - 1].split("\r\n"));
-            var storeTable = buildNewStoreTable(storeCount);
-            rowCount = 0;
-            //get from the array, then look how long the split is >2 then cost is third
-            for (var numOfMagicItems = 0; numOfMagicItems < ITEM_CHANCE_COUNT[7]; numOfMagicItems++) {
-                if (Math.floor((Math.random() * 100) + 1) <= ITEM_CHANCE_COUNT[6]) {
-                    var row = storeTable.insertRow(rowCount + 1);
-                    rowCount++;
-                    var itemNumber = Math.floor((Math.random() * (magicItemList.length - 1)) + 1);
-                    var item = magicItemList[itemNumber].split(";");
-                    var itemBoost;
-                    var itemCost;
-                    var itemName;
-                    if (item.length > 2) {
-                        itemName = item[0];
-                        itemBoost = Math.floor((Math.random() * item[1]) + 1);
-                        if (item[1] > 1) {
-                            itemName = itemName + " +" + itemBoost;
-                        }
-                        var itemCostArray = item[2].split(",");
-                        var itemCost = itemCostArray[itemBoost - 1];
-                    } else {
-                        itemBoost = Math.floor((Math.random() * 5) + 1);
-                        itemName = item[0] + " +" + itemBoost;
-                        itemCost = parseInt(item[1]) * MAGIC_ITEM_COST_MODIFIER[itemBoost - 1];
-                    }
-                    row.insertCell(0).innerHTML = itemName;
-                    row.insertCell(1).innerHTML = itemCost;
-                    row.insertCell(2).innerHTML = Math.floor((Math.random() * 2) + 1);
-                }
-            }
-        },
-        error: function (error) {
-            updateAlert("error!", 0);
-        }
-    });
-}
-
-function clearStore() {
-    var myNode = document.getElementById("storeDiv");
-    while (myNode.firstChild) {
-        myNode.removeChild(myNode.firstChild);
     }
 }
 
@@ -216,8 +136,8 @@ function cleanNames(characterNames) {
 }
 
 function getCharacterRow(table, name) {
-    if (table.rows.length > 1) {
-        for (var a = 1; a < table.rows.length; a++) {
+    if (table.rows.length > 0) {
+        for (var a = 0; a < table.rows.length; a++) {
             if (table.rows[a].cells[0] !== undefined && table.rows[a].cells[0].innerHTML === name) {
                 return table.rows[a];
             }
@@ -240,14 +160,14 @@ function loadChar(characterName) {
             }
             var characterTable = document.getElementById("characterTableBody");
             var row = getRowFromTable(characterTable, characterName);
-            for (var a = 0; a < stats.length; a++) {
+            for (var a = 0; a < stats.length - 1; a++) {
                 row.insertCell(a).innerHTML = stats[a].substring(stats[a].indexOf(":") + 1);
             }
-            showAllHidden();
+            //showAllHidden();
             turnOffColumns();
         },
         error: function (error) {
-            updateAlert("error! " + error.toString(),0);
+            updateAlert("error! " + error.toString(), 0);
         }
     });
 }
@@ -255,7 +175,7 @@ function loadChar(characterName) {
 function getRowFromTable(characterTable, characterName) {
     var row = getCharacterRow(characterTable, characterName);
     if (row === null) {
-        row = characterTable.insertRow(1);
+        row = characterTable.insertRow(0);
     } else {
         while (row.cells.length > 0) {
             row.deleteCell(0);
@@ -265,7 +185,7 @@ function getRowFromTable(characterTable, characterName) {
 }
 
 function showAllHidden() {
-    $(':hidden').show();
+    $('#characterTable :hidden').show();
 }
 
 function turnOffColumns() {
@@ -274,13 +194,16 @@ function turnOffColumns() {
     }
 }
 
+
+
+
 function loadTable(stats) {
     var table = document.getElementById('characterTable');
     var tHead = table.createTHead();
     var row = tHead.insertRow(0);
     var checkBoxTable = document.getElementById('checkboxTable');
     var checkboxRow = checkBoxTable.insertRow(0);
-    for (var headerCount = 0; headerCount < stats.length; headerCount++) {
+    for (var headerCount = 0; headerCount < stats.length - 1; headerCount++) {
         var cell = row.insertCell(headerCount);
         var name = stats[headerCount].substr(0, stats[headerCount].indexOf(":"));
         CHARACTER_COLUMNS.push(name);
@@ -311,6 +234,7 @@ function loadTable(stats) {
             $('#characterTable td:nth-child(' + columnIndex + '), #characterTable th:nth-child(' + columnIndex + ')').hide();
         }
     });
+    $("#checkBoxForm").toggle();
 }
 
 function capitalizeFirstLetter(string) {
@@ -363,13 +287,13 @@ function save() {
 
 function saveCharacterSheet() {
     if (document.forms[0].name.value !== "") {
-        
+
         var userData = {};
         $("form#character :input").each(function () {
-            var input = $(this); 
+            var input = $(this);
             userData[input[0].id] = input[0].value;
         });
-        
+
         $.ajax({
             url: 'source/save',
             data: userData,
@@ -487,26 +411,6 @@ function closeStore() {
     socket.emit('dm-storeClose', '');
 }
 
-function loadStoreContents(storeContents) {
-    var storeCount = 0;
-    var tableName = storeContents[0][0];
-    var storeTable = buildNewStoreTable(storeCount);
-    var rowCount = 0;
-    for (var index = 0; index < storeContents.length; index++) {
-        if (tableName !== storeContents[index][0]) {
-            tableName = storeContents[index][0];
-            storeCount++;
-            storeTable = buildNewStoreTable(storeCount);
-            rowCount = 0;
-        }
-        var row = storeTable.insertRow(rowCount + 1);
-        rowCount++;
-        row.insertCell(0).innerHTML = storeContents[index][1];
-        row.insertCell(1).innerHTML = storeContents[index][2];
-        row.insertCell(2).innerHTML = storeContents[index][3];
-    }
-}
-
 function updateCharacterData(updateData) {
     var row = getCharacterRow(document.getElementById("characterTable"), updateData[0]);
     if (row !== null) {
@@ -515,17 +419,17 @@ function updateCharacterData(updateData) {
 }
 
 function updateAlert(message, type) {
-    
-	document.getElementById("calloutContent").innerHTML = "<p>" + message + "</p>";
-	var callout = document.getElementById("callout");
-	callout.style.display = "";
-	switch (type) {
+
+    document.getElementById("calloutContent").innerHTML = "<p>" + message + "</p>";
+    var callout = document.getElementById("callout");
+    callout.style.display = "";
+    switch (type) {
         case 0:
-		    callout.className = "alert callout";
-		    break;
-		case 1:
-		    callout.className = "success callout";
-		    break;
-		}
-		
+            callout.className = "alert callout";
+            break;
+        case 1:
+            callout.className = "success callout";
+            break;
+    }
+
 }
