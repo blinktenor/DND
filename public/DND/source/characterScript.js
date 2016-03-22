@@ -8,14 +8,6 @@ socket.on('dm-storeClose', function (empty) {
     clearStore();
 });
 
-$('#character').change(function (e) {
-    if (loadedChar !== null) {
-        if ("name" !== e.target.id) {
-            socket.emit('player-update', [loadedChar, e.target.id, e.target.value]);
-        }
-    }
-});
-
 /**
  * Preload the character if the user entered the name in the url
  */
@@ -24,6 +16,14 @@ $(document).ready(function () {
     if (path.indexOf('character.html') < 0) {
         load(path.substr(5));
     }
+    
+    $('#character').change(function (e) {
+    if (loadedChar !== null) {
+        if ("name" !== e.target.id) {
+            socket.emit('player-update', [loadedChar, e.target.id, e.target.value]);
+        }
+    }
+});
 });
 
 /**

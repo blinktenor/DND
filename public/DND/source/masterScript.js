@@ -1,5 +1,37 @@
-$("#checkBoxToggle").click(function () {
-    $("#checkBoxForm").toggle();
+var ITEM_CHANCE_COUNT = [100, 100, 100, 3, 95, 20, 5, 25];
+
+var MAGIC_ITEMS_COUNT_CHANCE = [5, 25];
+
+var MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
+
+var socket = io();
+
+/**
+ * Document start, check what players are in, and assign the checkbox function
+ * @param {type} param
+ */
+$(document).ready(function () {
+    
+    socket.emit('player-check');
+    
+    $("#checkBoxToggle").click(function () {
+        $("#checkBoxForm").toggle();
+    });
+});
+
+socket.on('dm-login', function (name) {
+    loadChar(name);
+});
+socket.on('players', function (names) {
+    for (var a = 0; a < names.length; a++) {
+        loadChar(names[a]);
+    }
+});
+socket.on('dm-disconnect', function (name) {
+    removeCharacterRow(name);
+});
+socket.on('dm-player-update', function (updateData) {
+    updateCharacterData(updateData);
 });
 
 /**
@@ -73,4 +105,17 @@ function loadStore() {
             updateAlert("error!", 0);
         }
     });
+}
+
+/**
+ * Deletes the contents of the store div and sets the message that the store is closed.
+ * 
+ * @returns {undefined}
+ */
+function clearStore() {
+    var myNode = document.getElementById("storeDiv");
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+    myNode.innerHTML = "Store is closed!";
 }
