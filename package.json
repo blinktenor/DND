@@ -18,6 +18,7 @@
     "serve-favicon": "~2.3.0",
 	"dateformat": "~1.0.12",
     "ejs": "~2.4.1",
-    "socket.io": "^1.4.5"
+    "socket.io": "^1.4.5",
+	"psd" : "~3.1.0"
   }
 }
