@@ -18,13 +18,7 @@ Type "nodemon /bin/www" and your server will be up and running!
 
 
 ## Usage
-Navigate to localhost/DND/characterSheet.html.
-
-Once on this page, enter your characters information, and click save. This will create a CHARACTERNAME.char.txt file for your character. When you want to return and load your character, put in that characters name and click load. 
-
-Navigate to localhost/DND/characterSheet.html.
-
-Once on this page, a drop down will populate for the character sheets that have been created. Select the names from the list you would like to see, then click load. The table will then populate with that character. If you would like to reload, either select that character again and click load, or click reload all. There is also a dice roller; Select the number of sides to the dice, and select how many dice with that many sides to roll, then click roll. The results will show to the right. There is also a section to store notes as you go along.
+See the wiki for documentation
 
 ## Contributing
 1. Fork it!
