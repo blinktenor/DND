@@ -6,18 +6,40 @@ var MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
 
 var socket = io();
 
+
 /**
  * Document start, check what players are in, and assign the checkbox function
  * @param {type} param
  */
 $(document).ready(function () {
-    
+
     socket.emit('player-check');
-    
+
+    /*
+     * These functions need to be added once the document is ready, otherwise they will be overwritten.
+     */
+
+    /**
+     * Adds the click to the checkbox toggle button
+     */
     $("#checkBoxToggle").click(function () {
         $("#checkBoxForm").toggle();
     });
+
+    /**
+     * Handles the event when the dm uploads an image through the iframe. This event is called when it returns
+     * @param {type} param
+     */
+    $("#uploadTrg").load(function (response) {
+        var alertStatus = 1;
+        updateAlert("File Uploaded!", alertStatus);
+        populatePsdDropdown();
+    });
+
+    populatePsdDropdown();
 });
+
+
 
 socket.on('dm-login', function (name) {
     loadChar(name);
@@ -118,4 +140,75 @@ function clearStore() {
         myNode.removeChild(myNode.firstChild);
     }
     myNode.innerHTML = "Store is closed!";
+}
+
+/**
+ * Pings the server to get a list of the folders created from psd files
+ */
+function populatePsdDropdown() {
+    $.ajax({
+        url: 'source/psdFolders',
+        data: "",
+        type: 'GET',
+        success: function (output) {
+            var folders = output.split("~");
+            var innerHTML = "";
+            for (var folderPos = 0; folderPos < folders.length; folderPos++) {
+                innerHTML += "<li id='folder" + folders[folderPos] + "'><a onclick='loadPsdImages(\"" + folders[folderPos] + "\")'>" + folders[folderPos] + "</a></li>";
+            }
+            document.getElementById("psdDropdown").innerHTML = innerHTML;
+        },
+        error: function (error) {
+            updateAlert(error, 0);
+        }
+    });
+}
+
+/**
+ * Loads the psd images from a folder given
+ */
+function loadPsdImages(folder) {
+    $.ajax({
+        url: 'source/psdImages',
+        data: {"folder": folder},
+        type: 'POST',
+        success: function (output) {
+            var files = output.split("~");
+            var innerHTML = "<li id='folder" + folder + "'><a onclick='loadPsdImages(\"" + folder + "\")'>" + folder + "</a><ul class='menu'>";
+            for (var filePos = 0; filePos < files.length; filePos++) {
+                innerHTML += "<li id='folder" + files[filePos] + "'><a onclick='document.getElementById(\"mapImage\").src=\"../DND/images/master/" + folder + "/" + files[filePos] + "\"'>" + files[filePos] + "</a></li>";
+            }
+            innerHTML += "</ul></li>";
+            document.getElementById("folder" + folder).innerHTML = innerHTML;
+        },
+        error: function (error) {
+            updateAlert(error, 0);
+        }
+    });
+}
+
+/**
+ * Gather the image source from the image shown, then send that to the player so they have no context of the map name or current image number
+ * @returns {undefined}
+ */
+function pushMapToPlayers() {
+
+    // Get on screen image
+    var screenImage = $("#mapImage");
+
+    // Create new offscreen image to test
+    var theImage = new Image();
+    theImage.src = screenImage.attr("src");
+
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    var img = document.getElementById('mapImage');
+    canvas.width = theImage.width;
+    canvas.height = theImage.height;
+    context.drawImage(img, 0, 0);
+
+    var dataURL = canvas.toDataURL("image/png");
+
+    dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    socket.emit('map', dataURL);
 }

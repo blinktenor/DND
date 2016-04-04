@@ -17,8 +17,14 @@
     </head>
 
     <body>
-        <div class="row">
-            <div class="large-12 columns">&nbsp;</div>
+        <div class="large-12 columns">
+            <div id="callout" class="callout" style="display:none;" data-closable>
+                <div id="calloutContent">
+                </div>
+                <button class="close-button" aria-label="Dismiss Notification" type="button" data-close>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         </div>
         <div class="row">
             <div class="large-4 medium-4 columns">
@@ -39,6 +45,7 @@
                     <li class="tabs-title"><a href="#noteTab">Notes</a></li>
                     <li class="tabs-title"><a href="#mapTab">Map</a></li>
                     <li class="tabs-title"><a href="#storeTab">Store</a></li>
+                    <li class="tabs-title"><a href="#diceRoller">Dice Roller</a></li>
                 </ul>
             </div>
             <div class="medium-10 columns">
@@ -69,8 +76,20 @@
                     </div>
                     <div class="tabs-panel" id="mapTab">
                         <div class="row">
-                            <div class="medium-3 columns">
-                                Coming Soon!
+                            <div class="medium-12 columns">
+                                <iframe id="uploadTrg" name="uploadTrg" height="0" width="0" frameborder="0" scrolling="yes"></iframe>
+                                <form id="psdForm" action="/DND/source/psdUpload" method="post" enctype="multipart/form-data"  target="uploadTrg">
+                                    File: <input type="file" name="file">
+                                    <a class="button" onclick="document.getElementById('psdForm').submit();" id="submitBtn"> Submit </a>
+                                </form>
+                            </div>
+                            <div class="medium-12 columns">
+                                <ul id="psdDropdown" class="dropdown menu" data-dropdown-menu>
+                                </ul>
+                                <img id="mapImage" />
+                            </div>
+                            <div class="medium-12 columns">
+                                <a class="button" onclick="pushMapToPlayers()"> Push to players </a>
                             </div>
                         </div>
                         &nbsp;
@@ -111,6 +130,25 @@
                         </div>
                         <a class="button" onclick="pushStore()" />Push Store</a>
                         <a class="button" onclick="closeStore()" />Close Store</a>
+                    </div>
+                    <div class="tabs-panel" id="diceRoller">
+                        <form id="diceRoller">
+                            Sides  
+                            <select id="diceSides">
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="6">6</option>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="20">20</option>
+                            </select>
+                            Number of Rolls
+                            <input id="numRolls"/>
+                            <a class="button" onclick="rollDice()" >Roll </a>
+                            Results
+                            <input id="result" />
+                        </form>
                     </div>
                 </div>
             </div>

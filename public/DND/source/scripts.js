@@ -144,6 +144,8 @@ function loadChar(characterName) {
         data: {"name": characterName},
         type: 'POST',
         success: function (data) {
+            //cleaning bad data
+            data = data.replace(":~", "");
             //Need to see if they are already in the table
             var stats = data.split("~");
             if (!tableLoaded) {
@@ -153,7 +155,9 @@ function loadChar(characterName) {
             var characterTable = document.getElementById("characterTableBody");
             var row = getRowFromTable(characterTable, characterName);
             for (var a = 0; a < stats.length - 1; a++) {
-                row.insertCell(a).innerHTML = stats[a].substring(stats[a].indexOf(":") + 1);
+//                if (stats[a].substr(0, stats[a].indexOf(":")) !== "") {
+                    row.insertCell(a).innerHTML = stats[a].substring(stats[a].indexOf(":") + 1);
+//                }
             }
             //showAllHidden();
             turnOffColumns();
@@ -198,20 +202,22 @@ function loadTable(stats) {
     for (var headerCount = 0; headerCount < stats.length - 1; headerCount++) {
         var cell = row.insertCell(headerCount);
         var name = stats[headerCount].substr(0, stats[headerCount].indexOf(":"));
-        CHARACTER_COLUMNS.push(name);
-        name = capitalizeFirstLetter(name);
-        cell.innerHTML = name;
-        var checkBoxCell = checkboxRow.insertCell(headerCount % CHECK_BOX_COLUMNS);
-        var checked = "checked";
-        if (DEFAULT_COLUMNS_OFF.indexOf(name) > -1) {
-            checked = "";
-            COLUMNS_TO_DISABLE.push(headerCount + 1);
-        }
-        checkBoxCell.innerHTML = "<input type='checkbox' name='checkbox' value='" + (headerCount + 1) + "' " +
-                checked + "/>" + name;
-        if ((headerCount + 1) % CHECK_BOX_COLUMNS === 0) {
-            checkboxRow = checkBoxTable.insertRow(-1);
-        }
+        //if (name !== "") {
+            CHARACTER_COLUMNS.push(name);
+            name = capitalizeFirstLetter(name);
+            cell.innerHTML = name;
+            var checkBoxCell = checkboxRow.insertCell(headerCount % CHECK_BOX_COLUMNS);
+            var checked = "checked";
+            if (DEFAULT_COLUMNS_OFF.indexOf(name) > -1) {
+                checked = "";
+                COLUMNS_TO_DISABLE.push(headerCount + 1);
+            }
+            checkBoxCell.innerHTML = "<input type='checkbox' name='checkbox' value='" + (headerCount + 1) + "' " +
+                    checked + "/>" + name;
+            if ((headerCount + 1) % CHECK_BOX_COLUMNS === 0) {
+                checkboxRow = checkBoxTable.insertRow(-1);
+            }
+        //}
     }
     $('#checkBoxForm :checkbox').click(function () {
         var columnIndex = parseInt(this.value);
@@ -257,7 +263,11 @@ function save() {
         var characterForm = document.getElementById("character");
         for (var a = 0; a < characterForm.elements.length; a++) {
             if (characterForm.elements[a].type !== "button") {
-                userData[characterForm.elements[a].id] = characterForm.elements[a].value;
+                if (characterForm.elements[a].id !== "") {
+                    userData[characterForm.elements[a].id] = characterForm.elements[a].value;
+                } else {
+                    console.log(characterForm.elements[a]);
+                }
             }
         }
 
@@ -331,7 +341,7 @@ function load(name)
 function setValue(element, index, array) {
     var data = element.split(":");
     var update = document.getElementById(data[0]);
-    if (update !== null) {
+    if (update !== null && update !== "") {
         update.value = element.substring(element.indexOf(":") + 1);
     }
 }

@@ -8,6 +8,16 @@ socket.on('dm-storeClose', function (empty) {
     clearStore();
 });
 
+socket.on("new-map", function (imageData) {
+    var mapDiv = document.getElementById('mapDiv');
+    mapDiv.innerHTML = '';
+    if (imageData) {
+        var image = document.createElement('img');
+        image.src = imageData;
+        mapDiv.appendChild(image);
+    }
+});
+
 /**
  * Preload the character if the user entered the name in the url
  */
@@ -16,14 +26,14 @@ $(document).ready(function () {
     if (path.indexOf('character.html') < 0) {
         load(path.substr(5));
     }
-    
+
     $('#character').change(function (e) {
-    if (loadedChar !== null) {
-        if ("name" !== e.target.id) {
-            socket.emit('player-update', [loadedChar, e.target.id, e.target.value]);
+        if (loadedChar !== null) {
+            if ("name" !== e.target.id) {
+                socket.emit('player-update', [loadedChar, e.target.id, e.target.value]);
+            }
         }
-    }
-});
+    });
 });
 
 /**

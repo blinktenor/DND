@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
 
+//var nomo = require('node-monkey').start();
+
 var app = express();
 
 //var server = http.createServer(app).listen(3001);
@@ -25,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
+//app.use(multer({ dest: './uploads/'}));
 
 app.use('/', routes);
 
@@ -36,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  console.log(req.connection.remoteAddress);
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -49,8 +53,7 @@ if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
-      message: err.message,
-      error: err
+      message: err.message
     });
   });
 }
