@@ -10,6 +10,7 @@
     "tests"
   ],
   "dependencies": {
-    "foundation-sites": "^6.2.1"
+    "angular": "^1.5.5",
+    "foundation-apps": "^1.2.0"
   }
 }
