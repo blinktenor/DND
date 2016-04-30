@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "body-parser": "~1.13.2",
+    "busboy": "~0.2.13",
     "cookie-parser": "~1.3.5",
     "dateformat": "~1.0.12",
     "debug": "~2.2.0",
@@ -15,13 +16,11 @@
     "hjs": "~0.0.6",
     "less-middleware": "1.0.x",
     "morgan": "~1.6.1",
+    "multer": "1.1.0",
+    "node-monkey": "~0.2.16",
+    "node-png": "~0.4.3",
+    "psd": "~3.1.0",
     "serve-favicon": "~2.3.0",
-	"dateformat": "~1.0.12",
-    "ejs": "~2.4.1",
-    "socket.io": "^1.4.5",
-    "psd" : "~3.1.0",
-    "node-png" : "~0.4.3",
-    "busboy" : "~0.2.13",
-    "node-monkey" : "~0.2.16"
+    "socket.io": "^1.4.5"
   }
 }
