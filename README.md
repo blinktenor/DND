@@ -34,3 +34,6 @@ TODO: Write history
 Coding and design: Blinktenor
 
 Character Sheet image: https://simplednd.wordpress.com/
+
+Henry Thach - For debugging and direction guidance
+https://github.com/henrythach
