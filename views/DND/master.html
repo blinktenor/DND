@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" ng-app="dm">
     <head>
         <title>Master Page</title>
         <meta charset="UTF-8">
@@ -12,11 +12,16 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
+        <!--
         <script src="source/scripts.js"></script>
         <script src="source/masterScript.js"></script>
+        -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="source/dmModule.js"></script>
     </head>
 
     <body>
+        <div ng-controller="dmController">
         <div class="large-12 columns">
             <div id="callout" class="callout" style="display:none;" data-closable>
                 <div id="calloutContent">
@@ -134,20 +139,16 @@
                     <div class="tabs-panel" id="diceRoller">
                         <form id="diceRoller">
                             Sides  
-                            <select id="diceSides">
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="6">6</option>
-                                <option value="8">8</option>
-                                <option value="10">10</option>
-                                <option value="12">12</option>
-                                <option value="20">20</option>
+                            <select id="diceSides" 
+                                    ng-model="diceSides" 
+                                    ng-init="diceSides = diceSideOptions[0]"
+                                    ng-options="o as o for o in diceSideOptions">
                             </select>
                             Number of Rolls
-                            <input id="numRolls"/>
-                            <a class="button" onclick="rollDice()" >Roll </a>
+                            <input id="numRolls" ng-model="numRolls"/>
+                            <a class="button" ng-click="rollDice()" >Roll </a>
                             Results
-                            <input id="result" />
+                            <input id="result" ng-model="result"/>
                         </form>
                     </div>
                 </div>
@@ -157,7 +158,6 @@
         <script src="js/vendor/what-input.min.js"></script>
         <script src="js/foundation.min.js"></script>
         <script src="js/app.js"></script>
-        <script>
-        </script>
+        </div>
     </body>
 </html>
