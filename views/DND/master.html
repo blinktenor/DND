@@ -16,7 +16,7 @@
         <script src="source/scripts.js"></script>
         <script src="source/masterScript.js"></script>
         -->
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
         <script src="source/dmModule.js"></script>
     </head>
 
@@ -124,7 +124,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div id="storeDiv" ng-if="storeTableData">
+                            <div id="storeDiv" ng-show="storeTableData">
                                 <table ng-repeat="(tableHeader,tableValue) in storeTableData">
                                     <caption>{{tableHeader}}</caption> 
                                     <thead>
