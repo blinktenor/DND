@@ -7,7 +7,7 @@
         $routeProvider.when('/dm', {
             templateUrl: 'app/dm/dm.html',
             controller: 'DMController'
-        })
+        });
     });
 
     dm.controller('DMController', function ($scope) {
@@ -31,7 +31,7 @@
         $scope.selectState = function (state) {
             $scope.state = state;
         };
-    })
+    });
 
     dm.controller('DiceRollerController', function ($scope) {
         $scope.diceSideOptions = [3, 4, 6, 8, 10, 12, 20];
