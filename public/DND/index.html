@@ -3,20 +3,29 @@
     <head>
         <title>Master Page</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="bower_components/foundation-apps/dist/css/foundation-apps.css">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
     </head>
-    <body ng-app="dnd">
-        <div class="grid-container" ng-view=""></div>
+    <body ng-app="dnd" layout="column">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <span>DND</span>
+                <!-- fill up the space between left and right area -->
+                <span flex></span>
+            </div>
+        </md-toolbar>
+        <div layout="column" flex ng-view="" ></div>
 
         <!-- Vendor -->
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
-        <script src="bower_components/foundation-apps/dist/js/foundation-apps.js"></script>
-        <script src="bower_components/foundation-apps/dist/js/foundation-apps-templates.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
+        <script src="bower_components/angular-messages/angular-messages.js"></script>
+        <script src="bower_components/angular-aria/angular-aria.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-material/angular-material.js"></script>
 
         <!-- App -->
+        <script src="/socket.io/socket.io.js"></script>
         <script src="app/dnd.js"></script>
         <script src="app/dm/dm.js"></script>
         <script src="app/character/character.js"></script>
