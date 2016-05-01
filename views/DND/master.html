@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" ng-app="dm">
     <head>
         <title>Master Page</title>
         <meta charset="UTF-8">
@@ -12,152 +12,161 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
+        <!--
         <script src="source/scripts.js"></script>
         <script src="source/masterScript.js"></script>
+        -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+        <script src="source/dmModule.js"></script>
     </head>
 
     <body>
-        <div class="large-12 columns">
-            <div id="callout" class="callout" style="display:none;" data-closable>
-                <div id="calloutContent">
+        <div ng-controller="dmController">
+            <div class="large-12 columns">
+                <div id="callout" class="callout" style="display:none;" data-closable>
+                    <div id="calloutContent">
+                    </div>
+                    <button class="close-button" aria-label="Dismiss Notification" type="button" data-close>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <button class="close-button" aria-label="Dismiss Notification" type="button" data-close>
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
-        </div>
-        <div class="row">
-            <div class="large-4 medium-4 columns">
-                <label> Adventure Name </label>
-                <input id="adventureName" />
-            </div>        
-            <div class="large-4 medium-4 columns">
-                <a class="medium button" onclick="saveNotes();">Save</a>
+            <div class="row">
+                <div class="large-4 medium-4 columns">
+                    <label> Adventure Name </label>
+                    <input id="adventureName" />
+                </div>        
+                <div class="large-4 medium-4 columns">
+                    <a class="medium button" onclick="saveNotes();">Save</a>
+                </div>
+                <div class="large-4 medium-4 columns">
+                    <a class="medium button" onclick="loadNotes();">Load</a>
+                </div>
             </div>
-            <div class="large-4 medium-4 columns">
-                <a class="medium button" onclick="loadNotes();">Load</a>
-            </div>
-        </div>
-        <div class="row collapse">
-            <div class="medium-2 columns">
-                <ul class="tabs vertical" id="example-vert-tabs" data-tabs>
-                    <li class="tabs-title is-active"><a href="#characterTab" aria-selected="true">Characters</a></li>
-                    <li class="tabs-title"><a href="#noteTab">Notes</a></li>
-                    <li class="tabs-title"><a href="#mapTab">Map</a></li>
-                    <li class="tabs-title"><a href="#storeTab">Store</a></li>
-                    <li class="tabs-title"><a href="#diceRoller">Dice Roller</a></li>
-                </ul>
-            </div>
-            <div class="medium-10 columns">
-                <div class="tabs-content vertical" data-tabs-content="example-vert-tabs">
-                    <div class="tabs-panel is-active" id="characterTab">
-                        <div class="medium-12 columns">
-                            <div id="characterDiv"> 
-                                <table border="1" id="characterTable">
-                                    <tbody id="characterTableBody">
-                                    <tbody>
-                                </table>
-                            </div>
-                            <a class="medium button" id="checkBoxToggle">Toggle Checkboxes</a>
-                            <form id="checkBoxForm">
-                                <div id="checkboxes">
-                                    <table border="0" id="checkboxTable">
+            <div class="row collapse">
+                <div class="medium-2 columns">
+                    <ul class="tabs vertical" id="example-vert-tabs" data-tabs>
+                        <li class="tabs-title is-active"><a href="#characterTab" aria-selected="true">Characters</a></li>
+                        <li class="tabs-title"><a href="#noteTab">Notes</a></li>
+                        <li class="tabs-title"><a href="#mapTab">Map</a></li>
+                        <li class="tabs-title"><a href="#storeTab">Store</a></li>
+                        <li class="tabs-title"><a href="#diceRoller">Dice Roller</a></li>
+                    </ul>
+                </div>
+                <div class="medium-10 columns">
+                    <div class="tabs-content vertical" data-tabs-content="example-vert-tabs">
+                        <div class="tabs-panel is-active" id="characterTab">
+                            <div class="medium-12 columns">
+                                <div id="characterDiv"> 
+                                    <table border="1" id="characterTable">
+                                        <tbody id="characterTableBody">
+                                        <tbody>
                                     </table>
                                 </div>
-                            </form>
-                        </div>
-                        &nbsp;
-                    </div>
-                    <div class="tabs-panel" id="noteTab">
-                        <div class="medium-12 columns">
-                            <textarea class="dmNotes" id="dmNotes" rows="30"></textarea>
-                        </div>
-                        &nbsp;
-                    </div>
-                    <div class="tabs-panel" id="mapTab">
-                        <div class="row">
-                            <div class="medium-12 columns">
-                                <iframe id="uploadTrg" name="uploadTrg" height="0" width="0" frameborder="0" scrolling="yes"></iframe>
-                                <form id="psdForm" action="/DND/source/psdUpload" method="post" enctype="multipart/form-data"  target="uploadTrg">
-                                    File: <input type="file" name="file">
-                                    <a class="button" onclick="document.getElementById('psdForm').submit();" id="submitBtn"> Submit </a>
+                                <a class="medium button" id="checkBoxToggle">Toggle Checkboxes</a>
+                                <form id="checkBoxForm">
+                                    <div id="checkboxes">
+                                        <table border="0" id="checkboxTable">
+                                        </table>
+                                    </div>
                                 </form>
                             </div>
+                            &nbsp;
+                        </div>
+                        <div class="tabs-panel" id="noteTab">
                             <div class="medium-12 columns">
-                                <ul id="psdDropdown" class="dropdown menu" data-dropdown-menu>
-                                </ul>
-                                <img id="mapImage" />
+                                <textarea class="dmNotes" id="dmNotes" rows="30"></textarea>
                             </div>
-                            <div class="medium-12 columns">
-                                <a class="button" onclick="pushMapToPlayers()"> Push to players </a>
+                            &nbsp;
+                        </div>
+                        <!--
+                            MAP TAB
+                        -->
+                        <div class="tabs-panel" id="mapTab">
+                            <div class="row">
+                                <div class="medium-12 columns">
+                                    <iframe id="uploadTrg" name="uploadTrg" height="0" width="0" frameborder="0" scrolling="yes"></iframe>
+                                    <form id="psdForm" action="/DND/source/psdUpload" method="post" enctype="multipart/form-data"  target="uploadTrg">
+                                        File: <input type="file" name="file">
+                                        <a class="button" onclick="document.getElementById('psdForm').submit();" id="submitBtn"> Submit </a>
+                                    </form>
+                                </div>
+                                <div class="medium-12 columns">
+                                    <ul id="psdDropdown" class="dropdown menu" data-dropdown-menu>
+                                    </ul>
+                                    <img id="mapImage" />
+                                </div>
+                                <div class="medium-12 columns">
+                                    <a class="button" onclick="pushMapToPlayers()"> Push to players </a>
+                                </div>
                             </div>
+                            &nbsp;
                         </div>
-                        &nbsp;
-                    </div>
-                    <div class="tabs-panel" id="storeTab">
-                        <div id="controlDiv">
-                            <a class="button" onclick="loadStore()" />Load Store</a>
-                            <br>
-                            <table class="controlTable">
-                                <tr class="controlTable">
-                                    <th></th>
-                                    <th>%Chance</th>
-                                    <th>#Appearing</th>
-                                </tr>
-                                <tr class="controlTable">
-                                    <td>Gear</td>
-                                    <td><input type="number" class="mod" id="mod0" value="85" /></td>
-                                    <td><input type="number" class="mod" id="mod1" value="20" /></td>
-                                </tr>
-                                <tr class="controlTable">
-                                    <td>Armor</td>
-                                    <td><input type="number" class="mod" id="mod2" value="85"/></td>
-                                    <td><input type="number" class="mod" id="mod3" value="5"/></td>
-                                </tr>
-                                <tr class="controlTable">
-                                    <td>Weapons</td>
-                                    <td><input type="number" class="mod" id="mod4" value="85"/></td>
-                                    <td><input type="number" class="mod" id="mod5" value="5"/></td>
-                                </tr>
-                                <tr class="controlTable">
-                                    <td>Magic</td>
-                                    <td><input type="number" class="mod" id="mod6" value="25"/></td>
-                                    <td><input type="number" class="mod" id="mod7" value="5"/></td>
-                                </tr>
-                            </table>
+                        <!--
+                            STORE TAB
+                        -->
+                        <div class="tabs-panel" id="storeTab">
+                            <div id="controlDiv">
+                                <a class="button" ng-click="loadStore()" />Load Store</a>
+                                <br>
+                                <table class="controlTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="controlTable" ng-repeat="key in notSorted(controlCols)" ng-init="value = controlCols[key]">{{value}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="controlTable" ng-repeat="row in controlData">
+                                            <td>{{row.Name}}</td>
+                                            <td><input type="number" class="mod" ng-model="row.Chance"/></td>
+                                            <td><input type="number" class="mod" ng-model="row.NumberAppearing"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="storeDiv" ng-show="storeTableData">
+                                <table ng-repeat="(tableHeader,tableValue) in storeTableData">
+                                    <caption>{{tableHeader}}</caption> 
+                                    <thead>
+                                        <tr>
+                                            <th ng-repeat="columnKey in getKeys(tableValue[0])">{{columnKey}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="tableRow in tableValue">
+                                            <td ng-repeat="value in tableRow">{{value}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a class="button" ng-click="pushStore()" />Push Store</a>
+                            <a class="button" ng-click="closeStore()" />Close Store</a>
                         </div>
-                        <div id="storeDiv">
+                        <!--
+                            DICE ROLLING TAB
+                        -->
+                        <div class="tabs-panel" id="diceRoller">
+                            <form id="diceRoller">
+                                Sides  
+                                <select id="diceSides" 
+                                        ng-model="diceSides" 
+                                        ng-init="diceSides = diceSideOptions[0]"
+                                        ng-options="o as o for o in diceSideOptions">
+                                </select>
+                                Number of Rolls
+                                <input id="numRolls" ng-model="numRolls"/>
+                                <a class="button" ng-click="rollDice()" >Roll </a>
+                                Results
+                                <input id="result" ng-model="result"/>
+                            </form>
                         </div>
-                        <a class="button" onclick="pushStore()" />Push Store</a>
-                        <a class="button" onclick="closeStore()" />Close Store</a>
-                    </div>
-                    <div class="tabs-panel" id="diceRoller">
-                        <form id="diceRoller">
-                            Sides  
-                            <select id="diceSides">
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="6">6</option>
-                                <option value="8">8</option>
-                                <option value="10">10</option>
-                                <option value="12">12</option>
-                                <option value="20">20</option>
-                            </select>
-                            Number of Rolls
-                            <input id="numRolls"/>
-                            <a class="button" onclick="rollDice()" >Roll </a>
-                            Results
-                            <input id="result" />
-                        </form>
                     </div>
                 </div>
             </div>
+            <script src="js/vendor/jquery.min.js"></script>
+            <script src="js/vendor/what-input.min.js"></script>
+            <script src="js/foundation.min.js"></script>
+            <script src="js/app.js"></script>
         </div>
-        <script src="js/vendor/jquery.min.js"></script>
-        <script src="js/vendor/what-input.min.js"></script>
-        <script src="js/foundation.min.js"></script>
-        <script src="js/app.js"></script>
-        <script>
-        </script>
     </body>
 </html>
