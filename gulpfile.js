@@ -34,6 +34,7 @@ gulp.task('wiredep', function () {
 gulp.task('serve', ['wiredep'], function () {
     var options = {
         script: './bin/www',
+        watch: ['./routes/**/*', './views/**/*'],
         delayTime: 1,
         env: {
             'PORT': 3000,
@@ -75,8 +76,7 @@ function startBrowserSync() {
         logFileChanges: true,
         logLevel: 'debug',
         logPrefix: 'gulp-patterns',
-        notify: true,
-        reloadDelay: 500
+        notify: true
     };
     browserSync(options);
 }
