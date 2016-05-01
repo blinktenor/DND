@@ -83,7 +83,7 @@
         "no-process-env": "off",
         "no-process-exit": "off",
         "no-proto": "off",
-        "no-redeclare": "error",
+        "no-redeclare": "warn",
         "no-regex-spaces": "error",
         "no-restricted-globals": "off",
         "no-restricted-imports": "off",
@@ -104,7 +104,7 @@
         "no-trailing-spaces": "off",
         "no-this-before-super": "error",
         "no-throw-literal": "off",
-        "no-undef": "error",
+        "no-undef": "warn",
         "no-undef-init": "off",
         "no-undefined": "off",
         "no-unexpected-multiline": "error",
@@ -115,7 +115,7 @@
         "no-unsafe-finally": "off",
         "no-unused-expressions": "off",
         "no-unused-labels": "error",
-        "no-unused-vars": "error",
+        "no-unused-vars": "warn",
         "no-use-before-define": "off",
         "no-useless-call": "off",
         "no-useless-computed-key": "off",
@@ -219,6 +219,7 @@
     },
     "globals": {
         "$": true,
-        "io": true
+        "io": true,
+        "angular": true
     }
 }

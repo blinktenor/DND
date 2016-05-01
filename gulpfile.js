@@ -2,7 +2,7 @@ var gulp = require('gulp'),
     eslint = require('gulp-eslint');
 
 gulp.task('lint', function () {
-  gulp.src(['public/**/*.js'])
+  gulp.src(['public/DND/app/**/*.js'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
