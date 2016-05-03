@@ -11,21 +11,42 @@
     <md-content layout-padding flex>
         <div ng-switch on="state.id">
             <div ng-switch-when="characters" ng-controller="CharactersController">
-                <div id="characterDiv">
-                    <table border="1" id="characterTable">
-                        <tbody id="characterTableBody">
+                <div id="characterDiv" ng-show="characterTableData">
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th ng-repeat="columnKey in getKeys(characterTableData[0])">{{columnKey}}</th>
+                            </tr>
+                        </thead>
                         <tbody>
+                            <tr ng-repeat="character in characterTableData">
+                                <td ng-repeat="value in character">{{value}}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
-                <md-button class="md-raised md-primary" ng-click="toggleCheckboxes()">Push to players</md-button>
+                <md-button class="md-raised md-primary" ng-click="toggleCheckboxes()">Toggle Checkboxes</md-button>
                 <form id="checkBoxForm">
-                    <div id="checkboxes">
-                        <table border="0" id="checkboxTable">
+                    <div id="checkboxes" ng-show="characterTableCheckBoxes">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td ng-repeat="(columnName,value) in characterTableCheckBoxes">
+                                        <input type="checkbox" ng-model="value" value="{{value}}">{{columnName}}<br>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </form>
             </div>
             <div ng-switch-when="notes" ng-controller="NotesController">
+                <md-button class="md-raised md-primary" ng-click="saveNotes()">Save</md-button>
+                <md-button class="md-raised md-primary" ng-click="loadNotes()">Load</md-button>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Adventure Name</label>
+                    <input type="text" ng-model="adventureName"/>
+                </md-input-container>
                 <md-input-container class="md-block">
                     <label>Dungeon Master Notes</label>
                     <textarea ng-model="dmNotes" rows="30" md-select-on-focus></textarea>
@@ -84,8 +105,8 @@
                         <label>Sides</label>
                         <md-select ng-model="diceSides" ng-init="diceSides = diceSideOptions[0]">
                             <md-option ng-repeat="diceSideOption in diceSideOptions"
-                                       value="{{ diceSideOption }}">
-                                {{ diceSideOption }}
+                                       value="{{ diceSideOption}}">
+                                {{ diceSideOption}}
                             </md-option>
                         </md-select>
                     </md-input-container>
@@ -95,7 +116,7 @@
                     </md-input-container>
                 </div>
                 <md-button class="md-raised md-primary" ng-click="rollDice()">Roll</md-button>
-                <span ng-if="result">Results: {{ result }}</span>
+                <span ng-if="result">Results: {{ result}}</span>
             </div>
         </div>
     </md-content>

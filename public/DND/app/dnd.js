@@ -4,7 +4,9 @@
   var dnd = angular.module('dnd', [
     'ngRoute',
     'ngMaterial',
-    'dm'
+//    'socket',
+    'dm',
+    'character'
   ]);
 
   dnd.config(function ($routeProvider) {

@@ -1,0 +1,110 @@
+<div layout="row" flex>
+    <md-sidenav md-component-id="left"
+                md-is-locked-open="true">
+        <md-list>
+            <md-list-item ng-repeat="state in states" ng-click="selectState(state)">
+                <p ng-bind="state.title"></p>
+            </md-list-item>
+        </md-list>
+    </md-sidenav>
+    <md-divider></md-divider>
+    <md-content layout-padding flex>
+        <div ng-switch on="state.id">
+            <div ng-switch-when="details" ng-controller="DetailsController">
+                <label> Character Name </label>
+                <input id="name" ng-model="characterStats.name"/>
+                <md-button class="md-raised md-primary" ng-click="save();">Save</md-button>
+                <md-button class="md-raised md-primary" ng-click="load();">Load</md-button>
+                <label> Character Class </label>
+                <input  id="class" ng-model="characterStats.class" />
+                <label> Character Race </label>
+                <input  id="race" ng-model="characterStats.race"/>
+                <label> Level </label>
+                <input  id="level" ng-model="characterStats.level"/>
+                <label> Exp </label>
+                <input  id="exp" ng-model="characterStats.exp"/>
+            </div>
+            <div ng-switch-when="currentStats" ng-controller="CurrentStatsController">
+                <label> Character Armor </label>
+                <input class="armor statBox" id="armor" ng-model="characterStats.armor"/>
+                <label> Current Hit Points </label>
+                <input type="number" class="hp statBox" id="hp" ng-model="characterStats.hp"/>
+                <md-button class="md-raised md-primary" ng-click="change('hp')"></md-button>
+                <label> Current Intelligence Points </label>
+                <input type="number" class="currentIMp points statBox" id="iMp" ng-model="characterStats.imp"/>
+                <md-button class="md-raised md-primary" ng-click="change('iMp')" ></md-button>
+                <label> Current Wisdom Points </label>
+                <input type="number" class="currentWMp points statBox" id="wMp" ng-model="characterStats.wmp"/>
+                <md-button class="md-raised md-primary" ng-click="change('wMp')" ></md-button>
+            </div>
+            <div ng-switch-when="abilities" ng-controller="AbilitiesController">
+                <label> Hit Points </label>
+                <input id="hp" ng-model="characterStats.hitPoints"/>
+                <label> Strength </label>
+                <input id="strength" ng-model="characterStats.strength"/>
+                <label> Intelligence </label>
+                <input id="intelligence" ng-model="characterStats.intelligence"/>
+                <label> Wisdom </label>
+                <input id="wisdom" ng-model="characterStats.wisdom"/>
+                <label> Dexterity </label>
+                <input id="dexterity" ng-model="characterStats.dexterity"/>
+                <label> Constitution </label>
+                <input id="constitution" ng-model="characterStats.constitution"/>
+                <label> Charisma </label>
+                <input id="charisma" ng-model="characterStats.charisma"/>
+            </div>
+            <div ng-switch-when="equipment" ng-controller="EquipmentController">
+                <label> Primary Weapon </label>
+                <input id="primaryWeapon" ng-model="characterStats.primaryWeapon"/>
+                <label> Hit Bonus </label>
+                <input id="primaryHitBonus" ng-model="characterStats.primaryHitBonus" />
+                <label> Damage </label>
+                <input id="primaryDamage" ng-model="characterStats.primaryDamage"/>
+                <label> Secondary Weapon </label>
+                <input id="secondaryWeapon" ng-model="characterStats.secondaryWeapon"/>
+                <label> Hit Bonus </label>
+                <input id="secondaryHitBonus" ng-model="characterStats.secondaryHitBonus"/>
+                <label> Damage </label>
+                <input id="secondaryDamage" ng-model="characterStats.secondaryDamage"/>
+                <label> Platinum </label>
+                <input id="platinum" ng-model="characterStats.platinum"/>
+                <label> Gold </label>
+                <input id="gold" ng-model="characterStats.gold"/>
+                <label> Silver </label>
+                <input id="silver" ng-model="characterStats.silver"/>
+                <label> Copper </label>
+                <input id="copper" ng-model="characterStats.copper"/>
+                <label> Treasure </label>
+                <textarea id="treasure" rows="3" ng-model="characterStats.treasure"></textarea>
+                <md-input-container class="md-block">
+                    <label> Gear </label>
+                    <textarea id="pack" rows="20" ng-model="characterStats.pack"></textarea>
+                </md-input-container>
+            </div>
+            <div ng-switch-when="skills" ng-controller="SkillsController">
+                <md-input-container class="md-block">
+                    <label> Skills and notes </label>
+                    <textarea id="notes" rows="30" ng-model="characterStats.notes"></textarea>
+                </md-input-container>
+            </div>
+            <div ng-switch-when="spells" ng-controller="SpellsController">
+                <md-input-container class="md-block">
+                    <label> Spells </label>
+                    <textarea id="spells" rows="30" ng-model="characterStats.spells"></textarea>
+                </md-input-container>
+            </div>
+            <div ng-switch-when="maps" ng-controller="MapsController">
+                <label> Map </label>
+                <div id="mapDiv">
+                    No map yet!
+                </div>
+            </div>
+            <div ng-switch-when="store" ng-controller="StoreController">
+                <label> Store </label>
+                <div id="storeDiv">
+                    Store is closed!
+                </div>
+            </div>
+        </div>
+    </md-content>
+</div>

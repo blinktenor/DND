@@ -1,5 +1,5 @@
 (function (angular) {
-    var socket = io();
+//    var socket = io();
 
     var dm = angular.module('dm', []);
 
@@ -12,21 +12,21 @@
 
     dm.controller('DMController', function ($scope) {
         $scope.states = [{
-            id: 'characters',
-            title: 'Characters'
-        }, {
-            id: 'notes',
-            title: 'Notes'
-        }, {
-            id: 'maps',
-            title: 'Maps'
-        }, {
-            id: 'store',
-            title: 'Store'
-        }, {
-            id: 'diceroller',
-            title: 'Dice Roller'
-        }];
+                id: 'characters',
+                title: 'Characters'
+            }, {
+                id: 'notes',
+                title: 'Notes'
+            }, {
+                id: 'maps',
+                title: 'Maps'
+            }, {
+                id: 'store',
+                title: 'Store'
+            }, {
+                id: 'diceroller',
+                title: 'Dice Roller'
+            }];
         $scope.state = $scope.states[0];
         $scope.selectState = function (state) {
             $scope.state = state;
@@ -146,7 +146,15 @@
         };
 
         $scope.pushStore = function () {
-             socket.emit('dm-storeOpen', $scope.storeTableData);
+            socket.emit('dm-storeOpen', $scope.storeTableData);
+        };
+
+        $scope.getKeys = function (array) {
+            var keyList = Object.keys(array);
+            if (keyList.indexOf('$$hashKey') > -1) {
+                delete keyList[keyList.indexOf('$$hashKey')];
+            }
+            return keyList;
         };
     });
 
@@ -154,11 +162,86 @@
         // code goes here.
     });
 
-    dm.controller('NotesController', function ($scope) {
-        // code goes here.
+    dm.controller('NotesController', function ($scope, $http) {
+
+        $scope.saveNotes = function () {
+            if ($scope.adventureName !== "") {
+                var userData = {
+                    "dmNotes": $scope.dmNotes,
+                    "name": $scope.adventureName
+                };
+
+                $http({
+                    method: 'POST',
+                    url: 'source/saveDm',
+                    data: userData
+                }).then(function successCallback(response) {
+                    updateAlert("Adventure Saved!", 1);
+                });
+            } else {
+                updateAlert("Enter adventure name", 0);
+            }
+
+        };
+
+        $scope.loadNotes = function () {
+            if ($scope.adventureName !== "") {
+                $http({
+                    method: 'POST',
+                    url: 'source/loadDm',
+                    data: {"name": $scope.adventureName}
+                }).then(function successCallback(response) {
+                    var valueKey = response.data.split("~");
+                    $scope.dmNotes = valueKey[1].substr(valueKey[1].indexOf(":") + 1);
+//                    updateAlert("Adventure loaded!", 1);
+                });
+
+            } else {
+                updateAlert("Enter Adventure name", 0);
+            }
+        };
     });
 
     dm.controller('CharactersController', function ($scope) {
-        // code goes here.
+        $scope.characterTableData
+                = [
+                    {
+                        Name: "Fayde",
+                        Armor: "11",
+                        CurrentHp: "27",
+                        IMp: "1",
+                        WMp: "0",
+                        Strength: "1",
+                        Intelligence: "6",
+                        Wisdom: "0",
+                        Dexterity: "4",
+                        Constitution: "4",
+                        Charisma: "-3"
+                    }
+                ];
+
+        $scope.characterTableCheckBoxes
+                = {
+                    Name: true,
+                    Armor: true,
+                    CurrentHp: true,
+                    IMp: true,
+                    WMp: true,
+                    Strength: true,
+                    Intelligence: true,
+                    Wisdom: true,
+                    Dexterity: true,
+                    Constitution: true,
+                    Charisma: true
+                };
+
+        $scope.getKeys = function (array) {
+            var keyList = Object.keys(array);
+            if (keyList.indexOf('$$hashKey') > -1) {
+                delete keyList[keyList.indexOf('$$hashKey')];
+            }
+            return keyList;
+        };
+
     });
 })(angular);

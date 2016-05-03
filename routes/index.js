@@ -83,26 +83,23 @@ router.post('/DND/source/characterNames', function (req, res, next) {
 });
 
 router.post('/DND/source/save', function (req, res, next) {
+    
+    console.log(JSON.stringify(req.body));
     var now = new Date();
-    var keys = Object.keys(req.body);
     var name = req.body.name;
     fs = require('fs');
-    var output = "";
-    for (var a = 0; a < keys.length; a++) {
-        if (keys[a] !== "") {
-            output += keys[a] + ":" + req.body[keys[a]] + "~";
-        }
-    }
-    fs.writeFile(process.cwd() + '/public/DND/source/characters/' + name + dateFormat(now, "ddmmyyyyhhMM") + ".char.txt", output, function (err) {
+    fs.writeFile(process.cwd() + '/public/DND/source/characters/' + name + dateFormat(now, "ddmmyyyyhhMM") + ".char.txt", 
+                JSON.stringify(req.body), function (err) {
         if (err) {
             res.sendStatus(500);
         } else {
-            res.sendStatus("Character Saved!");
+            res.send("Character Saved!");
         }
     });
 });
 
 router.post('/DND/source/saveDm', function (req, res, next) {
+    console.log("called");
     var now = new Date();
     var keys = Object.keys(req.body);
     var name = req.body.name;
