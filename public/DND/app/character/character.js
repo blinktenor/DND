@@ -10,7 +10,7 @@
         });
     });
 
-    character.controller('CharacterController', function ($scope) {
+    character.controller('CharacterController', function ($scope, statsService) {
 
         $scope.states = [{
                 id: 'details',
@@ -44,41 +44,41 @@
             $scope.state = state;
         };
 
-        $scope.characterStats;
+        $scope.characterStats = statsService.characterStats;
     });
 
-    character.controller('DetailsController', function ($scope, $http) {
+    character.controller('DetailsController', function ($scope, $http, statsService, socket) {
 
         $scope.save = function () {
 
-            if ($scope.characterStats.name !== "") {
+            socket.emit('sockettest');
+
+            if ($scope.characterStats.name !== "" && $scope.characterStats.name !== undefined) {
                 $http({
                     method: 'POST',
                     url: 'source/save',
                     data: $scope.characterStats
                 }).then(function successCallback(response) {
-                    console.log(response);
-                    updateAlert("Adventure Saved!", 1);
+//                    updateAlert("Adventure Saved!", 1);
                 });
             } else {
-                updateAlert("Enter character name", 0);
+//                updateAlert("Enter character name", 0);
             }
         }
 
         $scope.load = function () {
 
-            if ($scope.characterStats.name !== "") {
+            if ($scope.characterStats.name !== "" && $scope.characterStats.name !== undefined) {
                 $http({
                     method: 'POST',
                     url: 'source/load',
                     data: {name: $scope.characterStats.name}
                 }).then(function successCallback(response) {
-                    $scope.characterStats = response.data;
-                    console.log(response.data);
-                    updateAlert("Adventure Saved!", 1);
+                    angular.copy(response.data, statsService.characterStats);
+//                    updateAlert("Adventure Saved!", 1);
                 });
             } else {
-                updateAlert("Enter character name", 0);
+//                updateAlert("Enter character name", 0);
             }
         }
     });
@@ -123,4 +123,18 @@
     character.controller('StoreController', function ($scope) {
 
     });
+
+    character.factory('statsService', function () {
+        
+        var characterStats = {};
+
+        return {
+            characterStats: characterStats
+        };
+    });
+
+    character.factory('socket', function () {
+        return io();
+    });
+
 })(angular);
