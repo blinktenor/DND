@@ -34,7 +34,7 @@ gulp.task('wiredep', function () {
 gulp.task('serve', ['wiredep'], function () {
     var options = {
         script: './bin/www',
-        watch: ['./routes/**/*', './views/**/*'],
+        watch: ['./routes/**/*', './views/**/*','routes/*.js'],
         delayTime: 1,
         env: {
             'PORT': 3000,
