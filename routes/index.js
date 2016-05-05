@@ -117,19 +117,20 @@ router.post('/DND/source/saveDm', function (req, res, next) {
 });
 
 router.post('/DND/source/psdUpload', upload.any(), function (req, res, next) {
-    var output = "";
 
+    var layers = 0;
     var PSD = require('psd');
     var file = req.files[0];
-
     var fs = require('fs');
     var fileName = 'uploads/' + file.originalname;
+    var originalName = file.originalname;
+    var imageSet = [];
     fs.rename(file.path, fileName, function (err) {
         if (err) {
             console.log('ERROR: ' + err);
             res.sendStatus(500);
         } else {
-            fs.mkdir(process.cwd() + '/public/DND/images/master/' + file.originalname, function () {
+            fs.mkdir(process.cwd() + '/public/DND/images/master/' + originalName, function () {
                 if (err) {
                     console.log('ERROR: ' + err);
                     res.sendStatus(500);
@@ -139,16 +140,46 @@ router.post('/DND/source/psdUpload', upload.any(), function (req, res, next) {
                     var tree = psd.tree();
                     for (var childNum = 0; childNum < tree.descendants().length; childNum++) {
                         var child = tree.descendants()[childNum];
-                        child.layer.image.saveAsPng(process.cwd() + '/public/DND/images/master/' + file.originalname + "/" + child.name + '.png');
-                        output += ", " + file.originalname + "/" + child.name + ".png";
+                        layers++;
+                        var imageData = {name: child.name, top: child.top, left: child.left, height: child.height, width: child.width};
+                        imageSet.push(imageData);
+                        child.layer.image.saveAsPng(process.cwd() + '/public/DND/images/master/' + originalName + "/" + child.name + '.png')
+                                .then(function () {
+                                    layers--;
+                                    if (layers === 0) {
+                                        offsetLayers(originalName, imageSet);
+                                    }
+                                });
                     }
-                    res.send(output);
+                    res.sendStatus(200);
                 }
             });
         }
 
     });
 });
+
+function offsetLayers(originalName, imageSet) {
+    for (var a = 0; a < imageSet.length; a++) {
+        offsetLayer(originalName, imageSet[a]);
+    }
+}
+
+function offsetLayer(originalName, layerData) {
+    var jimp = require('jimp');
+    jimp.read(process.cwd() + '/public/DND/images/master/' + originalName + "/" + layerData.name + '.png', function (err, layer) {
+        if (err)
+            throw err;
+        var image = new jimp(layerData.width + layerData.left,
+                layerData.height + layerData.top,
+                function (err, image) {
+                    if (err)
+                        throw err;
+                });
+        image.composite(layer, layerData.left, layerData.top)
+                .write(process.cwd() + '/public/DND/images/master/' + originalName + "/" + layerData.name + '.png');
+    });
+}
 
 router.get('/DND/source/psdFolders', function (req, res, next) {
     fs = require('fs');
@@ -226,27 +257,5 @@ router.all('/DND/source/layerTest', function (req, res, next) {
 
     res.sendStatus(200);
 });
-
-function offsetLayers(originalName, imageSet) {
-    for (var a = 0; a < imageSet.length; a++) {
-        offsetLayer(originalName, imageSet[a]);
-    }
-}
-
-function offsetLayer(originalName, layerData) {
-    var jimp = require('jimp');
-    jimp.read(process.cwd() + '/public/DND/images/master/' + originalName + "/" + layerData.name + '.png', function (err, layer) {
-        if (err)
-            throw err;
-        var image = new jimp(layerData.width + layerData.left,
-                layerData.height + layerData.top,
-                function (err, image) {
-                    if (err)
-                        throw err;
-                });
-        image.composite(layer, layerData.left, layerData.top)
-                .write(process.cwd() + '/public/DND/images/master/' + originalName + "/" + layerData.name + '.png');
-    });
-}
 
 module.exports = router;
