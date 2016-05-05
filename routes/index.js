@@ -122,8 +122,8 @@ router.post('/DND/source/psdUpload', upload.any(), function (req, res, next) {
     var PSD = require('psd');
     var file = req.files[0];
     var fs = require('fs');
-    var fileName = 'uploads/' + file.originalname;
     var originalName = file.originalname;
+    var fileName = 'uploads/' + originalName;
     var imageSet = [];
     fs.rename(file.path, fileName, function (err) {
         if (err) {
@@ -180,6 +180,22 @@ function offsetLayer(originalName, layerData) {
                 .write(process.cwd() + '/public/DND/images/master/' + originalName + "/" + layerData.name + '.png');
     });
 }
+
+router.get('/DND/source/psdData', function (req, res, next) {
+    fs = require('fs');
+    var folderDir = fs.readdirSync(process.cwd() + '/public/DND/images/master/');
+    folderDir.sort();
+    folderDir.reverse();
+    var dataSet = [];
+    for (var a = 0; a < folderDir.length; a++) {
+        var imageDir = fs.readdirSync(process.cwd() + '/public/DND/images/master/' + folderDir[a] + "/");
+        imageDir.sort();
+        imageDir.reverse();
+        var folderData = {name: folderDir[a], images: imageDir};
+        dataSet.push(folderData);
+    }
+    res.send(dataSet);
+});
 
 router.get('/DND/source/psdFolders', function (req, res, next) {
     fs = require('fs');
