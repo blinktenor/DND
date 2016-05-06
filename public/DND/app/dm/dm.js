@@ -170,11 +170,19 @@
                     url: 'source/psdData'
                 }).then(function successCallback(response) {
                     $scope.mapCollection = response.data;
-                    alertService.alert("Adventure Saved!", 1);
                 });
         }
 
         $scope.init();
+        
+        $scope.checkboxChange = function () {
+            console.log($scope.mapData.name);
+            for (var a = 0; a < $scope.mapData.value.length; a++) {
+                if ($scope.mapData.value[a] === true) {
+                    console.log($scope.mapData.images[a]);
+                }
+            }
+        };
     });
 
     dm.controller('NotesController', function ($scope, $http, alertService) {

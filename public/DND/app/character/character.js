@@ -61,7 +61,7 @@
                     url: 'source/save',
                     data: $scope.characterStats
                 }).then(function successCallback(response) {
-                    alertService.alert("Adventure Saved!", 1);
+                    alertService.alert("Character Saved!", 1);
                 });
             } else {
                 alertService.alert("Enter character name", 0);
@@ -77,7 +77,7 @@
                     data: {name: $scope.characterStats.name}
                 }).then(function successCallback(response) {
                     angular.copy(response.data, statsService.characterStats);
-                    alertService.alert("Adventure Saved!", 1);
+                    alertService.alert("Character Loaded!", 1);
                 });
             } else {
                 alertService.alert("Enter character name", 0);
