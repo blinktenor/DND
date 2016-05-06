@@ -46,7 +46,7 @@
         };
     });
 
-    dm.controller('StoreController', function ($scope, $http) {
+    dm.controller('StoreController', function ($scope, $http, alertService) {
         $scope.storeTables = ["Armor", "Weapons", "Gear", "Magic"];
 
         $scope.MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
@@ -137,7 +137,7 @@
                 newStoreData[$scope.controlData[storeCount].Name] = magicStoreItems;
                 $scope.storeTableData = newStoreData;
             }, function errorCallback(response) {
-                updateAlert("Error getting store data!", 0);
+                alertService.alert("Error getting store data!", 0);
             });
         };
 
@@ -159,25 +159,25 @@
     });
 
 
-    dm.controller('MapController', function ($scope, $http) {
+    dm.controller('MapController', function ($scope, $http, alertService) {
 
         $scope.mapCollection;
         $scope.imageModel;
 
         $scope.init = function () {
             $http({
-                method: 'GET',
-                url: 'source/psdData'
-            }).then(function successCallback(response) {
-                $scope.mapCollection = response.data;
-//                    updateAlert("Adventure Saved!", 1);
-            });
+                    method: 'GET',
+                    url: 'source/psdData'
+                }).then(function successCallback(response) {
+                    $scope.mapCollection = response.data;
+                    alertService.alert("Adventure Saved!", 1);
+                });
         }
 
         $scope.init();
     });
 
-    dm.controller('NotesController', function ($scope, $http) {
+    dm.controller('NotesController', function ($scope, $http, alertService) {
 
         $scope.saveNotes = function () {
             if ($scope.adventureName !== "") {
@@ -191,10 +191,10 @@
                     url: 'source/saveDm',
                     data: userData
                 }).then(function successCallback(response) {
-                    updateAlert("Adventure Saved!", 1);
+                    alertService.alert("Adventure Saved!", 1);
                 });
             } else {
-                updateAlert("Enter adventure name", 0);
+                alertService.alert("Enter adventure name", 0);
             }
 
         };
@@ -208,11 +208,10 @@
                 }).then(function successCallback(response) {
                     var valueKey = response.data.split("~");
                     $scope.dmNotes = valueKey[1].substr(valueKey[1].indexOf(":") + 1);
-//                    updateAlert("Adventure loaded!", 1);
+                    alertService.alert("Adventure loaded!", 1);
                 });
-
             } else {
-                updateAlert("Enter Adventure name", 0);
+                alertService.alert("Enter Adventure name", 0);
             }
         };
     });

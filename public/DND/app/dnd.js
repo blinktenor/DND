@@ -6,7 +6,8 @@
     'ngMaterial',
 //    'socket',
     'dm',
-    'character'
+    'character',
+    'services.alert'
   ]);
 
   dnd.config(function ($routeProvider) {

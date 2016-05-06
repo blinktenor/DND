@@ -49,7 +49,7 @@
         $scope.socket = socketService.socket;
     });
 
-    character.controller('DetailsController', function ($scope, $http, statsService, socketService) {
+    character.controller('DetailsController', function ($scope, $http, statsService, socket, alertService) {
 
         $scope.save = function () {
 
@@ -61,10 +61,10 @@
                     url: 'source/save',
                     data: $scope.characterStats
                 }).then(function successCallback(response) {
-//                    updateAlert("Adventure Saved!", 1);
+                    alertService.alert("Adventure Saved!", 1);
                 });
             } else {
-//                updateAlert("Enter character name", 0);
+                alertService.alert("Enter character name", 0);
             }
         }
 
@@ -77,10 +77,10 @@
                     data: {name: $scope.characterStats.name}
                 }).then(function successCallback(response) {
                     angular.copy(response.data, statsService.characterStats);
-//                    updateAlert("Adventure Saved!", 1);
+                    alertService.alert("Adventure Saved!", 1);
                 });
             } else {
-//                updateAlert("Enter character name", 0);
+                alertService.alert("Enter character name", 0);
             }
         }
     });
@@ -127,7 +127,7 @@
     });
 
     character.factory('statsService', function () {
-        
+
         var characterStats = {};
 
         return {
