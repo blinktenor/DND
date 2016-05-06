@@ -10,7 +10,7 @@
         });
     });
 
-    character.controller('CharacterController', function ($scope, statsService) {
+    character.controller('CharacterController', function ($scope, statsService, socketService) {
 
         $scope.states = [{
                 id: 'details',
@@ -45,13 +45,15 @@
         };
 
         $scope.characterStats = statsService.characterStats;
+        
+        $scope.socket = socketService.socket;
     });
 
-    character.controller('DetailsController', function ($scope, $http, statsService, socket) {
+    character.controller('DetailsController', function ($scope, $http, statsService, socketService) {
 
         $scope.save = function () {
 
-            socket.emit('sockettest');
+            $scope.socket.emit('sockettest');
 
             if ($scope.characterStats.name !== "" && $scope.characterStats.name !== undefined) {
                 $http({
@@ -133,8 +135,13 @@
         };
     });
 
-    character.factory('socket', function () {
-        return io();
+    character.factory('socketService', function () {
+        
+        var socket = io();
+        
+        return {
+            socket: socket
+        };
     });
 
 })(angular);

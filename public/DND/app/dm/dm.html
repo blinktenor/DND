@@ -60,13 +60,17 @@
                 </form>
                 <md-select ng-model="mapData">
                     <md-option ng-repeat="map in mapCollection"
-                               value="{{ map}}">
+                               ng-value="map">
                         {{ map.name}}
                     </md-option>
                 </md-select>
-                <label ng-repeat="image in getImageNames(mapData)" ng-if="mapData">
-                    <input type="checkbox" checklist-model="image" checklist-value="image"> {{image}}
-                </label>
+                <span ng-repeat="image in mapData.images" ng-if="mapData">
+                    <label for="{{$index}}">
+                        <input type="checkbox" ng-model="mapData.value[$index]"> {{image}}
+                    </label>
+                </span>
+                <br>
+                {{ mapData }}
                 <br>
                 <img id="mapImage" />
                 <md-button class="md-raised md-primary" ng-click="pushMapToPlayers()">Push to players</md-button>

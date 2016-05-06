@@ -191,7 +191,7 @@ router.get('/DND/source/psdData', function (req, res, next) {
         var imageDir = fs.readdirSync(process.cwd() + '/public/DND/images/master/' + folderDir[a] + "/");
         imageDir.sort();
         imageDir.reverse();
-        var folderData = {name: folderDir[a], images: imageDir};
+        var folderData = {name: folderDir[a], images: imageDir, value: []};
         dataSet.push(folderData);
     }
     res.send(dataSet);

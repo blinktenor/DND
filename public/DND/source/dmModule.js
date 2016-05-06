@@ -19,7 +19,39 @@ dm.controller('dmController', function ($scope, $http) {
 
     $scope.controlCols = Object.keys($scope.controlData[0]);
 
-    $scope.storeTableData = null;
+    $scope.storeTableData;
+    
+    $scope.characterTableData
+        = [
+        {
+            Name: "Fayde",
+            Armor: "11",
+            CurrentHp: "27",
+            IMp: "1",
+            WMp: "0",	
+            Strength: "1",	
+            Intelligence: "6",	
+            Wisdom: "0",
+            Dexterity: "4",	
+            Constitution: "4",	
+            Charisma: "-3"
+        }
+        ];
+        
+    $scope.characterTableCheckBoxes
+        = {
+            Name: true,
+            Armor: true,
+            CurrentHp: true,
+            IMp: true,
+            WMp: true,	
+            Strength: true,	
+            Intelligence: true,	
+            Wisdom: true,
+            Dexterity: true,	
+            Constitution: true,	
+            Charisma: true
+        };
 
     $scope.notSorted = function (obj) {
         if (!obj) {

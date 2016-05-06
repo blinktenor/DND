@@ -162,23 +162,19 @@
     dm.controller('MapController', function ($scope, $http) {
 
         $scope.mapCollection;
+        $scope.imageModel;
 
         $scope.init = function () {
             $http({
-                    method: 'GET',
-                    url: 'source/psdData'
-                }).then(function successCallback(response) {
-                    $scope.mapCollection = response.data;
+                method: 'GET',
+                url: 'source/psdData'
+            }).then(function successCallback(response) {
+                $scope.mapCollection = response.data;
 //                    updateAlert("Adventure Saved!", 1);
-                });
+            });
         }
-        
+
         $scope.init();
-        
-        $scope.getImageNames = function (mapData) {
-            if (mapData === undefined) return null;
-            return JSON.parse(mapData).images;
-        };
     });
 
     dm.controller('NotesController', function ($scope, $http) {
