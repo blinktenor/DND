@@ -2,7 +2,9 @@
     <md-sidenav md-component-id="left"
                 md-is-locked-open="true">
         <md-list>
-            <md-list-item ng-repeat="state in states" ng-click="selectState(state)">
+            <md-list-item ng-repeat="state in states"
+                          ng-click="selectState(state)"
+                          aria-label="{{ state.title }}">
                 <p ng-bind="state.title"></p>
             </md-list-item>
         </md-list>

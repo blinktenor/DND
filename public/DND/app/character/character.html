@@ -1,8 +1,9 @@
 <div layout="row" flex>
-    <md-sidenav md-component-id="left"
-                md-is-locked-open="true">
+    <md-sidenav md-component-id="left" md-is-locked-open="true">
         <md-list>
-            <md-list-item ng-repeat="state in states" ng-click="selectState(state)">
+            <md-list-item ng-repeat="state in states"
+                          ng-click="selectState(state)"
+                          aria-label="{{ state.title }}">
                 <p ng-bind="state.title"></p>
             </md-list-item>
         </md-list>
@@ -12,68 +13,84 @@
         <div ng-switch on="state.id">
             <div ng-switch-when="details" ng-controller="DetailsController">
                 <label> Character Name </label>
-                <input id="name" ng-model="characterStats.name"/>
+                <input id="name" ng-model="characterStats.name" />
                 <md-button class="md-raised md-primary" ng-click="save();">Save</md-button>
                 <md-button class="md-raised md-primary" ng-click="load();">Load</md-button>
                 <label> Character Class </label>
-                <input  id="class" ng-model="characterStats.class" />
+                <input id="class" ng-model="characterStats.class" />
                 <label> Character Race </label>
-                <input  id="race" ng-model="characterStats.race"/>
+                <input id="race" ng-model="characterStats.race" />
                 <label> Level </label>
-                <input  id="level" ng-model="characterStats.level"/>
+                <input id="level" ng-model="characterStats.level" />
                 <label> Exp </label>
-                <input  id="exp" ng-model="characterStats.exp"/>
+                <input id="exp" ng-model="characterStats.exp" />
             </div>
             <div ng-switch-when="currentStats" ng-controller="CurrentStatsController">
-                <label> Character Armor </label>
-                <input class="armor statBox" id="armor" ng-model="characterStats.armor"/>
-                <label> Current Hit Points </label>
-                <input type="number" class="hp statBox" id="hp" ng-model="characterStats.hp"/>
-                <md-button class="md-raised md-primary" ng-click="change('hp')"></md-button>
-                <label> Current Intelligence Points </label>
-                <input type="number" class="currentIMp points statBox" id="iMp" ng-model="characterStats.imp"/>
-                <md-button class="md-raised md-primary" ng-click="change('iMp')" ></md-button>
-                <label> Current Wisdom Points </label>
-                <input type="number" class="currentWMp points statBox" id="wMp" ng-model="characterStats.wmp"/>
-                <md-button class="md-raised md-primary" ng-click="change('wMp')" ></md-button>
+                <div layout="column" flex-gt-xs="30">
+                    <md-input-container>
+                        <label>Character Armor</label>
+                        <input ng-model="characterStats.armor" />
+                    </md-input-container>
+                    <md-input-container>
+                        <label> Current Hit Points </label>
+                        <input type="number" ng-model="characterStats.hp" />
+                        <md-button class="md-raised md-primary" ng-click="change('hp')">
+                            Restore
+                        </md-button>
+                    </md-input-container>
+                    <md-input-container>
+                        <label> Current Intelligence Points </label>
+                        <input type="number" ng-model="characterStats.imp" />
+                        <md-button class="md-raised md-primary" ng-click="change('iMp')">
+                            Restore
+                        </md-button>
+                    </md-input-container>
+                    <md-input-container>
+                        <label> Current Wisdom Points </label>
+                        <input type="number" ng-model="characterStats.wmp" />
+                        <md-button class="md-raised md-primary" ng-click="change('wMp')">
+                            Restore
+                        </md-button>
+                    </md-input-container>
+                </div>
             </div>
             <div ng-switch-when="abilities" ng-controller="AbilitiesController">
                 <label> Hit Points </label>
-                <input id="hp" ng-model="characterStats.hitPoints"/>
+                <input id="hp" ng-model="characterStats.hitPoints" />
                 <label> Strength </label>
-                <input id="strength" ng-model="characterStats.strength"/>
+                <input id="strength" ng-model="characterStats.strength" />
                 <label> Intelligence </label>
-                <input id="intelligence" ng-model="characterStats.intelligence"/>
+                <input id="intelligence" ng-model="characterStats.intelligence" />
                 <label> Wisdom </label>
-                <input id="wisdom" ng-model="characterStats.wisdom"/>
+                <input id="wisdom" ng-model="characterStats.wisdom" />
                 <label> Dexterity </label>
-                <input id="dexterity" ng-model="characterStats.dexterity"/>
+                <input id="dexterity" ng-model="characterStats.dexterity" />
                 <label> Constitution </label>
-                <input id="constitution" ng-model="characterStats.constitution"/>
+                <input id="constitution" ng-model="characterStats.constitution" />
                 <label> Charisma </label>
-                <input id="charisma" ng-model="characterStats.charisma"/>
+                <input id="charisma" ng-model="characterStats.charisma" />
             </div>
             <div ng-switch-when="equipment" ng-controller="EquipmentController">
                 <label> Primary Weapon </label>
-                <input id="primaryWeapon" ng-model="characterStats.primaryWeapon"/>
+                <input id="primaryWeapon" ng-model="characterStats.primaryWeapon" />
                 <label> Hit Bonus </label>
                 <input id="primaryHitBonus" ng-model="characterStats.primaryHitBonus" />
                 <label> Damage </label>
-                <input id="primaryDamage" ng-model="characterStats.primaryDamage"/>
+                <input id="primaryDamage" ng-model="characterStats.primaryDamage" />
                 <label> Secondary Weapon </label>
-                <input id="secondaryWeapon" ng-model="characterStats.secondaryWeapon"/>
+                <input id="secondaryWeapon" ng-model="characterStats.secondaryWeapon" />
                 <label> Hit Bonus </label>
-                <input id="secondaryHitBonus" ng-model="characterStats.secondaryHitBonus"/>
+                <input id="secondaryHitBonus" ng-model="characterStats.secondaryHitBonus" />
                 <label> Damage </label>
-                <input id="secondaryDamage" ng-model="characterStats.secondaryDamage"/>
+                <input id="secondaryDamage" ng-model="characterStats.secondaryDamage" />
                 <label> Platinum </label>
-                <input id="platinum" ng-model="characterStats.platinum"/>
+                <input id="platinum" ng-model="characterStats.platinum" />
                 <label> Gold </label>
-                <input id="gold" ng-model="characterStats.gold"/>
+                <input id="gold" ng-model="characterStats.gold" />
                 <label> Silver </label>
-                <input id="silver" ng-model="characterStats.silver"/>
+                <input id="silver" ng-model="characterStats.silver" />
                 <label> Copper </label>
-                <input id="copper" ng-model="characterStats.copper"/>
+                <input id="copper" ng-model="characterStats.copper" />
                 <label> Treasure </label>
                 <textarea id="treasure" rows="3" ng-model="characterStats.treasure"></textarea>
                 <md-input-container class="md-block">
