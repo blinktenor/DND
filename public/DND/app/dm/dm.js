@@ -159,29 +159,34 @@
     });
 
 
-    dm.controller('MapController', function ($scope, $http, alertService) {
+    dm.controller('MapController', function ($scope, $http, $document, imageService) {
 
         $scope.mapCollection;
         $scope.imageModel;
 
         $scope.init = function () {
+            
+            imageService.setCanvas(document.querySelector('#mapCanvas'));
+            
             $http({
                     method: 'GET',
                     url: 'source/psdData'
                 }).then(function successCallback(response) {
                     $scope.mapCollection = response.data;
                 });
-        }
+        };
 
         $scope.init();
         
         $scope.checkboxChange = function () {
-            console.log($scope.mapData.name);
+            var checkedImages = [];
             for (var a = 0; a < $scope.mapData.value.length; a++) {
                 if ($scope.mapData.value[a] === true) {
-                    console.log($scope.mapData.images[a]);
+                    //../DND/images/master/folder/filename
+                    checkedImages.push("../DND/images/master/" + $scope.mapData.name + "/" + $scope.mapData.images[a]);
                 }
             }
+            imageService.loadImages(checkedImages);
         };
     });
 
@@ -266,4 +271,5 @@
         };
 
     });
+    
 })(angular);
