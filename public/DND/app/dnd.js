@@ -4,7 +4,6 @@
   var dnd = angular.module('dnd', [
     'ngRoute',
     'ngMaterial',
-//    'socket',
     'dm',
     'character',
     'services.alert'
@@ -14,7 +13,7 @@
       $routeProvider.when('/', {
           templateUrl: 'app/dashboard.html',
           controller: 'DashboardController'
-      })
+      });
   });
 
   dnd.controller('DashboardController', function () {
