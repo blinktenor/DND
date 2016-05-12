@@ -30,12 +30,14 @@ angular.module('dm').factory('imageService', function () {
 
     function renderImage(imageName) {
         var image = new Image();
+        image.onload = function () {
+            waitingToRender--;
+            if (waitingToRender === 0) {
+                fillContext();
+            }
+        };
         image.src = imageName;
         images[imageName] = image;
-        waitingToRender--;
-        if (waitingToRender === 0) {
-            fillContext();
-        }
     }
 
     return {
