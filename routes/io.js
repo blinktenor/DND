@@ -7,6 +7,10 @@ module.exports.listen = function (server) {
 
     io.on('connection', function (socket) {
 
+        socket.on('socketTest', function () {
+            console.log('socket');
+        });
+    
         socket.on('login', function (name) {
             players.set(socket, name);
             io.emit('dm-login', name);

@@ -1,4 +1,7 @@
-angular.module('character').factory('socketService', function () {
+(function (angular) {
+    'use strict';
+    angular.module('services.socket', [])
+            .factory('socketService', function () {
 
     var socket = io();
 
@@ -6,3 +9,4 @@ angular.module('character').factory('socketService', function () {
         socket: socket
     };
 });
+})(angular);

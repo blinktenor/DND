@@ -1,7 +1,7 @@
 (function (angular) {
     'use strict';
 
-    var character = angular.module('character', []);
+    var character = angular.module('character', ['services.stats']);
 
     character.config(function ($routeProvider) {
         $routeProvider.when('/character', {
@@ -45,15 +45,16 @@
         };
 
         $scope.characterStats = statsService.characterStats;
-        
+
         $scope.socket = socketService.socket;
+
     });
 
-    character.controller('DetailsController', function ($scope, $http, statsService, socket, alertService) {
+    character.controller('DetailsController', function ($scope, $http, statsService, alertService) {
 
         $scope.save = function () {
 
-            $scope.socket.emit('sockettest');
+            $scope.socket.emit('socketTest');
 
             if ($scope.characterStats.name !== "" && $scope.characterStats.name !== undefined) {
                 $http({
@@ -66,7 +67,7 @@
             } else {
                 alertService.alert("Enter character name", 0);
             }
-        }
+        };
 
         $scope.load = function () {
 
@@ -82,7 +83,7 @@
             } else {
                 alertService.alert("Enter character name", 0);
             }
-        }
+        };
     });
 
     character.controller('CurrentStatsController', function ($scope) {
@@ -124,24 +125,6 @@
 
     character.controller('StoreController', function ($scope) {
 
-    });
-
-    character.factory('statsService', function () {
-
-        var characterStats = {};
-
-        return {
-            characterStats: characterStats
-        };
-    });
-
-    character.factory('socketService', function () {
-        
-        var socket = io();
-        
-        return {
-            socket: socket
-        };
     });
 
 })(angular);

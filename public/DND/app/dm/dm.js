@@ -1,7 +1,9 @@
 (function (angular) {
 //    var socket = io();
 
-    var dm = angular.module('dm', []);
+    var dm = angular.module('dm', 
+            ['services.image',
+             'services.characters']);
 
     dm.config(function ($routeProvider) {
         $routeProvider.when('/dm', {
