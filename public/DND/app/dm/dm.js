@@ -12,7 +12,7 @@
         });
     });
 
-    dm.controller('DMController', function ($scope) {
+    dm.controller('DMController', function ($scope, socketService) {
         $scope.states = [{
                 id: 'characters',
                 title: 'Characters'
@@ -33,6 +33,9 @@
         $scope.selectState = function (state) {
             $scope.state = state;
         };
+
+        $scope.socket = socketService.socket;
+
     });
 
     dm.controller('DiceRollerController', function ($scope) {
@@ -144,11 +147,11 @@
         };
 
         $scope.closeStore = function () {
-            socket.emit('dm-storeClose', '');
+            $scope.socket.emit('dm-storeClose', '');
         };
 
         $scope.pushStore = function () {
-            socket.emit('dm-storeOpen', $scope.storeTableData);
+            $scope.socket.emit('dm-storeOpen', $scope.storeTableData);
         };
 
         $scope.getKeys = function (array) {
@@ -189,6 +192,14 @@
                 }
             }
             imageService.loadImages(checkedImages);
+        };
+
+        $scope.pushMapToPlayers = function () {
+            var canvas = document.querySelector('#mapCanvas');
+            var dataURL = canvas.toDataURL("image/png");
+
+            dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            $scope.socket.emit('map', dataURL);
         };
     });
 

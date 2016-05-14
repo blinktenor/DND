@@ -44,10 +44,20 @@
             $scope.state = state;
         };
 
-        $scope.characterStats = statsService.characterStats;
-
         $scope.socket = socketService.socket;
 
+        $scope.characterStats = statsService.characterStats;
+
+        $scope.$watch(function() {return statsService.characterStats;}, function () {
+            $scope.socket.emit('player-update', $scope.characterStats);
+        }, true);
+        
+        $scope.mapImage;
+        
+        $scope.socket.on('new-map', function (imgSrc) {
+            console.log("setting map");
+            $scope.mapImage = imgSrc;
+        });
     });
 
     character.controller('DetailsController', function ($scope, $http, statsService, alertService) {
