@@ -34,7 +34,7 @@
                     <md-input-container>
                         <label> Current Hit Points </label>
                         <input type="number" ng-model="characterStats.currentHp" />
-                        <md-button class="md-raised md-primary" ng-click="change('hp')">
+                        <md-button class="md-raised md-primary" ng-click="change('currentHp')">
                             Restore
                         </md-button>
                     </md-input-container>
@@ -118,8 +118,20 @@
             </div>
             <div ng-switch-when="store" ng-controller="StoreController">
                 <label> Store </label>
-                <div id="storeDiv">
-                    Store is closed!
+                <div id="storeDiv" ng-show="storeTableData">
+                    <table ng-repeat="(tableHeader,tableValue) in storeTableData">
+                        <caption>{{tableHeader}}</caption>
+                        <thead>
+                            <tr>
+                                <th ng-repeat="columnKey in getKeys(tableValue[0])">{{columnKey}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="tableRow in tableValue">
+                                <td ng-repeat="value in tableRow">{{value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

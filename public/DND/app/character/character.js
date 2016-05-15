@@ -1,7 +1,8 @@
 (function (angular) {
     'use strict';
 
-    var character = angular.module('character', ['services.stats']);
+    var character = angular.module('character', ['services.stats',
+                                                 'services.store']);
 
     character.config(function ($routeProvider) {
         $routeProvider.when('/character', {
@@ -10,7 +11,7 @@
         });
     });
 
-    character.controller('CharacterController', function ($scope, statsService, socketService) {
+    character.controller('CharacterController', function ($scope, statsService, socketService, storeService) {
 
         $scope.states = [{
                 id: 'details',
@@ -47,6 +48,8 @@
         $scope.socket = socketService.socket;
 
         $scope.characterStats = statsService.characterStats;
+        
+        $scope.storeTableData = storeService.storeTableData;
 
         $scope.$watch(function() {return statsService.characterStats;}, function () {
             $scope.socket.emit('player-update', $scope.characterStats);
@@ -55,7 +58,6 @@
         $scope.mapImage;
         
         $scope.socket.on('new-map', function (imgSrc) {
-            console.log("setting map");
             $scope.mapImage = imgSrc;
         });
     });
@@ -100,13 +102,13 @@
         $scope.change = function (stat) {
             switch (stat) {
                 case "currentHp":
-                    $scope.characterStats[stat] = $scope.characterStats.hitPoints;
+                    $scope.characterStats[stat] = Number($scope.characterStats.hp);
                     break;
                 case "iMp":
-                    $scope.characterStats[stat] = $scope.characterStats.intelligence;
+                    $scope.characterStats[stat] = Number($scope.characterStats.intelligence);
                     break;
                 case "wMp":
-                    $scope.characterStats[stat] = $scope.characterStats.wisdom;
+                    $scope.characterStats[stat] = Number($scope.characterStats.wisdom);
                     break;
                 default:
             }
@@ -133,8 +135,13 @@
 
     });
 
-    character.controller('StoreController', function ($scope) {
-
+    character.controller('StoreController', function ($scope, storeService) {
+        
+        $scope.socket.on('dm-storeOpen', function (storeData) {
+            console.log(storeService.storeTableData);
+            angular.copy(storeData, storeService.storeTableData);
+            console.log(storeService.storeTableData);
+        });
     });
 
 })(angular);

@@ -13,7 +13,7 @@
     <md-content layout-padding flex>
         <div ng-switch on="state.id">
             <div ng-switch-when="characters" ng-controller="CharactersController">
-                <div id="characterDiv" ng-show="characterTableData">
+                <div id="characterDiv" ng-show="characterTableData.length > 1">
                     <table border="1">
                         <thead>
                             <tr>
@@ -22,7 +22,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="character in characterTableData">
-                                <td ng-repeat="value in character">{{value}}</td>
+                                <td ng-repeat="stat in character.value">{{stat}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -78,7 +78,7 @@
                 <md-button class="md-raised md-primary" ng-click="pushMapToPlayers()">Push to players</md-button>
                 <md-button class="md-raised md-primary" ng-click="init()">Gather Map Data</md-button>
             </div>
-            <div ng-switch-when="store" ng-controller="StoreController">
+            <div ng-switch-when="store" ng-controller="storeController">
                 <div id="controlDiv">
                     <md-button class="md-raised md-primary" ng-click="loadStore()">Load Store</md-button>
                     <br>
