@@ -43,7 +43,6 @@
         $scope.socket.on('dm-player-update', function (playerData) {
             characterService.pushPlayerData(playerData);
             $scope.$apply();
-            console.log($scope.characterTableData);
         });
     });
 
