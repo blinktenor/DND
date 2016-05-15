@@ -21,9 +21,9 @@
                 <label> Character Race </label>
                 <input id="race" ng-model="characterStats.race" />
                 <label> Level </label>
-                <input id="level" ng-model="characterStats.level" />
+                <input id="level" type="number" ng-model="characterStats.level" />
                 <label> Exp </label>
-                <input id="exp" ng-model="characterStats.exp" />
+                <input id="exp" type="number" ng-model="characterStats.exp" />
             </div>
             <div ng-switch-when="currentStats" ng-controller="CurrentStatsController">
                 <div layout="column" flex-gt-xs="30">
@@ -56,19 +56,19 @@
             </div>
             <div ng-switch-when="abilities" ng-controller="AbilitiesController">
                 <label> Hit Points </label>
-                <input id="hp" ng-model="characterStats.hp" />
+                <input id="hp" type="number" ng-model="characterStats.hp" />
                 <label> Strength </label>
-                <input id="strength" ng-model="characterStats.strength" />
+                <input id="strength" type="number" ng-model="characterStats.strength" />
                 <label> Intelligence </label>
-                <input id="intelligence" ng-model="characterStats.intelligence" />
+                <input id="intelligence" type="number" ng-model="characterStats.intelligence" />
                 <label> Wisdom </label>
-                <input id="wisdom" ng-model="characterStats.wisdom" />
+                <input id="wisdom" type="number" ng-model="characterStats.wisdom" />
                 <label> Dexterity </label>
-                <input id="dexterity" ng-model="characterStats.dexterity" />
+                <input id="dexterity" type="number" ng-model="characterStats.dexterity" />
                 <label> Constitution </label>
-                <input id="constitution" ng-model="characterStats.constitution" />
+                <input id="constitution" type="number" ng-model="characterStats.constitution" />
                 <label> Charisma </label>
-                <input id="charisma" ng-model="characterStats.charisma" />
+                <input id="charisma" type="number" ng-model="characterStats.charisma" />
             </div>
             <div ng-switch-when="equipment" ng-controller="EquipmentController">
                 <label> Primary Weapon </label>
@@ -84,36 +84,39 @@
                 <label> Damage </label>
                 <input id="secondaryDamage" ng-model="characterStats.secondaryDamage" />
                 <label> Platinum </label>
-                <input id="platinum" ng-model="characterStats.platinum" />
+                <input id="platinum" type="number" ng-model="characterStats.platinum" />
                 <label> Gold </label>
-                <input id="gold" ng-model="characterStats.gold" />
+                <input id="gold" type="number" ng-model="characterStats.gold" />
                 <label> Silver </label>
-                <input id="silver" ng-model="characterStats.silver" />
+                <input id="silver" type="number" ng-model="characterStats.silver" />
                 <label> Copper </label>
-                <input id="copper" ng-model="characterStats.copper" />
+                <input id="copper" type="number" ng-model="characterStats.copper" />
                 <label> Treasure </label>
-                <textarea id="treasure" rows="3" ng-model="characterStats.treasure"></textarea>
+                <textarea id="treasure" ng-model="characterStats.treasure"></textarea>
                 <md-input-container class="md-block">
                     <label> Gear </label>
-                    <textarea id="pack" rows="20" ng-model="characterStats.pack"></textarea>
+                    <textarea id="pack" ng-model="characterStats.pack"></textarea>
                 </md-input-container>
             </div>
             <div ng-switch-when="skills" ng-controller="SkillsController">
                 <md-input-container class="md-block">
                     <label> Skills and notes </label>
-                    <textarea id="notes" rows="30" ng-model="characterStats.notes"></textarea>
+                    <textarea id="notes" ng-model="characterStats.notes"></textarea>
                 </md-input-container>
             </div>
             <div ng-switch-when="spells" ng-controller="SpellsController">
                 <md-input-container class="md-block">
                     <label> Spells </label>
-                    <textarea id="spells" rows="30" ng-model="characterStats.spells"></textarea>
+                    <textarea id="spells" ng-model="characterStats.spells"></textarea>
                 </md-input-container>
             </div>
             <div ng-switch-when="maps" ng-controller="MapsController">
                 <label> Map </label>
-                <div id="mapDiv">
+                <div id="mapDiv" ng-show="mapImage">
                     <img ng-src="{{mapImage}}"/>
+                </div>
+                <div ng-show="!mapimage">
+                    No map yet!
                 </div>
             </div>
             <div ng-switch-when="store" ng-controller="StoreController">
@@ -132,6 +135,9 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div ng-show="!storeTableData">
+                    Store is closed!
                 </div>
             </div>
         </div>
