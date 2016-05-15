@@ -12,7 +12,7 @@
         });
     });
 
-    dm.controller('DMController', function ($scope, socketService) {
+    dm.controller('DMController', function ($scope, socketService, characterService) {
         $scope.states = [{
                 id: 'characters',
                 title: 'Characters'
@@ -36,6 +36,15 @@
 
         $scope.socket = socketService.socket;
 
+        $scope.characterTableData = characterService.characters;
+        
+        $scope.characterTableCheckBoxes = characterService.checkboxes;
+        
+        $scope.socket.on('dm-player-update', function (playerData) {
+            characterService.pushPlayerData(playerData);
+            $scope.$apply();
+            console.log($scope.characterTableData);
+        });
     });
 
     dm.controller('DiceRollerController', function ($scope) {
@@ -51,7 +60,7 @@
         };
     });
 
-    dm.controller('StoreController', function ($scope, $http, alertService) {
+    dm.controller('storeController', function ($scope, $http, alertService) {
         $scope.storeTables = ["Armor", "Weapons", "Gear", "Magic"];
 
         $scope.MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
@@ -243,39 +252,43 @@
     });
 
     dm.controller('CharactersController', function ($scope) {
-        $scope.characterTableData
-                = [
-                    {
-                        Name: "Fayde",
-                        Armor: "11",
-                        CurrentHp: "27",
-                        IMp: "1",
-                        WMp: "0",
-                        Strength: "1",
-                        Intelligence: "6",
-                        Wisdom: "0",
-                        Dexterity: "4",
-                        Constitution: "4",
-                        Charisma: "-3"
-                    }
-                ];
-
-        $scope.characterTableCheckBoxes
-                = {
-                    Name: true,
-                    Armor: true,
-                    CurrentHp: true,
-                    IMp: true,
-                    WMp: true,
-                    Strength: true,
-                    Intelligence: true,
-                    Wisdom: true,
-                    Dexterity: true,
-                    Constitution: true,
-                    Charisma: true
-                };
+//        $scope.characterTableData
+//                = [
+//                    {
+//                    id: "Fayde",
+//                    value: {
+//                        Name: "Fayde",
+//                        Armor: "11",
+//                        CurrentHp: "27",
+//                        IMp: "1",
+//                        WMp: "0",
+//                        Strength: "1",
+//                        Intelligence: "6",
+//                        Wisdom: "0",
+//                        Dexterity: "4",
+//                        Constitution: "4",
+//                        Charisma: "-3"
+//                        }
+//                    }
+//                ];
+//
+//        $scope.characterTableCheckBoxes
+//                = {
+//                    Name: true,
+//                    Armor: true,
+//                    CurrentHp: true,
+//                    IMp: true,
+//                    WMp: true,
+//                    Strength: true,
+//                    Intelligence: true,
+//                    Wisdom: true,
+//                    Dexterity: true,
+//                    Constitution: true,
+//                    Charisma: true
+//                };
 
         $scope.getKeys = function (array) {
+            if (!array) return;
             var keyList = Object.keys(array);
             if (keyList.indexOf('$$hashKey') > -1) {
                 delete keyList[keyList.indexOf('$$hashKey')];

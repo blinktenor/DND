@@ -13,11 +13,11 @@
     <md-content layout-padding flex>
         <div ng-switch on="state.id">
             <div ng-switch-when="characters" ng-controller="CharactersController">
-                <div id="characterDiv" ng-show="characterTableData.length > 1">
+                <div id="characterDiv" ng-show="characterTableData.length > 0">
                     <table border="1">
                         <thead>
                             <tr>
-                                <th ng-repeat="columnKey in getKeys(characterTableData[0])">{{columnKey}}</th>
+                                <th ng-repeat="columnKey in getKeys(characterTableData[0].value)">{{columnKey}}</th>
                             </tr>
                         </thead>
                         <tbody>
