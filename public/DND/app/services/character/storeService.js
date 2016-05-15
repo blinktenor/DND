@@ -3,7 +3,7 @@
     angular.module('services.store', [])
             .factory('storeService', function () {
 
-    var storeTableData = {};
+    var storeTableData = null;
 
     return {
         storeTableData: storeTableData

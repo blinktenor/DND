@@ -60,6 +60,16 @@
         $scope.socket.on('new-map', function (imgSrc) {
             $scope.mapImage = imgSrc;
         });
+        
+        $scope.socket.on('dm-storeOpen', function (storeData) {
+            $scope.storeTableData = storeService.storeTableData = storeData;
+            $scope.$apply();
+        });
+        
+        $scope.socket.on('dm-storeClose', function (storeData) {
+            $scope.storeTableData = storeService.storeTableData = null;
+            $scope.$apply();
+        });
     });
 
     character.controller('DetailsController', function ($scope, $http, statsService, alertService) {
@@ -135,13 +145,8 @@
 
     });
 
-    character.controller('StoreController', function ($scope, storeService) {
+    character.controller('StoreController', function ($scope) {
         
-        $scope.socket.on('dm-storeOpen', function (storeData) {
-            console.log(storeService.storeTableData);
-            angular.copy(storeData, storeService.storeTableData);
-            console.log(storeService.storeTableData);
-        });
     });
 
 })(angular);
