@@ -7,10 +7,6 @@ module.exports.listen = function (server) {
 
     io.on('connection', function (socket) {
 
-        socket.on('socketTest', function () {
-            console.log('socket');
-        });
-    
         socket.on('login', function (name) {
             players.set(socket, name);
             io.emit('dm-login', name);
@@ -47,7 +43,10 @@ module.exports.listen = function (server) {
         });
         
         socket.on('player-update', function(updateData){
-            io.emit('dm-player-update', updateData);
+            var data = {};
+            data.id = socket.id;
+            data.value = updateData;
+            io.emit('dm-player-update', data);
         });
         
         socket.on('map', function(image) {
