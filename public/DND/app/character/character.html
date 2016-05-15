@@ -16,12 +16,20 @@
                 <input id="name" ng-model="characterStats.name" />
                 <md-button class="md-raised md-primary" ng-click="save();">Save</md-button>
                 <md-button class="md-raised md-primary" ng-click="load();">Load</md-button>
+                <br>
+                <br>
                 <label> Character Class </label>
                 <input id="class" ng-model="characterStats.class" />
+                <br>
+                <br>
                 <label> Character Race </label>
                 <input id="race" ng-model="characterStats.race" />
+                <br>
+                <br>
                 <label> Level </label>
                 <input id="level" type="number" ng-model="characterStats.level" />
+                <br>
+                <br>
                 <label> Exp </label>
                 <input id="exp" type="number" ng-model="characterStats.exp" />
             </div>
@@ -34,21 +42,21 @@
                     <md-input-container>
                         <label> Current Hit Points </label>
                         <input type="number" ng-model="characterStats.currentHp" />
-                        <md-button class="md-raised md-primary" ng-click="change('currentHp')">
+                        <md-button class="md-raised md-primary hpRestore" ng-click="change('currentHp')">
                             Restore
                         </md-button>
                     </md-input-container>
                     <md-input-container>
                         <label> Current Intelligence Points </label>
                         <input type="number" ng-model="characterStats.iMp" />
-                        <md-button class="md-raised md-primary" ng-click="change('iMp')">
+                        <md-button class="md-raised md-primary iMpRestore" ng-click="change('iMp')">
                             Restore
                         </md-button>
                     </md-input-container>
                     <md-input-container>
                         <label> Current Wisdom Points </label>
                         <input type="number" ng-model="characterStats.wMp" />
-                        <md-button class="md-raised md-primary" ng-click="change('wMp')">
+                        <md-button class="md-raised md-primary wMpRestore" ng-click="change('wMp')">
                             Restore
                         </md-button>
                     </md-input-container>
@@ -56,19 +64,19 @@
             </div>
             <div ng-switch-when="abilities" ng-controller="AbilitiesController">
                 <label> Hit Points </label>
-                <input id="hp" type="number" ng-model="characterStats.hp" />
+                <input class="statBox" id="hp" type="number" ng-model="characterStats.hp" />
                 <label> Strength </label>
-                <input id="strength" type="number" ng-model="characterStats.strength" />
+                <input class="statBox" id="strength" type="number" ng-model="characterStats.strength" />
                 <label> Intelligence </label>
-                <input id="intelligence" type="number" ng-model="characterStats.intelligence" />
+                <input class="statBox" id="intelligence" type="number" ng-model="characterStats.intelligence" />
                 <label> Wisdom </label>
-                <input id="wisdom" type="number" ng-model="characterStats.wisdom" />
+                <input class="statBox" id="wisdom" type="number" ng-model="characterStats.wisdom" />
                 <label> Dexterity </label>
-                <input id="dexterity" type="number" ng-model="characterStats.dexterity" />
+                <input class="statBox" id="dexterity" type="number" ng-model="characterStats.dexterity" />
                 <label> Constitution </label>
-                <input id="constitution" type="number" ng-model="characterStats.constitution" />
+                <input class="statBox" id="constitution" type="number" ng-model="characterStats.constitution" />
                 <label> Charisma </label>
-                <input id="charisma" type="number" ng-model="characterStats.charisma" />
+                <input class="statBox" id="charisma" type="number" ng-model="characterStats.charisma" />
             </div>
             <div ng-switch-when="equipment" ng-controller="EquipmentController">
                 <label> Primary Weapon </label>
