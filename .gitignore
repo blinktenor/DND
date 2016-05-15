@@ -51,6 +51,7 @@ Temporary Items
 /source/charBackups/*
 /madelinebrodtdotcom/*
 /node_modules/*
+bower_components
 
 public/*
 !public/DND/
@@ -61,6 +62,7 @@ views/*
 # netbeans files
 /nbproject/private/
 project.*
+public/DND/bower_components
 public/DND/images/*.psd
 public/DND/images/master/*
 /uploads/*

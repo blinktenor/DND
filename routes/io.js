@@ -43,7 +43,10 @@ module.exports.listen = function (server) {
         });
         
         socket.on('player-update', function(updateData){
-            io.emit('dm-player-update', updateData);
+            var data = {};
+            data.id = socket.id;
+            data.value = updateData;
+            io.emit('dm-player-update', data);
         });
         
         socket.on('map', function(image) {

@@ -1,0 +1,139 @@
+<div layout="row" flex>
+    <md-sidenav md-component-id="left"
+                md-is-locked-open="true">
+        <md-list>
+            <md-list-item ng-repeat="state in states"
+                          ng-click="selectState(state)"
+                          aria-label="{{ state.title }}">
+                <p ng-bind="state.title"></p>
+            </md-list-item>
+        </md-list>
+    </md-sidenav>
+    <md-divider></md-divider>
+    <md-content layout-padding flex>
+        <div ng-switch on="state.id">
+            <div ng-switch-when="characters" ng-controller="CharactersController">
+                <div id="characterDiv" ng-show="characterTableData.length > 0">
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th ng-repeat="columnKey in getKeys(characterTableData[0].value)">{{columnKey}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="character in characterTableData">
+                                <td ng-repeat="stat in character.value">{{stat}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <md-button class="md-raised md-primary" ng-click="toggleCheckboxes()">Toggle Checkboxes</md-button>
+                <form id="checkBoxForm">
+                    <div id="checkboxes" ng-show="characterTableCheckBoxes">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td ng-repeat="(columnName,value) in characterTableCheckBoxes">
+                                        <input type="checkbox" ng-model="value" value="{{value}}">{{columnName}}<br>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div ng-switch-when="notes" ng-controller="NotesController">
+                <md-button class="md-raised md-primary" ng-click="saveNotes()">Save</md-button>
+                <md-button class="md-raised md-primary" ng-click="loadNotes()">Load</md-button>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Adventure Name</label>
+                    <input type="text" ng-model="adventureName"/>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Dungeon Master Notes</label>
+                    <textarea ng-model="dmNotes" rows="30" md-select-on-focus></textarea>
+                </md-input-container>
+            </div>
+            <div ng-switch-when="maps" ng-controller="MapController">
+                <iframe id="uploadTrg" name="uploadTrg" height="0" width="0" frameborder="0" scrolling="yes"></iframe>
+                <form id="psdForm" action="/DND/source/psdUpload" method="post" enctype="multipart/form-data"  target="uploadTrg">
+                    File: <input type="file" name="file">
+                    <md-button class="md-raised md-primary" type="submit">Submit</md-button>
+                </form>
+                <md-select ng-model="mapData">
+                    <md-option ng-repeat="map in mapCollection"
+                               ng-value="map">
+                        {{ map.name}}
+                    </md-option>
+                </md-select>
+                <span ng-repeat="image in mapData.images" ng-if="mapData">
+                    <label for="{{$index}}">
+                        <input type="checkbox" ng-model="mapData.value[$index]" ng-change="checkboxChange()"> {{image}}
+                    </label>
+                </span>
+                <br>
+                <canvas width="500" height="300" id="mapCanvas" drawing></canvas>
+                <br>
+                <!--<img id="mapImage" />-->
+                <md-button class="md-raised md-primary" ng-click="pushMapToPlayers()">Push to players</md-button>
+                <md-button class="md-raised md-primary" ng-click="init()">Gather Map Data</md-button>
+            </div>
+            <div ng-switch-when="store" ng-controller="storeController">
+                <div id="controlDiv">
+                    <md-button class="md-raised md-primary" ng-click="loadStore()">Load Store</md-button>
+                    <br>
+                    <table class="controlTable">
+                        <thead>
+                            <tr>
+                                <th class="controlTable" ng-repeat="key in notSorted(controlCols)" ng-init="value = controlCols[key]">{{value}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="controlTable" ng-repeat="row in controlData">
+                                <td>{{row.Name}}</td>
+                                <td><input type="number" class="mod" ng-model="row.Chance"/></td>
+                                <td><input type="number" class="mod" ng-model="row.NumberAppearing"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="storeDiv" ng-if="storeTableData">
+                    <table ng-repeat="(tableHeader,tableValue) in storeTableData">
+                        <caption>{{tableHeader}}</caption>
+                        <thead>
+                            <tr>
+                                <th ng-repeat="columnKey in getKeys(tableValue[0])">{{columnKey}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="tableRow in tableValue">
+                                <td ng-repeat="value in tableRow">{{value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <md-button class="md-raised md-primary" ng-click="pushStore()">Push Store</md-button>
+                <md-button class="md-raised md-primary" ng-click="closeStore()">Close Store</md-button>
+            </div>
+            <div ng-switch-when="diceroller" ng-controller="DiceRollerController">
+                <div layout="column" flex-gt-xs="30">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Sides</label>
+                        <md-select ng-model="diceSides" ng-init="diceSides = diceSideOptions[0]">
+                            <md-option ng-repeat="diceSideOption in diceSideOptions"
+                                       value="{{ diceSideOption}}">
+                                {{ diceSideOption}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Number of Rolls</label>
+                        <input type="number" ng-model="numRolls" ng-pattern="/^[0-9]+$/" />
+                    </md-input-container>
+                </div>
+                <md-button class="md-raised md-primary" ng-click="rollDice()">Roll</md-button>
+                <span ng-if="result">Results: {{ result}}</span>
+            </div>
+        </div>
+    </md-content>
+</div>

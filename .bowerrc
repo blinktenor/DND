@@ -1,0 +1,6 @@
+{
+    "directory": "public/DND/bower_components",
+    "scripts": {
+        "postinstall": "gulp wiredep"
+    }
+}

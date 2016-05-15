@@ -83,26 +83,22 @@ router.post('/DND/source/characterNames', function (req, res, next) {
 });
 
 router.post('/DND/source/save', function (req, res, next) {
+
     var now = new Date();
-    var keys = Object.keys(req.body);
     var name = req.body.name;
     fs = require('fs');
-    var output = "";
-    for (var a = 0; a < keys.length; a++) {
-        if (keys[a] !== "") {
-            output += keys[a] + ":" + req.body[keys[a]] + "~";
-        }
-    }
-    fs.writeFile(process.cwd() + '/public/DND/source/characters/' + name + dateFormat(now, "ddmmyyyyhhMM") + ".char.txt", output, function (err) {
+    fs.writeFile(process.cwd() + '/public/DND/source/characters/' + name + dateFormat(now, "ddmmyyyyhhMM") + ".char.txt",
+            JSON.stringify(req.body), function (err) {
         if (err) {
             res.sendStatus(500);
         } else {
-            res.sendStatus("Character Saved!");
+            res.send("Character Saved!");
         }
     });
 });
 
 router.post('/DND/source/saveDm', function (req, res, next) {
+    console.log("called");
     var now = new Date();
     var keys = Object.keys(req.body);
     var name = req.body.name;
@@ -121,19 +117,20 @@ router.post('/DND/source/saveDm', function (req, res, next) {
 });
 
 router.post('/DND/source/psdUpload', upload.any(), function (req, res, next) {
-    var output = "";
 
+    var layers = 0;
     var PSD = require('psd');
     var file = req.files[0];
-
     var fs = require('fs');
-    var fileName = 'uploads/' + file.originalname;
+    var originalName = file.originalname;
+    var fileName = 'uploads/' + originalName;
+    var imageSet = [];
     fs.rename(file.path, fileName, function (err) {
         if (err) {
             console.log('ERROR: ' + err);
             res.sendStatus(500);
         } else {
-            fs.mkdir(process.cwd() + '/public/DND/images/master/' + file.originalname, function () {
+            fs.mkdir(process.cwd() + '/public/DND/images/master/' + originalName, function () {
                 if (err) {
                     console.log('ERROR: ' + err);
                     res.sendStatus(500);
@@ -143,15 +140,61 @@ router.post('/DND/source/psdUpload', upload.any(), function (req, res, next) {
                     var tree = psd.tree();
                     for (var childNum = 0; childNum < tree.descendants().length; childNum++) {
                         var child = tree.descendants()[childNum];
-                        child.layer.image.saveAsPng(process.cwd() + '/public/DND/images/master/' + file.originalname + "/" + child.name + '.png');
-                        output += ", " + file.originalname + "/" + child.name + ".png";
+                        layers++;
+                        var imageData = {name: child.name, top: child.top, left: child.left, height: child.height, width: child.width};
+                        imageSet.push(imageData);
+                        child.layer.image.saveAsPng(process.cwd() + '/public/DND/images/master/' + originalName + "/" + child.name + '.png')
+                                .then(function () {
+                                    layers--;
+                                    if (layers === 0) {
+                                        offsetLayers(originalName, imageSet);
+                                    }
+                                });
                     }
-                    res.send(output);
+                    res.sendStatus(200);
                 }
             });
         }
 
     });
+});
+
+function offsetLayers(originalName, imageSet) {
+    for (var a = 0; a < imageSet.length; a++) {
+        offsetLayer(originalName, imageSet[a]);
+    }
+}
+
+function offsetLayer(originalName, layerData) {
+    var jimp = require('jimp');
+    jimp.read(process.cwd() + '/public/DND/images/master/' + originalName + "/" + layerData.name + '.png', function (err, layer) {
+        if (err)
+            throw err;
+        var image = new jimp(layerData.width + layerData.left,
+                layerData.height + layerData.top,
+                function (err, image) {
+                    if (err)
+                        throw err;
+                });
+        image.composite(layer, layerData.left, layerData.top)
+                .write(process.cwd() + '/public/DND/images/master/' + originalName + "/" + layerData.name + '.png');
+    });
+}
+
+router.get('/DND/source/psdData', function (req, res, next) {
+    fs = require('fs');
+    var folderDir = fs.readdirSync(process.cwd() + '/public/DND/images/master/');
+    folderDir.sort();
+    folderDir.reverse();
+    var dataSet = [];
+    for (var a = 0; a < folderDir.length; a++) {
+        var imageDir = fs.readdirSync(process.cwd() + '/public/DND/images/master/' + folderDir[a] + "/");
+        imageDir.sort();
+        imageDir.reverse();
+        var folderData = {name: folderDir[a], images: imageDir, value: []};
+        dataSet.push(folderData);
+    }
+    res.send(dataSet);
 });
 
 router.get('/DND/source/psdFolders', function (req, res, next) {
@@ -207,25 +250,27 @@ router.all('/DND/source/test', upload.any(), function (req, res, next) {
 
 router.all('/DND/source/layerTest', function (req, res, next) {
 
-    var fs = require('fs');
-
-//console.log("Uh... starting?");
+    var layers = 0;
     var PSD = require('psd');
     var psd = PSD.fromFile('uploads/mansion.psd');
     psd.parse();
-    console.log(psd.options);
-//    var tree = psd.tree();
-//    for (var childNum = 0; childNum < tree.descendants().length; childNum++) {
-//        var child = tree.descendants()[childNum];
-//        child.layer.visible = false;
-//        if (child.layer.name === "10" ||
-//                child.layer.name === "11" ||
-//                child.layer.name === "9") {
-//            child.layer.visible = true;
-//        }
-//    }
-//    console.log("almost done");
-//    console.log(psd.image);
+    var tree = psd.tree();
+    var originalName = "mansion.psd";
+    var imageSet = [];
+    for (var childNum = 0; childNum < tree.descendants().length; childNum++) {
+        var child = tree.descendants()[childNum];
+        layers++;
+        var imageData = {name: child.name, top: child.top, left: child.left, height: child.height, width: child.width};
+        imageSet.push(imageData);
+        child.layer.image.saveAsPng(process.cwd() + '/public/DND/images/master/' + originalName + "/" + child.name + '.png')
+                .then(function () {
+                    layers--;
+                    if (layers === 0) {
+                        offsetLayers(originalName, imageSet);
+                    }
+                });
+    }
+
     res.sendStatus(200);
 });
 

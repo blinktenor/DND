@@ -1,17 +1,10 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var http = require('http');
-
-//var nomo = require('node-monkey').start();
 
 var app = express();
-
-//var server = http.createServer(app).listen(3001);
-
 
 var routes = require('./routes/index');
 

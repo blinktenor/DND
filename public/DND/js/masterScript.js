@@ -2,7 +2,7 @@ var ITEM_CHANCE_COUNT = [100, 100, 100, 3, 95, 20, 5, 25];
 
 var MAGIC_ITEMS_COUNT_CHANCE = [5, 25];
 
-var MAGIC_ITEM_COST_MODIFIER = [500, 1000, 2000, 8000, 15000];
+
 
 var socket = io();
 

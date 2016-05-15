@@ -1,0 +1,33 @@
+md-toast.md-success-toast-theme .md-toast-content {
+    background-color: green;
+}
+
+md-toast.md-error-toast-theme .md-toast-content {
+    background-color: red;
+}
+
+.statBox {
+    background-image: url("/DND/images/Shield.png");
+    background-size: cover;
+    height: 94px;
+    width: 80px;
+    outline: none;
+    background-color: transparent;
+    border: 0px solid;
+    text-align: center;
+}
+
+.hpRestore {
+    background: url("/DND/images/heart.jpg");
+    background-size: cover;	
+}
+
+.iMpRestore {
+    background: url("/DND/images/mana.png");
+    background-size: cover;	
+}
+
+.wMpRestore {
+    background: url("/DND/images/ankh.png");
+    background-size: cover;
+}
