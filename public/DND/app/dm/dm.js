@@ -178,8 +178,6 @@
 
     dm.controller('MapController', function ($scope, $http) {
 
-        $scope.imageModel;
-
         $scope.init = function () {
             
             $scope.imageService.setCanvas(document.querySelector('#mapCanvas'));
