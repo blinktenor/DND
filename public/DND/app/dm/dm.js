@@ -13,7 +13,7 @@
         });
     });
 
-    dm.controller('DMController', function ($scope, socketService, characterService, notesService, storeService) {
+    dm.controller('DMController', function ($scope, socketService, characterService, notesService, storeService, imageService) {
         $scope.states = [{
                 id: 'characters',
                 title: 'Characters'
@@ -43,6 +43,8 @@
         $scope.adventure = notesService.adventure;
         
         $scope.store = storeService.store;
+        
+        $scope.imageService = imageService;
         
         $scope.socket.on('dm-player-update', function (playerData) {
             characterService.pushPlayerData(playerData);
@@ -174,34 +176,38 @@
     });
 
 
-    dm.controller('MapController', function ($scope, $http, imageService) {
+    dm.controller('MapController', function ($scope, $http) {
 
-        $scope.mapCollection;
         $scope.imageModel;
 
         $scope.init = function () {
             
-            imageService.setCanvas(document.querySelector('#mapCanvas'));
+            $scope.imageService.setCanvas(document.querySelector('#mapCanvas'));
             
-            $http({
+            if (!$scope.imageService.initialized) {
+                $http({
                     method: 'GET',
                     url: 'source/psdData'
                 }).then(function successCallback(response) {
-                    $scope.mapCollection = response.data;
+                    $scope.imageService.mapCollection = response.data;
                 });
+                $scope.imageService.initialized = true;
+            } else {
+                $scope.imageService.resetImage();
+            }
         };
 
         $scope.init();
         
         $scope.checkboxChange = function () {
             var checkedImages = [];
-            for (var a = 0; a < $scope.mapData.value.length; a++) {
-                if ($scope.mapData.value[a] === true) {
+            for (var a = 0; a < $scope.imageService.mapData.value.length; a++) {
+                if ($scope.imageService.mapData.value[a] === true) {
                     //../DND/images/master/folder/filename
-                    checkedImages.push("../DND/images/master/" + $scope.mapData.name + "/" + $scope.mapData.images[a]);
+                    checkedImages.push("../DND/images/master/" + $scope.imageService.mapData.name + "/" + $scope.imageService.mapData.images[a]);
                 }
             }
-            imageService.loadImages(checkedImages);
+            $scope.imageService.loadImages(checkedImages);
         };
 
         $scope.pushMapToPlayers = function () {

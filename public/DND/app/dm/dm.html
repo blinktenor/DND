@@ -62,15 +62,15 @@
                     File: <input type="file" name="file">
                     <md-button class="md-raised md-primary" type="submit">Submit</md-button>
                 </form>
-                <md-select ng-model="mapData">
-                    <md-option ng-repeat="map in mapCollection"
+                <md-select ng-model="imageService.mapData">
+                    <md-option ng-repeat="map in imageService.mapCollection"
                                ng-value="map">
                         {{ map.name}}
                     </md-option>
                 </md-select>
-                <span ng-repeat="image in mapData.images" ng-if="mapData">
+                <span ng-repeat="image in imageService.mapData.images" ng-if="imageService.mapData">
                     <label for="{{$index}}">
-                        <input type="checkbox" ng-model="mapData.value[$index]" ng-change="checkboxChange()"> {{image}}
+                        <input type="checkbox" ng-model="imageService.mapData.value[$index]" ng-change="checkboxChange()"> {{image}}
                     </label>
                 </span>
                 <br>
