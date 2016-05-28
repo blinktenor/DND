@@ -13,7 +13,7 @@
         });
     });
 
-    dm.controller('DMController', function ($scope, socketService, characterService, notesService) {
+    dm.controller('DMController', function ($scope, socketService, characterService, notesService, storeService) {
         $scope.states = [{
                 id: 'characters',
                 title: 'Characters'
@@ -41,6 +41,8 @@
         $scope.characterTableCheckBoxes = characterService.checkboxes;
         
         $scope.adventure = notesService.adventure;
+        
+        $scope.store = storeService.store;
         
         $scope.socket.on('dm-player-update', function (playerData) {
             characterService.pushPlayerData(playerData);
@@ -74,8 +76,6 @@
         ];
 
         $scope.controlCols = Object.keys($scope.controlData[0]);
-
-        $scope.storeTableData = null;
 
         $scope.notSorted = function (obj) {
             if (!obj) {
@@ -150,7 +150,7 @@
                     }
                 }
                 newStoreData[$scope.controlData[storeCount].Name] = magicStoreItems;
-                $scope.storeTableData = newStoreData;
+                $scope.store.storeTableData = newStoreData;
             }, function errorCallback(response) {
                 alertService.alert("Error getting store data!", 0);
             });
@@ -161,7 +161,7 @@
         };
 
         $scope.pushStore = function () {
-            $scope.socket.emit('dm-storeOpen', $scope.storeTableData);
+            $scope.socket.emit('dm-storeOpen', $scope.store.storeTableData);
         };
 
         $scope.getKeys = function (array) {
