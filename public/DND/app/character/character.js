@@ -11,7 +11,7 @@
         });
     });
 
-    character.controller('CharacterController', function ($scope, statsService, socketService, storeService) {
+    character.controller('CharacterController', function ($scope, statsService, socketService, storeService, alertService) {
 
         $scope.states = [{
                 id: 'details',
@@ -63,11 +63,13 @@
         
         $scope.socket.on('dm-storeOpen', function (storeData) {
             $scope.storeTableData = storeService.storeTableData = storeData;
+            alertService.alert("Store is open!", 1);
             $scope.$apply();
         });
         
         $scope.socket.on('dm-storeClose', function (storeData) {
             $scope.storeTableData = storeService.storeTableData = null;
+            alertService.alert("Store is closed!", 0);
             $scope.$apply();
         });
     });
