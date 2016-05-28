@@ -72,6 +72,12 @@
             alertService.alert("Store is closed!", 0);
             $scope.$apply();
         });
+        
+        $scope.init = function () {
+            $scope.socket.emit('player-check');
+        };
+
+        $scope.init();
     });
 
     character.controller('DetailsController', function ($scope, $http, statsService, alertService) {

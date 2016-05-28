@@ -4,6 +4,8 @@ module.exports.listen = function (server) {
 
     var io = socketio.listen(server);
     var players = new Map();
+    var map;
+    var store;
 
     io.on('connection', function (socket) {
 
@@ -13,10 +15,12 @@ module.exports.listen = function (server) {
         });
 
         socket.on('dm-storeOpen', function (storeContents) {
+            store = storeContents;
             io.emit('dm-storeOpen', storeContents);
         });
 
         socket.on('dm-storeClose', function (storeContents) {
+            store = undefined;
             io.emit('dm-storeClose', storeContents);
         });
 
@@ -26,20 +30,8 @@ module.exports.listen = function (server) {
         });
 
         socket.on('player-check', function () {
-            if (players.size > 0) {
-                var playerIter = players.values();
-                var playerNames = [];
-                if (playerIter !== null) {
-                    var player;
-                    do {
-                        player = playerIter.next();
-                        if (player.value !== undefined) {
-                            playerNames.push(player.value);
-                        }
-                    } while (!player.done);
-                }
-                io.emit('players', playerNames);
-            }
+            if (map !== undefined) io.emit('new-map', map);
+            if (store !== undefined) io.emit('dm-storeOpen', store);
         });
         
         socket.on('player-update', function(updateData){
@@ -50,6 +42,7 @@ module.exports.listen = function (server) {
         });
         
         socket.on('map', function(image) {
+            map = image;
             io.emit('new-map', image);
         });
     });
