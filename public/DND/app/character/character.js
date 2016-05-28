@@ -76,8 +76,6 @@
 
         $scope.save = function () {
 
-            $scope.socket.emit('socketTest');
-
             if ($scope.characterStats.name !== "" && $scope.characterStats.name !== undefined) {
                 $http({
                     method: 'POST',

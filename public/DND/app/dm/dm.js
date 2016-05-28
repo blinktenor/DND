@@ -3,6 +3,7 @@
 
     var dm = angular.module('dm', 
             ['services.image',
+             'services.notes',
              'services.characters']);
 
     dm.config(function ($routeProvider) {
@@ -12,7 +13,7 @@
         });
     });
 
-    dm.controller('DMController', function ($scope, socketService, characterService) {
+    dm.controller('DMController', function ($scope, socketService, characterService, notesService) {
         $scope.states = [{
                 id: 'characters',
                 title: 'Characters'
@@ -37,8 +38,9 @@
         $scope.socket = socketService.socket;
 
         $scope.characterTableData = characterService.characters;
-        
         $scope.characterTableCheckBoxes = characterService.checkboxes;
+        
+        $scope.adventure = notesService.adventure;
         
         $scope.socket.on('dm-player-update', function (playerData) {
             characterService.pushPlayerData(playerData);
@@ -172,7 +174,7 @@
     });
 
 
-    dm.controller('MapController', function ($scope, $http, $document, imageService) {
+    dm.controller('MapController', function ($scope, $http, imageService) {
 
         $scope.mapCollection;
         $scope.imageModel;
