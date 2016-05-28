@@ -3,9 +3,10 @@
     angular.module('services.characters', [])
             .factory('characterService', function () {
 
-                var ids = [];
                 var characters = [];
                 var checkboxes = {};
+                var ids = [];
+                var initialized = false;
 
                 function updateCheckboxes(values) {
                     var keyList = Object.keys(values);
@@ -15,8 +16,18 @@
                         }
                     }
                 }
+                
+                function populateDefaultCheckboxes() {
+                    checkboxes.name = true;
+                    checkboxes.armor = true;
+                    checkboxes.currentHp = true;
+                    checkboxes.iMp = true;
+                    checkboxes.wMp = true;
+                    initialized = true;
+                }
 
                 return {
+                    initialized: initialized,
                     characters: characters,
                     checkboxes: checkboxes,
                     pushPlayerData: function (playerData) {
@@ -31,6 +42,7 @@
                             characters.push(playerData);
                         }
                         updateCheckboxes(playerData.value);
+                        if (!initialized) populateDefaultCheckboxes();
                     },
                     removePlayer: function (id) {
                         

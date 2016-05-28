@@ -4,7 +4,7 @@
         <md-list>
             <md-list-item ng-repeat="state in states"
                           ng-click="selectState(state)"
-                          aria-label="{{ state.title }}">
+                          aria-label="{{ state.title}}">
                 <p ng-bind="state.title"></p>
             </md-list-item>
         </md-list>
@@ -17,12 +17,14 @@
                     <table border="1">
                         <thead>
                             <tr>
-                                <th ng-repeat="columnKey in getKeys(characterTableData[0].value)">{{columnKey}}</th>
+                                <th ng-repeat="(columnName,value) in characterTableCheckBoxes" ng-show="characterTableCheckBoxes[columnName]">{{columnName}}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="character in characterTableData">
-                                <td ng-repeat="stat in character.value">{{stat}}</td>
+                                <td ng-repeat="(columnName,value) in characterTableCheckBoxes" ng-show="characterTableCheckBoxes[columnName]">
+                                    {{character.value[columnName]}}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -34,7 +36,7 @@
                             <tbody>
                                 <tr>
                                     <td ng-repeat="(columnName,value) in characterTableCheckBoxes">
-                                        <input type="checkbox" ng-model="value" value="{{value}}">{{columnName}}<br>
+                                        <input type="checkbox" ng-model="characterTableCheckBoxes[columnName]" value="{{value}}">{{columnName}}<br>
                                     </td>
                                 </tr>
                             </tbody>
@@ -74,7 +76,6 @@
                 <br>
                 <canvas width="500" height="300" id="mapCanvas" drawing></canvas>
                 <br>
-                <!--<img id="mapImage" />-->
                 <md-button class="md-raised md-primary" ng-click="pushMapToPlayers()">Push to players</md-button>
                 <md-button class="md-raised md-primary" ng-click="init()">Gather Map Data</md-button>
             </div>
