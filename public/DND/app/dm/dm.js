@@ -218,8 +218,8 @@
         $scope.saveNotes = function () {
             if ($scope.adventureName !== "") {
                 var userData = {
-                    "dmNotes": $scope.dmNotes,
-                    "name": $scope.adventureName
+                    "notes": $scope.adventure.notes,
+                    "name": $scope.adventure.name
                 };
 
                 $http({
@@ -240,10 +240,9 @@
                 $http({
                     method: 'POST',
                     url: 'source/loadDm',
-                    data: {"name": $scope.adventureName}
+                    data: {"name": $scope.adventure.name}
                 }).then(function successCallback(response) {
-                    var valueKey = response.data.split("~");
-                    $scope.dmNotes = valueKey[1].substr(valueKey[1].indexOf(":") + 1);
+                    $scope.adventure.notes = response.data.notes;
                     alertService.alert("Adventure loaded!", 1);
                 });
             } else {
