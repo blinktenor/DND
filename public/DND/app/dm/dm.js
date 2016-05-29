@@ -1,10 +1,10 @@
 (function (angular) {
 //    var socket = io();
 
-    var dm = angular.module('dm', 
+    var dm = angular.module('dm',
             ['services.image',
-             'services.notes',
-             'services.characters']);
+                'services.notes',
+                'services.characters']);
 
     dm.config(function ($routeProvider) {
         $routeProvider.when('/dm', {
@@ -39,17 +39,23 @@
 
         $scope.characterTableData = characterService.characters;
         $scope.characterTableCheckBoxes = characterService.checkboxes;
-        
+
         $scope.adventure = notesService.adventure;
-        
+
         $scope.store = storeService.store;
-        
+
         $scope.imageService = imageService;
-        
+
         $scope.socket.on('dm-player-update', function (playerData) {
             characterService.pushPlayerData(playerData);
             $scope.$apply();
         });
+
+        $scope.init = function () {
+            $scope.socket.emit('dm-check');
+        };
+
+        $scope.init();
     });
 
     dm.controller('DiceRollerController', function ($scope) {
@@ -179,9 +185,9 @@
     dm.controller('MapController', function ($scope, $http) {
 
         $scope.init = function () {
-            
+
             $scope.imageService.setCanvas(document.querySelector('#mapCanvas'));
-            
+
             if (!$scope.imageService.initialized) {
                 $http({
                     method: 'GET',
@@ -196,7 +202,7 @@
         };
 
         $scope.init();
-        
+
         $scope.checkboxChange = function () {
             var checkedImages = [];
             for (var a = 0; a < $scope.imageService.mapData.value.length; a++) {
@@ -257,7 +263,8 @@
 
     dm.controller('CharactersController', function ($scope) {
         $scope.getKeys = function (array) {
-            if (!array) return;
+            if (!array)
+                return;
             var keyList = Object.keys(array);
             if (keyList.indexOf('$$hashKey') > -1) {
                 delete keyList[keyList.indexOf('$$hashKey')];
@@ -265,5 +272,5 @@
             return keyList;
         };
     });
-    
+
 })(angular);

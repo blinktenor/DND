@@ -21,24 +21,37 @@ module.exports.listen = function (server) {
 
         socket.on('disconnect', function () {
             io.emit('dm-player-update', socket.id);
-            if(players[socket.id] !== undefined) delete players[socket.id];
+            if (players[socket.id] !== undefined)
+                delete players[socket.id];
             io.emit('dm-disconnect', players);
         });
 
         socket.on('player-check', function () {
-            if (map !== undefined) io.emit('new-map', map);
-            if (store !== undefined) io.emit('dm-storeOpen', store);
+            if (map !== undefined)
+                io.emit('new-map', map);
+            if (store !== undefined)
+                io.emit('dm-storeOpen', store);
         });
-        
-        socket.on('player-update', function(updateData){
+
+        socket.on('dm-check', function () {
+            var keys = Object.keys(players);
+            for (var a = 0; a < keys.length; a++) {
+                var data = {};
+                data.id = keys[a];
+                data.value = players[keys[a]];
+                io.emit('dm-player-update', data);
+            }
+        });
+
+        socket.on('player-update', function (updateData) {
             var data = {};
             data.id = socket.id;
             data.value = updateData;
             io.emit('dm-player-update', data);
             players[data.id] = data.value;
         });
-        
-        socket.on('map', function(image) {
+
+        socket.on('map', function (image) {
             map = image;
             io.emit('new-map', image);
         });
