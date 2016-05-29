@@ -3,16 +3,11 @@ var socketio = require('socket.io');
 module.exports.listen = function (server) {
 
     var io = socketio.listen(server);
-    var players = new Map();
+    var players = {};
     var map;
     var store;
 
     io.on('connection', function (socket) {
-
-        socket.on('login', function (name) {
-            players.set(socket, name);
-            io.emit('dm-login', name);
-        });
 
         socket.on('dm-storeOpen', function (storeContents) {
             store = storeContents;
@@ -25,8 +20,9 @@ module.exports.listen = function (server) {
         });
 
         socket.on('disconnect', function () {
-            io.emit('dm-disconnect', players.get(socket));
-            players.delete(socket);
+            io.emit('dm-player-update', socket.id);
+            if(players[socket.id] !== undefined) delete players[socket.id];
+            io.emit('dm-disconnect', players);
         });
 
         socket.on('player-check', function () {
@@ -39,6 +35,7 @@ module.exports.listen = function (server) {
             data.id = socket.id;
             data.value = updateData;
             io.emit('dm-player-update', data);
+            players[data.id] = data.value;
         });
         
         socket.on('map', function(image) {

@@ -25,12 +25,19 @@
                     checkboxes.wMp = true;
                     initialized = true;
                 }
-
+                
                 return {
                     initialized: initialized,
                     characters: characters,
                     checkboxes: checkboxes,
                     pushPlayerData: function (playerData) {
+                        if (playerData.value === undefined) {
+                            for (var a = 0; a < characters.length; a++) {
+                                if (characters[a].id === playerData) {
+                                    characters.splice(a,1);
+                                }
+                            }
+                        } else {
                         if (ids.indexOf(playerData.id) > -1) {
                             for (var a = 0; a < characters.length; a++) {
                                 if (characters[a].id === playerData.id) {
@@ -43,9 +50,7 @@
                         }
                         updateCheckboxes(playerData.value);
                         if (!initialized) populateDefaultCheckboxes();
-                    },
-                    removePlayer: function (id) {
-                        
+                    }
                     }
                 };
             });
