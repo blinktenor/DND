@@ -93,6 +93,9 @@
         };
 
         $scope.getKeys = function (array) {
+            if(array === undefined || array === null) {
+                return [];
+            }
             var keyList = Object.keys(array);
             if (keyList.indexOf('$$hashKey') > -1) {
                 delete keyList[keyList.indexOf('$$hashKey')];
@@ -173,6 +176,9 @@
         };
 
         $scope.getKeys = function (array) {
+            if(array === undefined || array === null) {
+                return [];
+            }
             var keyList = Object.keys(array);
             if (keyList.indexOf('$$hashKey') > -1) {
                 delete keyList[keyList.indexOf('$$hashKey')];
