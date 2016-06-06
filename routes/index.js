@@ -6,13 +6,13 @@ var multer = require('multer');
 var upload = multer({dest: 'uploads/'});
 
 /* GET DND page. */
-router.get('/DND/:param', function (req, res, next) {
-    if (req.params['param'].indexOf('.html') > -1) {
-        res.render('DND/' + req.params['param']);
-    } else {
-        res.render('DND/character.html', {character: req.params['param']});
-    }
-});
+//router.get('/DND/:param', function (req, res, next) {
+//    if (req.params['param'].indexOf('.html') > -1) {
+//        res.render('DND/' + req.params['param']);
+//    } else {
+//        res.render('DND/character.html', {character: req.params['param']});
+//    }
+//});
 
 router.get('/DND/source/loadGear', function (req, res, next) {
     fs = require('fs');
