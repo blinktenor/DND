@@ -9,13 +9,13 @@
             templateUrl: 'app/character/character.html',
             controller: 'CharacterController'
         })
-                .when('/character/', {
-                    templateUrl: 'app/character/character.html',
-                    controller: 'CharacterController'
-                });
+        .when('/character/', {
+            templateUrl: 'app/character/character.html',
+            controller: 'CharacterController'
+        });
     });
 
-    character.controller('CharacterController', function ($rootScope, $scope, $routeParams, statsService, socketService, storeService, alertService) {
+    character.controller('CharacterController', function ($http, $scope, $routeParams, statsService, socketService, storeService, alertService) {
 
         $scope.states = [{
                 id: 'details',
@@ -80,50 +80,20 @@
         $scope.init = function () {
             $scope.socket.emit('player-check');
             if ($routeParams.characterName !== undefined) {
+                statsService.setValues($scope, $http, alertService);
                 $scope.characterStats.name = $routeParams.characterName;
-                $rootScope.$emit("LoadCharacter", {});
+                statsService.load();
             }
         };
 
         $scope.init();
     });
 
-    character.controller('DetailsController', function ($rootScope, $scope, $http, statsService, alertService) {
+    character.controller('DetailsController', function ($scope, statsService, alertService) {
+        
+        $scope.save = statsService.save;
 
-        $rootScope.$on("LoadCharacter", function () {
-            $scope.load();
-        });
-
-        $scope.save = function () {
-
-            if ($scope.characterStats.name !== "" && $scope.characterStats.name !== undefined) {
-                $http({
-                    method: 'POST',
-                    url: 'source/save',
-                    data: $scope.characterStats
-                }).then(function successCallback(response) {
-                    alertService.alert("Character Saved!", 1);
-                });
-            } else {
-                alertService.alert("Enter character name", 0);
-            }
-        };
-
-        $scope.load = function () {
-
-            if ($scope.characterStats.name !== "" && $scope.characterStats.name !== undefined) {
-                $http({
-                    method: 'POST',
-                    url: 'source/load',
-                    data: {name: $scope.characterStats.name}
-                }).then(function successCallback(response) {
-                    angular.copy(response.data, statsService.characterStats);
-                    alertService.alert("Character Loaded!", 1);
-                });
-            } else {
-                alertService.alert("Enter character name", 0);
-            }
-        };
+        $scope.load = statsService.load;
     });
 
     character.controller('CurrentStatsController', function ($scope) {
