@@ -4,15 +4,21 @@ This project is mostly a never ending work in progress. The idea is to have a us
 
 ## Installation
 
-Install node.js - 4.3.1
+Install node.js - version 6+ https://nodejs.org/en/
 
-Install bower (`npm install -g bower`)
+Install git - https://git-scm.com/downloads
 
-Open a command prompt and type "npm i -g nodemon"
+Download the codebase - unzip or move into the folder you wish
+
+Navigate to the location you placed the codebase
+
+Install bower - type `npm i -g bower`
+
+    -This is for managing the front end packaging
+
+Install nodemon - type 'npm i -g nodemon'
 
     -This is for node server monitor package. This will host the server and allow for changes to be made on the fly.
-
-Download the codebase
 
 Navigate in the command prompt to your directory and type "npm install"
 
@@ -20,8 +26,7 @@ Navigate in the command prompt to your directory and type "npm install"
 
 And then run "bower install"
 
-Type "nodemon /bin/www" and your server will be up and running!
-
+Type 'gulp serve' and your server will be up and running!
 
 ## Usage
 See the wiki for documentation
