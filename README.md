@@ -10,13 +10,13 @@ Install git - https://git-scm.com/downloads
 
 Download the codebase - unzip or move into the folder you wish
 
-Navigate to the location you placed the codebase
+Navigate to the location you placed the codebase in command line
 
 Install bower - type `npm i -g bower`
 
     -This is for managing the front end packaging
 
-Install nodemon - type 'npm i -g nodemon'
+Install nodemon - type `npm i -g nodemon`
 
     -This is for node server monitor package. This will host the server and allow for changes to be made on the fly.
 
