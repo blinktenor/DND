@@ -11,7 +11,7 @@ var static = require( 'node-static' ),
     http = require( 'http' );
 
 // config
-var file = new static.Server( './madelinebrodtdotcom', {
+var file = new static.Server( './dndtower', {
     cache: 3600,
     gzip: true
 } );

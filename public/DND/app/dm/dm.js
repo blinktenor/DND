@@ -8,7 +8,7 @@
 
     dm.config(function ($routeProvider) {
         $routeProvider.when('/dm', {
-            templateUrl: 'app/dm/dm.html',
+            templateUrl: 'DND/app/dm/dm.html',
             controller: 'DMController'
         });
     });

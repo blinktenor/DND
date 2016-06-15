@@ -1,7 +1,16 @@
 <div layout="column" layout-align="center center">
     <md-content layout-padding>
         <h1>Select your role:</h1>
-        <md-button class="md-raised md-primary" href="/DND/#/dm">Dungeon Master</md-button>
-        <md-button class="md-raised md-primary" href="/DND/#/character">Character</md-button>
+        <md-button class="md-raised md-primary" href="/#/dm">Dungeon Master</md-button>
+        <br>
+        <md-button class="md-raised md-primary" ng-click="load();">Character</md-button>
+        <label> Character Name (leave blank for new character) </label>
+        <input ng-model="characterName" />
+        <h2>Resources:</h2>
+        <md-button class="md-raised md-primary" target="_blank" href="https://simplednd.wordpress.com/">SimpleDND Blog</md-button>
+        <br>
+        <md-button class="md-raised md-primary" target="_blank" href="https://simplednd.wordpress.com/creating-characters/">SimpleDND Character Creation</md-button>
+        <br>
+        <md-button class="md-raised md-primary" target="_blank" href="https://www.youtube.com">Recorded game</md-button>
     </md-content>
 </div>

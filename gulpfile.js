@@ -21,14 +21,14 @@ gulp.task('wiredep', function () {
     };
     var wiredep = require('wiredep').stream;
     return gulp
-        .src('./public/DND/index.html')
+        .src('./public/index.html')
         .pipe(wiredep(options))
         .pipe(inject(gulp.src([
             './public/DND/app/**/*.js',
             '!./public/DND/bower_components/**/*.js',
             './public/DND/css/**/*.css'
         ]), { relative: true }))
-        .pipe(gulp.dest('./public/DND/'))
+        .pipe(gulp.dest('./public'))
 });
 
 gulp.task('serve', ['wiredep'], function () {

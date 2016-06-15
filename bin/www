@@ -43,8 +43,9 @@ io.listen(server);
 
 /**
  * Normalize a port into a number, string, or false.
+ * 
+ * @val number for the port to start at
  */
-
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
@@ -63,8 +64,9 @@ function normalizePort(val) {
 
 /**
  * Event listener for HTTP server "error" event.
+ * 
+ * @error error to process
  */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -92,7 +94,6 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'

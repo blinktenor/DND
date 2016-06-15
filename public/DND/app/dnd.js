@@ -12,13 +12,20 @@
 
   dnd.config(function ($routeProvider) {
       $routeProvider.when('/', {
-          templateUrl: 'app/dashboard.html',
+          templateUrl: 'DND/app/dashboard.html',
           controller: 'DashboardController'
       });
   });
 
-  dnd.controller('DashboardController', function () {
-
+  dnd.controller('DashboardController', function ($scope, $location) {
+      
+      $scope.load = function() {
+          var newLocation = "/character";
+          if ($scope.characterName !== undefined) {
+              newLocation += "/" + $scope.characterName;
+          }
+          $location.path(newLocation);
+      };
   });
 
 })();

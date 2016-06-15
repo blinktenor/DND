@@ -6,11 +6,11 @@
 
     character.config(function ($routeProvider) {
         $routeProvider.when('/character/:characterName', {
-            templateUrl: 'app/character/character.html',
+            templateUrl: 'DND/app/character/character.html',
             controller: 'CharacterController'
         })
         .when('/character/', {
-            templateUrl: 'app/character/character.html',
+            templateUrl: 'DND/app/character/character.html',
             controller: 'CharacterController'
         });
     });
@@ -71,7 +71,7 @@
             $scope.$apply();
         });
 
-        $scope.socket.on('dm-storeClose', function (storeData) {
+        $scope.socket.on('dm-storeClose', function () {
             $scope.storeTableData = storeService.storeTableData = null;
             alertService.alert("Store is closed!", 0);
             $scope.$apply();
