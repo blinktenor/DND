@@ -23,6 +23,7 @@
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.4.5",
     "jimp": "~0.2.24",
+    "properties-reader": "~0.0.15",
     "checklist-model": "0.9.0"
   },
   "devDependencies": {

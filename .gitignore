@@ -66,3 +66,4 @@ public/DND/bower_components
 public/DND/images/*.psd
 public/DND/images/master/*
 /uploads/*
+default.properties
