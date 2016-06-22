@@ -135,6 +135,19 @@
                 <md-button class="md-raised md-primary" ng-click="rollDice()">Roll</md-button>
                 <span ng-if="result">Results: {{ result}}</span>
             </div>
+            <div ng-switch-when="room" ng-controller="RoomController">
+                <div layout="column" flex-gt-xs="30">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Adventure Room Name</label>
+                        <input type="text" ng-model="roomName"/>
+                    </md-input-container>
+                    <md-button class="md-raised md-primary" ng-click="">Set Room</md-button>
+                    <br>
+                    <div ng-if="hangoutURL">
+                        <md-button class="md-raised md-primary" ng-href="{{hangoutURL}}" target="_blank">Join Hangout</md-button>
+                    </div>
+                </div>
+            </div>
         </div>
     </md-content>
 </div>

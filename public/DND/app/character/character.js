@@ -5,7 +5,7 @@
         'services.store']);
 
     character.config(function ($routeProvider) {
-        $routeProvider.when('/character/:characterName', {
+        $routeProvider.when('/character/:room/:characterName', {
             templateUrl: 'DND/app/character/character.html',
             controller: 'CharacterController'
         })
@@ -60,6 +60,7 @@
         }, true);
 
         $scope.mapImage;
+        $scope.hangoutURL;
 
         $scope.socket.on('new-map', function (imgSrc) {
             $scope.mapImage = imgSrc;
@@ -76,9 +77,23 @@
             alertService.alert("Store is closed!", 0);
             $scope.$apply();
         });
+        
+        $scope.socket.on('hangout-url', function (url) {
+            console.log(url);
+            $scope.hangoutURL = url;
+        });
 
         $scope.init = function () {
-            $scope.socket.emit('player-check');
+            socketService.setRoom($routeParams.room);
+            $scope.socket.emit('player-check', function (data) {
+                if (data.map !== undefined)
+                    $scope.mapImage = data.map;
+                if (data.store !== undefined)
+                    $scope.storeTableData = storeService.storeTableData = data.store;
+                if (data.hangout !== undefined)
+                    $scope.hangoutURL = data.hangout;
+                $scope.$apply();
+            });
             if ($routeParams.characterName !== undefined) {
                 statsService.setValues($scope, $http, alertService);
                 $scope.characterStats.name = $routeParams.characterName;

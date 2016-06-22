@@ -1,5 +1,4 @@
 (function (angular) {
-//    var socket = io();
 
     var dm = angular.module('dm',
             ['services.image',
@@ -7,13 +6,17 @@
                 'services.characters']);
 
     dm.config(function ($routeProvider) {
-        $routeProvider.when('/dm', {
+        $routeProvider.when('/dm/:room', {
+            templateUrl: 'DND/app/dm/dm.html',
+            controller: 'DMController'
+        })
+        .when('/dm/', {
             templateUrl: 'DND/app/dm/dm.html',
             controller: 'DMController'
         });
     });
 
-    dm.controller('DMController', function ($scope, socketService, characterService, notesService, storeService, imageService) {
+    dm.controller('DMController', function ($scope, $routeParams, socketService, characterService, notesService, storeService, imageService) {
         $scope.states = [{
                 id: 'characters',
                 title: 'Characters'
@@ -29,6 +32,9 @@
             }, {
                 id: 'diceroller',
                 title: 'Dice Roller'
+            }, {
+                id: 'room',
+                title: 'Room'
             }];
         $scope.state = $scope.states[0];
         $scope.selectState = function (state) {
@@ -45,6 +51,8 @@
         $scope.store = storeService.store;
 
         $scope.imageService = imageService;
+        
+        $scope.hangoutURL;
 
         $scope.socket.on('dm-player-update', function (playerData) {
             characterService.pushPlayerData(playerData);
@@ -52,7 +60,15 @@
         });
 
         $scope.init = function () {
-            $scope.socket.emit('dm-check');
+            if ($routeParams.room !== undefined) {
+                socketService.setRoom($routeParams.room);
+                $scope.roomName = $routeParams.room;
+            }
+            $scope.socket.emit('dm-check', function (hangout) {
+                if (hangout !== undefined) {
+                    $scope.hangoutURL = hangout;
+                }
+            });
         };
 
         $scope.init();
@@ -107,7 +123,7 @@
 
             $http({
                 method: 'GET',
-                url: 'source/loadGear'
+                url: 'DND/source/loadGear'
             }).then(function successCallback(response) {
                 var magicItemList = [];
                 var storeContents = response.data.split("###");
@@ -197,7 +213,7 @@
             if (!$scope.imageService.initialized) {
                 $http({
                     method: 'GET',
-                    url: 'source/psdData'
+                    url: 'DND/source/psdData'
                 }).then(function successCallback(response) {
                     $scope.imageService.mapCollection = response.data;
                 });
@@ -240,7 +256,7 @@
 
                 $http({
                     method: 'POST',
-                    url: 'source/saveDm',
+                    url: 'DND/source/saveDm',
                     data: userData
                 }).then(function successCallback(response) {
                     alertService.alert("Adventure Saved!", 1);
@@ -255,7 +271,7 @@
             if ($scope.adventureName !== "") {
                 $http({
                     method: 'POST',
-                    url: 'source/loadDm',
+                    url: 'DND/source/loadDm',
                     data: {"name": $scope.adventure.name}
                 }).then(function successCallback(response) {
                     $scope.adventure.notes = response.data.notes;
@@ -276,6 +292,13 @@
                 delete keyList[keyList.indexOf('$$hashKey')];
             }
             return keyList;
+        };
+    });
+    
+    dm.controller('RoomController', function ($scope, socketService) {
+        
+        $scope.shareHangout = function() {
+            socketService.socket.emit("hangout-link", $scope.hangoutLink);
         };
     });
 

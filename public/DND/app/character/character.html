@@ -12,6 +12,9 @@
     <md-content layout-padding flex>
         <div ng-switch on="state.id">
             <div ng-switch-when="details" ng-controller="DetailsController">
+                <div ng-if="hangoutURL">
+                    <md-button class="md-raised md-primary" ng-href="{{hangoutURL}}" target="_blank">Join Hangout</md-button>
+                </div>
                 <label> Character Name </label>
                 <input id="name" ng-model="characterStats.name" />
                 <md-button class="md-raised md-primary" ng-click="save();">Save</md-button>
@@ -32,6 +35,7 @@
                 <br>
                 <label> Exp </label>
                 <input id="exp" type="number" ng-model="characterStats.exp" />
+                
             </div>
             <div ng-switch-when="currentStats" ng-controller="CurrentStatsController">
                 <div layout="column" flex-gt-xs="30">

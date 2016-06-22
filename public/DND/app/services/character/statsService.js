@@ -20,7 +20,7 @@
             if (scope.characterStats.name !== "" && scope.characterStats.name !== undefined) {
                 http({
                     method: 'POST',
-                    url: 'source/save',
+                    url: 'DND/source/save',
                     data: scope.characterStats
                 }).then(function successCallback(response) {
                     alerts.alert("Character Saved!", 1);
@@ -34,7 +34,7 @@
             if (scope.characterStats.name !== "" && scope.characterStats.name !== undefined) {
                 http({
                     method: 'POST',
-                    url: 'source/load',
+                    url: 'DND/source/load',
                     data: {name: scope.characterStats.name}
                 }).then(function successCallback(response) {
                     angular.copy(response.data, characterStats);
