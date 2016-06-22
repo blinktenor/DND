@@ -11,8 +11,8 @@ module.exports.listen = function (server) {
 
         var room;
 
-        socket.on('roomCheck', function () {
-            io.emit('roomList', Object.keys(games));
+        socket.on('roomCheck', function (callback) {
+            callback(Object.keys(games));
         });
 
         socket.on('joinRoom', function (p_room) {

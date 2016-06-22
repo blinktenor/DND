@@ -1,16 +1,30 @@
 <div layout="column" layout-align="center center">
     <md-content layout-padding>
-        <h1>Select your role:</h1>
+        <h1>Start new game:</h1>
         <md-button class="md-raised md-primary" href="/#/dm">Dungeon Master</md-button>
         <br>
-        <md-button class="md-raised md-primary" ng-click="load();">Character</md-button>
-        <label> Character Name (leave blank for new character) </label>
-        <input ng-model="characterName" />
+        <h1>Join existing game:</h1>
+        <div ng-if="roomSize()">
+            <table border="1" >
+                <tr ng-repeat="room in rooms">
+                    <td>{{room.name}}</td>
+                    <td style="width:75%">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Character Name (blank for new character) </label>
+                        <input type="text" ng-model="room.characterName"/>
+                    </md-input-container>
+                    </td>
+                    <td><md-button class="md-raised md-primary" ng-click="join(room)">Join Room</md-button></td>
+                </tr>
+            </table>
+        </div>
         <h2>Resources:</h2>
+        <md-button class="md-raised md-primary" target="_blank" href="/#/character/">Character Sheet</md-button>
+        <br>
         <md-button class="md-raised md-primary" target="_blank" href="https://simplednd.wordpress.com/">SimpleDND Blog</md-button>
         <br>
         <md-button class="md-raised md-primary" target="_blank" href="https://simplednd.wordpress.com/creating-characters/">SimpleDND Character Creation</md-button>
         <br>
-        <md-button class="md-raised md-primary" target="_blank" href="https://www.youtube.com">Recorded game</md-button>
+        <!--<md-button class="md-raised md-primary" target="_blank" href="https://www.youtube.com">Recorded game</md-button>-->
     </md-content>
 </div>

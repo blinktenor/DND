@@ -9,10 +9,14 @@
             templateUrl: 'DND/app/character/character.html',
             controller: 'CharacterController'
         })
-        .when('/character/', {
-            templateUrl: 'DND/app/character/character.html',
-            controller: 'CharacterController'
-        });
+                .when('/character/:room', {
+                    templateUrl: 'DND/app/character/character.html',
+                    controller: 'CharacterController'
+                })
+                .when('/character/', {
+                    templateUrl: 'DND/app/character/character.html',
+                    controller: 'CharacterController'
+                });
     });
 
     character.controller('CharacterController', function ($http, $scope, $routeParams, statsService, socketService, storeService, alertService) {
@@ -77,14 +81,16 @@
             alertService.alert("Store is closed!", 0);
             $scope.$apply();
         });
-        
+
         $scope.socket.on('hangout-url', function (url) {
             console.log(url);
             $scope.hangoutURL = url;
         });
 
         $scope.init = function () {
-            socketService.setRoom($routeParams.room);
+            if ($routeParams.room !== undefined) {
+                socketService.setRoom($routeParams.room);
+            }
             $scope.socket.emit('player-check', function (data) {
                 if (data.map !== undefined)
                     $scope.mapImage = data.map;
@@ -105,7 +111,7 @@
     });
 
     character.controller('DetailsController', function ($scope, statsService, alertService) {
-        
+
         $scope.save = statsService.save;
 
         $scope.load = statsService.load;
