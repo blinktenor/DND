@@ -1,3 +1,4 @@
 #Information for the server
 [server]
 port = 3000
+proxy = false

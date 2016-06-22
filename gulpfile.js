@@ -13,6 +13,11 @@ gulp.task('lint', function () {
         .pipe(eslint.failAfterError());
 });
 
+gulp.task('properties', function () {
+    var propertiesLoader = require('./public/DND/js/nodeProperties.js');
+    propertiesLoader.prepareProperties();
+});
+
 gulp.task('wiredep', function () {
     var options = {
         bowerJson: require('./bower.json'),
@@ -28,10 +33,12 @@ gulp.task('wiredep', function () {
             '!./public/DND/bower_components/**/*.js',
             './public/DND/css/**/*.css'
         ]), { relative: true }))
-        .pipe(gulp.dest('./public'))
+        .pipe(gulp.dest('./public'));
 });
 
-gulp.task('serve', ['wiredep'], function () {
+gulp.task('serve', ['properties', 'wiredep'], function () {
+    var PropertiesReader = require('properties-reader');
+    var properties = PropertiesReader('default.properties');
     var options = {
         script: './bin/www',
         watch: ['./routes/**/*', './views/**/*','routes/*.js'],
@@ -49,8 +56,10 @@ gulp.task('serve', ['wiredep'], function () {
             }, 1000);
         })
         .on('start', function () {
-            gutil.log('Started the server.');
-            startBrowserSync();
+            if(properties.get('server.proxy')) {
+                gutil.log('Started the server.');
+                startBrowserSync();
+            }
         })
         .on('crash', function () { /*  */ })
         .on('exit', function () { /*  */ });

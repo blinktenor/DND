@@ -3,9 +3,6 @@
 /**
  * Module dependencies.
  */
-
-var propertiesLoader = require('../public/DND/js/nodeProperties.js');
-propertiesLoader.prepareProperties();
 var PropertiesReader = require('properties-reader');
 var properties = PropertiesReader('default.properties');
 
