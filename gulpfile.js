@@ -44,7 +44,7 @@ gulp.task('serve', ['properties', 'wiredep'], function () {
         watch: ['./routes/**/*', './views/**/*','routes/*.js'],
         delayTime: 1,
         env: {
-            'PORT': 3000,
+            'PORT': properties.get('server.port'),
             'NODE_ENV': 'dev'
         }
     };

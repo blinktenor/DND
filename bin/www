@@ -13,7 +13,7 @@ var http = require('http');
 /**
  * Get port from environment and store in Express.
  */
-
+console.log('Starting server on port: ' + properties.get('server.port'));
 var port = normalizePort(process.env.PORT || properties.get('server.port'));
 app.set('port', port);
 

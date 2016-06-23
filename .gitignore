@@ -49,15 +49,8 @@ Temporary Items
 *.char.txt
 *.adventure.txt
 /source/charBackups/*
-/madelinebrodtdotcom/*
 /node_modules/*
 bower_components
-
-public/*
-!public/DND/
-
-views/*
-!views/DND/
 
 # netbeans files
 /nbproject/private/
@@ -66,5 +59,4 @@ public/DND/bower_components
 public/DND/images/*.psd
 public/DND/images/master/*
 /uploads/*
-default.properties
 *.properties
