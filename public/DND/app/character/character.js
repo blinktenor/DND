@@ -25,11 +25,11 @@
                 id: 'details',
                 title: 'Chactacter Details'
             }, {
-                id: 'currentStats',
-                title: 'Current Stats'
-            }, {
                 id: 'abilities',
                 title: 'Abilities'
+            }, {
+                id: 'currentStats',
+                title: 'Current Stats'
             }, {
                 id: 'equipment',
                 title: 'Equipment'
