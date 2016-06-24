@@ -10,10 +10,10 @@
             templateUrl: 'DND/app/dm/dm.html',
             controller: 'DMController'
         })
-        .when('/dm/', {
-            templateUrl: 'DND/app/dm/dm.html',
-            controller: 'DMController'
-        });
+                .when('/dm/', {
+                    templateUrl: 'DND/app/dm/dm.html',
+                    controller: 'DMController'
+                });
     });
 
     dm.controller('DMController', function ($scope, $routeParams, socketService, characterService, notesService, storeService, imageService) {
@@ -51,7 +51,7 @@
         $scope.store = storeService.store;
 
         $scope.imageService = imageService;
-        
+
         $scope.hangoutURL;
 
         $scope.socket.on('dm-player-update', function (playerData) {
@@ -109,7 +109,7 @@
         };
 
         $scope.getKeys = function (array) {
-            if(array === undefined || array === null) {
+            if (array === undefined || array === null) {
                 return [];
             }
             var keyList = Object.keys(array);
@@ -152,29 +152,33 @@
                 magicItemList = magicItemList.concat(storeContents[storeContents.length - 1].split("\r\n"));
                 //get from the array, then look how long the split is >2 then cost is third
                 var magicStoreItems = [];
+                if ($scope.maxGold === undefined || $scope.maxGold < 4000)
+                    $scope.maxGold = 4000;
                 for (var numOfMagicItems = 0; numOfMagicItems < $scope.controlData[storeCount].NumberAppearing; numOfMagicItems++) {
-                    if (Math.floor((Math.random() * 100) + 1) <= $scope.controlData[storeCount].Chance) {
-                        var newItem = {};
-                        var itemNumber = Math.floor((Math.random() * (magicItemList.length - 1)) + 1);
-                        var item = magicItemList[itemNumber].split(";");
-                        var itemBoost, itemName;
-                        if (item.length > 2) {
-                            itemName = item[0];
-                            itemBoost = Math.floor((Math.random() * item[1]) + 1);
-                            if (item[1] > 1) {
-                                itemName = itemName + " +" + itemBoost;
+                    var newItem = {};
+                    do {
+                        if (Math.floor((Math.random() * 100) + 1) <= $scope.controlData[storeCount].Chance) {
+                            var itemNumber = Math.floor((Math.random() * (magicItemList.length - 1)) + 1);
+                            var item = magicItemList[itemNumber].split(";");
+                            var itemBoost, itemName;
+                            if (item.length > 2) {
+                                itemName = item[0];
+                                itemBoost = Math.floor((Math.random() * item[1]) + 1);
+                                if (item[1] > 1) {
+                                    itemName = itemName + " +" + itemBoost;
+                                }
+                                var itemCostArray = item[2].split(",");
+                                newItem["Item Name"] = itemName;
+                                newItem.Price = itemCostArray[itemBoost - 1];
+                            } else {
+                                itemBoost = Math.floor((Math.random() * 5) + 1);
+                                newItem["Item Name"] = item[0] + " +" + itemBoost;
+                                newItem.Price = parseInt(item[1]) * $scope.MAGIC_ITEM_COST_MODIFIER[itemBoost - 1];
                             }
-                            var itemCostArray = item[2].split(",");
-                            newItem["Item Name"] = itemName;
-                            newItem.Price = itemCostArray[itemBoost - 1];
-                        } else {
-                            itemBoost = Math.floor((Math.random() * 5) + 1);
-                            newItem["Item Name"] = item[0] + " +" + itemBoost;
-                            newItem.Price = parseInt(item[1]) * $scope.MAGIC_ITEM_COST_MODIFIER[itemBoost - 1];
+                            newItem.Quantity = Math.floor((Math.random() * 2) + 1);
                         }
-                        newItem.Quantity = Math.floor((Math.random() * 2) + 1);
-                        magicStoreItems.push(newItem);
-                    }
+                    } while (newItem.Price > $scope.maxGold);
+                    magicStoreItems.push(newItem);
                 }
                 newStoreData[$scope.controlData[storeCount].Name] = magicStoreItems;
                 $scope.store.storeTableData = newStoreData;
@@ -192,7 +196,7 @@
         };
 
         $scope.getKeys = function (array) {
-            if(array === undefined || array === null) {
+            if (array === undefined || array === null) {
                 return [];
             }
             var keyList = Object.keys(array);
@@ -294,10 +298,10 @@
             return keyList;
         };
     });
-    
+
     dm.controller('RoomController', function ($scope, socketService) {
-        
-        $scope.shareHangout = function() {
+
+        $scope.shareHangout = function () {
             socketService.socket.emit("hangout-link", $scope.hangoutLink);
         };
     });

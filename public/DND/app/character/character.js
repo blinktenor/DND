@@ -170,7 +170,7 @@
         };
     });
     
-    dm.controller('DiceRollerController', function ($scope) {
+    character.controller('DiceRollerController', function ($scope) {
         $scope.diceSideOptions = [3, 4, 6, 8, 10, 12, 20];
         $scope.rollDice = function () {
             $scope.result = "";
