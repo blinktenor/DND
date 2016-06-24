@@ -31,3 +31,14 @@ md-toast.md-error-toast-theme .md-toast-content {
     background: url("/DND/images/ankh.png");
     background-size: cover;
 }
+
+.restoreButton {
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.010em;
+    box-shadow: 0 2px 5px 0;
+    height: 75px;
+    -webkit-text-stroke-width: 0.5px; 
+    -webkit-text-stroke-color: black;
+}
