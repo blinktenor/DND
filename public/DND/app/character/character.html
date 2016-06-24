@@ -89,12 +89,14 @@
                 <input id="primaryHitBonus" ng-model="characterStats.primaryHitBonus" />
                 <label> Damage </label>
                 <input id="primaryDamage" ng-model="characterStats.primaryDamage" />
+                <br>
                 <label> Secondary Weapon </label>
                 <input id="secondaryWeapon" ng-model="characterStats.secondaryWeapon" />
                 <label> Hit Bonus </label>
                 <input id="secondaryHitBonus" ng-model="characterStats.secondaryHitBonus" />
                 <label> Damage </label>
                 <input id="secondaryDamage" ng-model="characterStats.secondaryDamage" />
+                <br>
                 <label> Platinum </label>
                 <input id="platinum" type="number" ng-model="characterStats.platinum" />
                 <label> Gold </label>
@@ -103,6 +105,7 @@
                 <input id="silver" type="number" ng-model="characterStats.silver" />
                 <label> Copper </label>
                 <input id="copper" type="number" ng-model="characterStats.copper" />
+                <br>
                 <label> Treasure </label>
                 <textarea id="treasure" ng-model="characterStats.treasure"></textarea>
                 <md-input-container class="md-block">
@@ -151,6 +154,25 @@
                 <div ng-show="!storeTableData">
                     Store is closed!
                 </div>
+            </div>
+            <div ng-switch-when="diceroller" ng-controller="DiceRollerController">
+                <div layout="column" flex-gt-xs="30">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Sides</label>
+                        <md-select ng-model="diceSides" ng-init="diceSides = diceSideOptions[0]">
+                            <md-option ng-repeat="diceSideOption in diceSideOptions"
+                                       value="{{ diceSideOption}}">
+                                {{ diceSideOption}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Number of Rolls</label>
+                        <input type="number" ng-model="numRolls" ng-pattern="/^[0-9]+$/" />
+                    </md-input-container>
+                </div>
+                <md-button class="md-raised md-primary" ng-click="rollDice()">Roll</md-button>
+                <span ng-if="result">Results: {{ result}}</span>
             </div>
         </div>
     </md-content>

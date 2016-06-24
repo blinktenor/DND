@@ -45,6 +45,9 @@
             }, {
                 id: 'store',
                 title: 'Store'
+            }, {
+                id: 'diceroller',
+                title: 'Dice Roller'
             }];
 
         $scope.state = $scope.states[0];
@@ -164,6 +167,19 @@
                 delete keyList[keyList.indexOf('$$hashKey')];
             }
             return keyList;
+        };
+    });
+    
+    dm.controller('DiceRollerController', function ($scope) {
+        $scope.diceSideOptions = [3, 4, 6, 8, 10, 12, 20];
+        $scope.rollDice = function () {
+            $scope.result = "";
+            for (var a = 0; a < $scope.numRolls; a++) {
+                if (a !== 0) {
+                    $scope.result = $scope.result + " - ";
+                }
+                $scope.result = $scope.result + Math.floor((Math.random() * $scope.diceSides) + 1);
+            }
         };
     });
 
