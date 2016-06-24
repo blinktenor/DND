@@ -1,12 +1,15 @@
 var socketio = require('socket.io');
 var PropertiesReader = require('properties-reader');
 var hangouts = PropertiesReader('hangouts.properties');
+var ArrayUtils = require('../public/DND/js/ArrayUtils.js');
 
 module.exports.listen = function (server) {
 
     var io = socketio.listen(server);
     var games = {};
-
+    var allHangouts = ArrayUtils.getArrayFromJSON(hangouts.getAllProperties());
+    ArrayUtils.shuffleArray(allHangouts);
+    
     io.on('connection', function (socket) {
 
         var room;
@@ -19,12 +22,7 @@ module.exports.listen = function (server) {
             room = p_room;
             socket.join(room);
             if (games[room] === undefined) {
-                games[room] = {};
-                games[room].players = {};
-                var gameCount = Object.keys(games).length;
-                games[room].hangout = hangouts.get('game.' + gameCount);
-                io.emit('roomList', Object.keys(games));
-                games[room].playerCount = 0;
+                openRoom(room);
             }
             games[room].playerCount++;
         });
@@ -49,8 +47,7 @@ module.exports.listen = function (server) {
                 socket.in(room).broadcast.emit('dm-disconnect', players);
                 games[room].playerCount--;
                 if (games[room].playerCount === 0) {
-                    delete games[room];
-                    io.emit('roomList', Object.keys(games));
+                    closeRoom(room);
                 }
             }
         });
@@ -104,6 +101,22 @@ module.exports.listen = function (server) {
             games[room].map = image;
             socket.in(room).broadcast.emit('new-map', image);
         });
+
+        function openRoom(room) {
+            games[room] = {};
+            games[room].players = {};
+            games[room].hangout = allHangouts.pop();
+            games[room].playerCount = 0;
+            io.emit('roomList', Object.keys(games));
+        }
+        
+        function closeRoom(room) {
+            allHangouts.push(games[room].hangout);
+            ArrayUtils.shuffleArray(allHangouts);
+            delete games[room];
+            io.emit('roomList', Object.keys(games));
+        }
+
     });
 
     return io;
