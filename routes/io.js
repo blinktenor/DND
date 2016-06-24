@@ -24,7 +24,9 @@ module.exports.listen = function (server) {
                 var gameCount = Object.keys(games).length;
                 games[room].hangout = hangouts.get('game.' + gameCount);
                 io.emit('roomList', Object.keys(games));
+                games[room].playerCount = 0;
             }
+            games[room].playerCount++;
         });
 
         socket.on('dm-storeOpen', function (storeContents) {
@@ -41,9 +43,15 @@ module.exports.listen = function (server) {
             if (games[room] !== undefined) {
                 var players = games[room].players;
                 socket.in(room).broadcast.emit('dm-player-update', socket.id);
-                if (players !== undefined && players[socket.id] !== undefined)
+                if (players !== undefined && players[socket.id] !== undefined) {
                     delete players[socket.id];
+                }
                 socket.in(room).broadcast.emit('dm-disconnect', players);
+                games[room].playerCount--;
+                if (games[room].playerCount === 0) {
+                    delete games[room];
+                    io.emit('roomList', Object.keys(games));
+                }
             }
         });
 
