@@ -136,8 +136,8 @@
             </div>
             <div ng-switch-when="store" ng-controller="StoreController">
                 <label> Store </label>
-                <div id="storeDiv" ng-if="store.storeTableData">
-                    <table ng-repeat="(tableHeader,tableValue) in store.storeTableData" ng-if="getKeys(tableValue[0]).length > 0">
+                <div id="storeDiv" ng-if="storeTableData">
+                    <table ng-repeat="(tableHeader,tableValue) in storeTableData" ng-if="getKeys(tableValue[0]).length > 0">
                         <caption>{{tableHeader}}</caption>
                         <thead>
                             <tr>
