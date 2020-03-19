@@ -16,7 +16,17 @@
                 });
     });
 
-    dm.controller('DMController', function ($scope, $routeParams, socketService, characterService, notesService, storeService, imageService) {
+    dm.controller('DMController', 
+      function (
+        $scope, 
+        $location,
+        $routeParams, 
+        socketService, 
+        characterService, 
+        notesService, 
+        storeService, 
+        imageService
+      ) {
         $scope.states = [{
                 id: 'characters',
                 title: 'Characters'
@@ -299,10 +309,16 @@
         };
     });
 
-    dm.controller('RoomController', function ($scope, socketService) {
+    dm.controller('RoomController', function ($scope, $location, socketService) {
 
         $scope.shareHangout = function () {
             socketService.socket.emit("hangout-link", $scope.hangoutLink);
+        };
+
+        $scope.setRoom = function () {
+          if ($scope.roomName !== undefined) {
+            $location.path('/dm/' + $scope.roomName);
+          }
         };
     });
 
