@@ -27,25 +27,11 @@
         storeService, 
         imageService
       ) {
-        $scope.states = [{
-                id: 'characters',
-                title: 'Characters'
-            }, {
-                id: 'notes',
-                title: 'Notes'
-            }, {
-                id: 'maps',
-                title: 'Maps'
-            }, {
-                id: 'store',
-                title: 'Store'
-            }, {
-                id: 'diceroller',
-                title: 'Dice Roller'
-            }, {
-                id: 'room',
-                title: 'Room'
-            }];
+        $scope.states = [
+          {
+            id: 'room',
+            title: 'Room'
+          }];
         $scope.state = $scope.states[0];
         $scope.selectState = function (state) {
             $scope.state = state;
@@ -70,15 +56,23 @@
         });
 
         $scope.init = function () {
-            if ($routeParams.room !== undefined) {
-                socketService.setRoom($routeParams.room);
-                $scope.roomName = $routeParams.room;
+          if ($routeParams.room !== undefined) {
+            socketService.setRoom($routeParams.room);
+            $scope.roomName = $routeParams.room;
+            $scope.states.push({ id: 'characters', title: 'Characters'});
+            $scope.states.push({ id: 'notes', title: 'Notes'});
+            $scope.states.push({ id: 'maps', title: 'Maps'});
+            $scope.states.push({ id: 'store', title: 'Store'});
+            $scope.states.push({ id: 'diceroller', title: 'Dice Roller' });
+          } else {
+            $scope.warning = "Please enter a room name for others to join!";
+            console.log('warning set');
+          }
+          $scope.socket.emit('dm-check', function (hangout) {
+            if (hangout !== undefined) {
+                $scope.hangoutURL = hangout;
             }
-            $scope.socket.emit('dm-check', function (hangout) {
-                if (hangout !== undefined) {
-                    $scope.hangoutURL = hangout;
-                }
-            });
+          });
         };
 
         $scope.init();
