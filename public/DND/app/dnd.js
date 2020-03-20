@@ -34,13 +34,11 @@
     };
 
     function setRooms(list) {
-      console.log(list);
       $scope.rooms = {};
       for(var a = 0; a < list.length; a++) {
         $scope.rooms[list[a]] = {};
         $scope.rooms[list[a]].name = list[a];
       }
-      console.log($scope.rooms);
       $scope.$apply();
     }
 
