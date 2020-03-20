@@ -43,8 +43,7 @@
     }
 
     $scope.roomSize = function() {
-      return $scope.rooms !== undefined &&
-      Object.keys($scope.rooms).length > 0;
+      return $scope.rooms !== undefined && Object.keys($scope.rooms).length > 0;
     };
 
     $scope.init = function () {
