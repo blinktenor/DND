@@ -67,7 +67,7 @@
 					</md-option>
 				</md-select>
 				<span ng-repeat="image in imageService.mapData.images" ng-if="imageService.mapData">
-					<label for="{{$index}}">
+					<label for="{{$index}}" ng-click="mapLabelClick($index)">
 						<input type="checkbox" ng-model="imageService.mapData.value[$index]" ng-change="checkboxChange()"> {{image}}
 					</label>
 				</span>

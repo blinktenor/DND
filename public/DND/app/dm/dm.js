@@ -237,21 +237,26 @@ dm.controller('MapController', function ($scope, $http) {
     var checkedImages = [];
     for (var a = 0; a < $scope.imageService.mapData.value.length; a++) {
       if ($scope.imageService.mapData.value[a] === true) {
-                    //../DND/images/master/folder/filename
-                    checkedImages.push("../DND/images/master/" + $scope.imageService.mapData.name + "/" + $scope.imageService.mapData.images[a]);
-                  }
-                }
-                $scope.imageService.loadImages(checkedImages);
-              };
+        //../DND/images/master/folder/filename
+        checkedImages.push("../DND/images/master/" + $scope.imageService.mapData.name + "/" + $scope.imageService.mapData.images[a]);
+      }
+    }
+    $scope.imageService.loadImages(checkedImages);
+  };
 
-              $scope.pushMapToPlayers = function () {
-                var canvas = document.querySelector('#mapCanvas');
-                var dataURL = canvas.toDataURL("image/png");
+  $scope.mapLabelClick = function (index) {
+    $scope.imageService.mapData.value[index] = !$scope.imageService.mapData.value[index];
+    $scope.checkboxChange();
+  };
 
-                dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-                $scope.socket.emit('map', dataURL);
-              };
-            });
+  $scope.pushMapToPlayers = function () {
+    var canvas = document.querySelector('#mapCanvas');
+    var dataURL = canvas.toDataURL("image/png");
+
+    dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    $scope.socket.emit('map', dataURL);
+  };
+});
 
 dm.controller('NotesController', function ($scope, $http, alertService) {
 
